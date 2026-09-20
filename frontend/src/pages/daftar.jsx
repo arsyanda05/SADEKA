@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import logoSadeka from "../assets/logo_sadeka.png";
 import { Link } from "react-router-dom";
 
-function Login() {
+function Daftar() {
   const navigate = useNavigate();
 
   const handleSubmit = (event) => {
@@ -29,8 +29,8 @@ function Login() {
         </p>
       </div>
 
-      <div className="login-card">
-        <h2>Login</h2>
+      <div className="login-card daftar-card">
+        <h2>Daftar</h2>
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
@@ -43,24 +43,44 @@ function Login() {
 
           <div className="form-group">
             <input
+              type="email"
+              placeholder="Email"
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <input
               type="password"
               placeholder="Password"
               required
             />
           </div>
 
-          <div className="forgot-password">
-            <Link to="/lupa-password">Lupa Password?</Link>
+          <div className="form-group">
+            <input
+              type="password"
+              placeholder="Konfirmasi Password"
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <input
+              type="text"
+              placeholder="Nomor Telepon"
+              required
+            />
           </div>
 
           <button type="submit" className="btn-login">
-            Login
+            Daftar
           </button>
 
           <div className="register">
-            <p>Belum punya akun?</p>
+            <p>Sudah punya akun?</p>
 
-            <Link to="/daftar">Daftar di sini</Link>
+            <Link to="/login">Login di sini</Link>
           </div>
         </form>
       </div>
@@ -68,4 +88,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Daftar;

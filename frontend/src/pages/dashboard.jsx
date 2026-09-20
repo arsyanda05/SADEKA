@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import logoSadeka from "../assets/logo_sadeka.png";
+import SideBar from "./sidebarmenu";
+import Header from "./header";
 
 function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // State untuk dropdown
   const [administrasiOpen, setAdministrasiOpen] = useState(false);
   const [dataKelurahanOpen, setDataKelurahanOpen] = useState(false);
   const [ahliWarisOpen, setAhliWarisOpen] = useState(false);
@@ -23,9 +24,12 @@ function Dashboard() {
   return (
     <div className="dashboard-page">
 
+      <SideBar isOpen={sidebarOpen} onClose={closeSidebar} />
+
       {/* =====================================================
-          SIDEBAR
+          SIDEBAR (legacy markup retained below during migration)
       ===================================================== */}
+      <div style={{ display: "none" }}>
       <aside
         className={`sidebar ${sidebarOpen ? "sidebar-open" : ""}`}
       >
@@ -222,9 +226,10 @@ function Dashboard() {
           <button
             type="button"
             className="menu-title menu-title-toggle"
-            onClick={() =>
-              setAhliWarisOpen((prev) => !prev)
-            }
+            onClick={() => {
+              setAhliWarisOpen((prev) => !prev);
+              navigate("/surat-ahli-waris");
+            }}
             aria-expanded={ahliWarisOpen}
           >
             <span>Surat Ahli Waris</span>
@@ -237,15 +242,15 @@ function Dashboard() {
           {ahliWarisOpen && (
             <div className="menu-group">
 
-              {/* Tracking Surat */}
+              {/* Surat Ahli Waris */}
               <NavLink
-                to="/tracking-surat"
+                to="/surat-ahli-waris"
                 className={({ isActive }) =>
                   `submenu-item ${isActive ? "active" : ""}`
                 }
                 onClick={closeSidebar}
               >
-                Tracking Surat
+                Surat Ahli Waris
               </NavLink>
 
             </div>
@@ -325,6 +330,7 @@ function Dashboard() {
           aria-hidden="true"
         />
       )}
+      </div>
 
 
       {/* =====================================================
@@ -332,43 +338,11 @@ function Dashboard() {
       ===================================================== */}
       <main className="dashboard-main">
 
-        {/* ================= HEADER ================= */}
-        <header className="dashboard-header">
-
-          <div className="header-left">
-
-            <button
-              type="button"
-              className="hamburger"
-              onClick={() =>
-                setSidebarOpen((prev) => !prev)
-              }
-              aria-label="Buka menu"
-              aria-expanded={sidebarOpen}
-            >
-              ☰
-            </button>
-
-            <h1>Dashboard</h1>
-
-          </div>
-
-
-          {/* ================= USER ================= */}
-          <div className="user-info">
-
-            <div className="user-text">
-              <strong>Nadia S</strong>
-              <span>Sekretaris</span>
-            </div>
-
-            <div className="user-avatar">
-              N
-            </div>
-
-          </div>
-
-        </header>
+        <Header
+          title="Dashboard"
+          showSearch={false}
+          onMenuClick={() => setSidebarOpen((prev) => !prev)}
+        />
 
 
         {/* =====================================================
