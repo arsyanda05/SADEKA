@@ -1,6 +1,14 @@
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import logoSadeka from "../assets/logo_sadeka.png";
+import dokumenIcon from "../assets/dokumen.png";
+import infraIcon from "../assets/infra.png";
+import kesIcon from "../assets/kes.png";
+import pegawaiIcon from "../assets/pegawai.png";
+import pendudukIcon from "../assets/penduduk.png";
+import suratIcon from "../assets/surat.png";
+import suratMasukIcon from "../assets/suratmasuk.png";
+import umkmIcon from "../assets/umkm.png";
 import SideBar from "./sidebarmenu";
 import Header from "./header";
 
@@ -26,15 +34,11 @@ function Dashboard() {
 
       <SideBar isOpen={sidebarOpen} onClose={closeSidebar} />
 
-      {/* =====================================================
-          SIDEBAR (legacy markup retained below during migration)
-      ===================================================== */}
       <div style={{ display: "none" }}>
       <aside
         className={`sidebar ${sidebarOpen ? "sidebar-open" : ""}`}
       >
 
-        {/* ================= LOGO ================= */}
         <div className="sidebar-logo">
           <img
             src={logoSadeka}
@@ -48,13 +52,8 @@ function Dashboard() {
           </div>
         </div>
 
-
-        {/* =====================================================
-            MENU SIDEBAR
-        ===================================================== */}
         <nav className="sidebar-menu">
 
-          {/* ================= DASHBOARD ================= */}
           <NavLink
             to="/dashboard"
             className={({ isActive }) =>
@@ -65,8 +64,6 @@ function Dashboard() {
             Dashboard
           </NavLink>
 
-
-          {/* ================= AGENDA ================= */}
           <NavLink
             to="/agenda"
             className={({ isActive }) =>
@@ -77,11 +74,6 @@ function Dashboard() {
             Agenda
           </NavLink>
 
-
-          {/* =================================================
-              ADMINISTRASI & ARSIP
-              DROPDOWN
-          ================================================= */}
           <button
             type="button"
             className="menu-title menu-title-toggle"
@@ -125,11 +117,6 @@ function Dashboard() {
             </div>
           )}
 
-
-          {/* =================================================
-              DATA KELURAHAN
-              DROPDOWN
-          ================================================= */}
           <button
             type="button"
             className="menu-title menu-title-toggle"
@@ -173,11 +160,6 @@ function Dashboard() {
             </div>
           )}
 
-
-          {/* =================================================
-              MENU BIASA
-              KESEJAHTERAAN
-          ================================================= */}
           <NavLink
             to="/kesejahteraan"
             className={({ isActive }) =>
@@ -188,11 +170,6 @@ function Dashboard() {
             Kesejahteraan
           </NavLink>
 
-
-          {/* =================================================
-              MENU BIASA
-              UMKM
-          ================================================= */}
           <NavLink
             to="/umkm"
             className={({ isActive }) =>
@@ -218,11 +195,6 @@ function Dashboard() {
             Infrastruktur
           </NavLink>
 
-
-          {/* =================================================
-              SURAT AHLI WARIS
-              DROPDOWN
-          ================================================= */}
           <button
             type="button"
             className="menu-title menu-title-toggle"
@@ -242,7 +214,6 @@ function Dashboard() {
           {ahliWarisOpen && (
             <div className="menu-group">
 
-              {/* Surat Ahli Waris */}
               <NavLink
                 to="/surat-ahli-waris"
                 className={({ isActive }) =>
@@ -256,11 +227,6 @@ function Dashboard() {
             </div>
           )}
 
-
-          {/* =================================================
-              MENU BIASA
-              SMART DOCUMENT
-          ================================================= */}
           <NavLink
             to="/smart-document"
             className={({ isActive }) =>
@@ -271,11 +237,6 @@ function Dashboard() {
             Smart Document
           </NavLink>
 
-
-          {/* =================================================
-              MENU BIASA
-              ASISTEN DATA
-          ================================================= */}
           <NavLink
             to="/asisten-data"
             className={({ isActive }) =>
@@ -288,13 +249,8 @@ function Dashboard() {
 
         </nav>
 
-
-        {/* =====================================================
-            BOTTOM MENU
-        ===================================================== */}
         <div className="sidebar-bottom">
 
-          {/* Pengaturan */}
           <NavLink
             to="/pengaturan"
             className={({ isActive }) =>
@@ -305,8 +261,6 @@ function Dashboard() {
             Pengaturan
           </NavLink>
 
-
-          {/* Logout */}
           <button
             type="button"
             className="menu-item"
@@ -320,9 +274,6 @@ function Dashboard() {
       </aside>
 
 
-      {/* =====================================================
-          OVERLAY
-      ===================================================== */}
       {sidebarOpen && (
         <div
           className="sidebar-overlay"
@@ -333,9 +284,6 @@ function Dashboard() {
       </div>
 
 
-      {/* =====================================================
-          MAIN CONTENT
-      ===================================================== */}
       <main className="dashboard-main">
 
         <Header
@@ -345,65 +293,61 @@ function Dashboard() {
         />
 
 
-        {/* =====================================================
-            CONTENT
-        ===================================================== */}
         <section className="dashboard-content">
 
-          {/* ================= STATISTIK ================= */}
           <div className="stats-grid">
 
             <StatCard
-              icon="♙"
+              icon={pendudukIcon}
               title="Penduduk"
               value="35.349"
               label="Total Penduduk"
             />
 
             <StatCard
-              icon="▢"
+              icon={umkmIcon}
               title="UMKM"
               value="425"
               label="Total UMKM"
             />
 
             <StatCard
-              icon="♡"
+              icon={kesIcon}
               title="Kesejahteraan"
               value="200"
               label="Total Kesejahteraan"
             />
 
             <StatCard
-              icon="♙"
+              icon={pegawaiIcon}
               title="Pegawai"
               value="1.250"
               label="Total Pegawai"
             />
 
             <StatCard
-              icon="⚓"
+              icon={infraIcon}
               title="Infrastruktur"
               value="140"
               label="Total Infrastruktur"
             />
 
             <StatCard
-              icon="▧"
+              icon={suratMasukIcon}
               title="Surat Masuk"
               value="140"
               label="Total Surat"
             />
 
             <StatCard
-              icon="▤"
+              icon={suratIcon}
               title="Surat Keluar"
               value="100"
               label="Total Surat"
             />
 
             <StatCard
-              icon="▤"
+              icon={dokumenIcon}
               title="Surat Ahli Waris"
               value="25"
               label="Total Surat"
@@ -411,14 +355,10 @@ function Dashboard() {
 
           </div>
 
-
-          {/* ================= LOWER CONTENT ================= */}
           <div className="dashboard-columns">
 
-            {/* ================= KIRI ================= */}
             <div className="left-column">
 
-              {/* Pengajuan Surat */}
               <div className="dashboard-card">
 
                 <div className="card-header">
@@ -488,7 +428,6 @@ function Dashboard() {
               </div>
 
 
-              {/* ================= AGENDA ================= */}
               <div className="dashboard-card agenda-card">
 
                 <div className="card-header">
@@ -524,8 +463,6 @@ function Dashboard() {
 
             </div>
 
-
-            {/* ================= KANAN ================= */}
             <div className="dashboard-card document-card">
 
               <div className="card-header">
@@ -570,10 +507,6 @@ function Dashboard() {
 }
 
 
-/* =====================================================
-   STAT CARD
-===================================================== */
-
 function StatCard({
   icon,
   title,
@@ -584,7 +517,7 @@ function StatCard({
     <div className="stat-card">
 
       <div className="stat-icon">
-        {icon}
+        <img src={icon} alt="" />
       </div>
 
       <div className="stat-content">
@@ -602,9 +535,6 @@ function StatCard({
 }
 
 
-/* =====================================================
-   AGENDA ITEM
-===================================================== */
 
 function AgendaItem({
   day,
@@ -643,9 +573,6 @@ function AgendaItem({
 }
 
 
-/* =====================================================
-   DOCUMENT ITEM
-===================================================== */
 
 function DocumentItem({
   title,
@@ -655,7 +582,7 @@ function DocumentItem({
     <div className="document-item">
 
       <div className="document-icon">
-        ▤
+        <img src={dokumenIcon} alt="" />
       </div>
 
       <div className="document-info">
