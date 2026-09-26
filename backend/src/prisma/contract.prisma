@@ -1,21 +1,228 @@
 // use prisma-8
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  username  String?
-  name      String?
-  posts     Post[]
-  createdAt TimestamptzString @default(now())
-  updatedAt temporal.updatedAtString()
+  id_user      Int    @id @default(autoincrement())
+  username     String @unique
+  email        String @unique
+  password     String
+  nama         String
+  no_telepon   String
+
+  historiPenduduk HistoriPenduduk[]
 }
 
-model Post {
-  id        Int      @id @default(autoincrement())
-  title     String
-  content   String?
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  Int
-  createdAt TimestamptzString @default(now())
-  updatedAt temporal.updatedAtString()
+model Pegawai {
+  id_pegawai         Int    @id @default(autoincrement())
+  nama               String
+  NIP                String
+  jabatan            String
+  status             String
+  email_pribadi     String
+  email_pemerintahan String
+  no_telepon         String
+  alamat_domisili    String
+
+  dokumenPegawai DokumenPegawai[]
+  diklat         Diklat[]
+}
+
+model DokumenPegawai {
+  id_dokumen_pegawai Int    @id @default(autoincrement())
+  id_pegawai         Int
+  jenis_dokumen      String
+  nama_file          String
+  path_file          String
+  tanggal_upload     DateTime
+
+  pegawai Pegawai @relation(
+    fields: [id_pegawai],
+    references: [id_pegawai]
+  )
+}
+
+model Diklat {
+  id_diklat      Int    @id @default(autoincrement())
+  id_pegawai     Int
+  nama_diklat    String
+  tanggal_diklat DateTime
+  keterangan     String
+  sertifikat     String
+
+  pegawai Pegawai @relation(
+    fields: [id_pegawai],
+    references: [id_pegawai]
+  )
+}
+
+model Penduduk {
+  id_penduduk     Int    @id @default(autoincrement())
+  nik             String @unique
+  nama            String
+  tempat_lahir    String
+  tanggal_lahir   DateTime
+  jenis_kelamin   String
+  alamat          String
+  rt              String
+  rw              String
+  status_penduduk String
+
+  kesejahteraan   Kesejahteraan[]
+  historiPenduduk HistoriPenduduk[]
+  suratAhliWaris  SuratAhliWaris[]
+  ahliWaris       AhliWaris[]
+}
+
+model Kesejahteraan {
+  id_kesejahteraan Int    @id @default(autoincrement())
+  id_penduduk      Int
+  kategori         String
+  status           String
+  keterangan       String
+
+  penduduk Penduduk @relation(
+    fields: [id_penduduk],
+    references: [id_penduduk]
+  )
+}
+
+model HistoriPenduduk {
+  id_histori      Int    @id @default(autoincrement())
+  id_penduduk     Int
+  id_user         Int
+  status_lama     String
+  status_baru     String
+  waktu_perubahan DateTime
+  keterangan      String
+
+  penduduk Penduduk @relation(
+    fields: [id_penduduk],
+    references: [id_penduduk]
+  )
+
+  user User @relation(
+    fields: [id_user],
+    references: [id_user]
+  )
+}
+
+model UMKM {
+  id_umkm     Int    @id @default(autoincrement())
+  nama_usaha  String
+  pemilik     String
+  jenis_usaha String
+  nib         String
+  alamat      String
+  rt          String
+  rw          String
+}
+
+model Infrastruktur {
+  id_infrastruktur  Int    @id @default(autoincrement())
+  jenis             String
+  foto              String
+  alamat            String
+  latitude          Decimal
+  longitude         Decimal
+  kondisi_status    String
+  rt                String
+  rw                String
+  penanggung_jawab  String
+  no_telp           String
+  panjang           Decimal
+  lebar             Decimal
+  tanggal_pengadaan DateTime
+}
+
+model Agenda {
+  id_agenda                  Int    @id @default(autoincrement())
+  tanggal                    DateTime
+  jam                        TimeString
+  kegiatan                   String
+  PIC                        String
+  kategori                   String
+  pengingat_menit            Int
+  waktu_pengingat            DateTime
+  status_pengingat           String
+  waktu_pengingat_berikutnya DateTime?
+}
+
+model Surat {
+  id_surat    Int    @id @default(autoincrement())
+  tanggal     DateTime
+  jenis       String
+  arah_surat  String
+  asal        String
+  tujuan      String
+  keterangan  String
+  nomor_surat String
+
+  dokumen Dokumen[]
+}
+
+model SuratAhliWaris {
+  id_surat_ahli_waris Int    @id @default(autoincrement())
+  id_penduduk         Int
+  nomor_surat         String
+  tanggal_pengajuan   DateTime
+  tahap               String
+  tanggal_selesai     DateTime?
+
+  penduduk     Penduduk        @relation(
+    fields: [id_penduduk],
+    references: [id_penduduk]
+  )
+
+  ahliWaris    AhliWaris[]
+  dokumen      Dokumen[]
+  tracking     TrackingSurat[]
+}
+
+model AhliWaris {
+  id_ahli_waris       Int    @id @default(autoincrement())
+  id_surat_ahli_waris Int
+  id_penduduk         Int
+  hubungan            String
+
+  suratAhliWaris SuratAhliWaris @relation(
+    fields: [id_surat_ahli_waris],
+    references: [id_surat_ahli_waris]
+  )
+
+  penduduk Penduduk @relation(
+    fields: [id_penduduk],
+    references: [id_penduduk]
+  )
+}
+
+model Dokumen {
+  id_dokumen          Int    @id @default(autoincrement())
+  id_surat            Int?
+  id_surat_ahli_waris Int?
+  nama_dokumen_file   String
+  jenis_dokumen       String
+  path_file           String
+  hasil_OCR           String
+  tanggal_upload      DateTime
+
+  surat Surat? @relation(
+    fields: [id_surat],
+    references: [id_surat]
+  )
+
+  suratAhliWaris SuratAhliWaris? @relation(
+    fields: [id_surat_ahli_waris],
+    references: [id_surat_ahli_waris]
+  )
+}
+
+model TrackingSurat {
+  id_tracking         Int    @id @default(autoincrement())
+  id_surat_ahli_waris Int
+  waktu               DateTime
+  keterangan          String
+
+  suratAhliWaris SuratAhliWaris @relation(
+    fields: [id_surat_ahli_waris],
+    references: [id_surat_ahli_waris]
+  )
 }

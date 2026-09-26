@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import smartDocIcon from "../assets/smartdoc.png";
 import SideBar from "./sidebarmenu";
 import Header from "./header";
+import docIcon from "../assets/doc.png";
+import { getSurat, deleteSurat } from "../services/api";
 
 function SuratKeluar() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -18,81 +20,93 @@ function SuratKeluar() {
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  const [dataSurat, setDataSurat] = useState([
-    {
-      no: "001",
-      nomorSurat: "005/105/Kel.Sby/XI/2026",
-      tanggal: "10/09/2026",
-      asalSurat: "Sekretaris Lurah",
-      asalDetail: "Tata Kelola Usaha",
-      tujuan: "Bpk. Hendra Gunawan",
-      tujuanDetail: "Ketua RW 02",
-      jenis: "Surat Keterangan Usaha",
-      keterangan: "Legalisasi UMKM",
-      keteranganDetail: "TTE BSRE Terverifikasi",
-    },
+  // Data surat dari PostgreSQL
+  const [dataSurat, setDataSurat] = useState([]);
 
-    {
-      no: "002",
-      nomorSurat: "005/207/Kel.Sby/XI/2025",
-      tanggal: "02/01/2025",
-      asalSurat: "Seksi Keamanan",
-      asalDetail: "Satlintas Kota Surabaya",
-      tujuan: "Lurah Sukolilo",
-      tujuanDetail: "Pemerintah Kec.Sukolilo",
-      jenis: "Undangan Rapat",
-      keterangan: "Musrenbangkel",
-      keteranganDetail: "TTE BSRE Terverifikasi",
-    },
-
-    {
-      no: "003",
-      nomorSurat: "031/023/Kel.Sby/XI/2025",
-      tanggal: "20/05/2025",
-      asalSurat: "Seksi Pelayanan Publik",
-      asalDetail: "Loket 2 adm",
-      tujuan: "DispendukCapil Surabaya",
-      tujuanDetail: "Instansi Dinas Kota",
-      jenis: "Pengantar",
-      keterangan: "Pengantar Kependudukan Warga",
-      keteranganDetail: "TTE BSRE Terverifikasi",
-    },
-
-    {
-      no: "004",
-      nomorSurat: "800/006/Kel.Sby/XI/2023",
-      tanggal: "11/08/2023",
-      asalSurat: "Seksi Pelayanan Publik",
-      asalDetail: "Loket 3 adm",
-      tujuan: "Danramil Rungkut",
-      tujuanDetail: "Komando Rayon Militer",
-      jenis: "Rekomendasi",
-      keterangan: "Rekomendasi Izin",
-      keteranganDetail: "Cap Basah Kelurahan",
-    },
-
-    {
-      no: "005",
-      nomorSurat: "093/109/Kel.Sby/XI/2022",
-      tanggal: "09/09/2022",
-      asalSurat: "Sekretaris Lurah",
-      asalDetail: "Tata Usaha Kelurahan",
-      tujuan: "Ibu Asiyah",
-      tujuanDetail: "Warga Pemohon (RT 15)",
-      jenis: "Surat Keterangan Usaha",
-      keterangan: "Legalisir Surat UMKM",
-      keteranganDetail: "TTE BSRE Terverifikasi",
-    },
-  ]);
+  const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
 
   const itemsPerPage = 5;
 
+  // =====================================================
+  // AMBIL DATA SURAT KELUAR
+  // =====================================================
+
+  useEffect(() => {
+    const loadSuratKeluar = async () => {
+      try {
+        setLoading(true);
+
+        const data = await getSurat();
+
+        const suratKeluar = data
+          .filter((item) => item.arah_surat === "Keluar")
+          .map((item, index) => ({
+            // ID database
+            id: item.id_surat,
+
+            // Nomor urut tampilan
+            no: String(index + 1).padStart(3, "0"),
+
+            nomorSurat: item.nomor_surat,
+
+            tanggal: new Date(item.tanggal).toLocaleDateString(
+              "id-ID",
+              {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+              }
+            ),
+
+            asalSurat: item.asal,
+
+            // Belum ada field khusus detail di database
+            asalDetail: "",
+
+            tujuan: item.tujuan,
+
+            // Belum ada field khusus detail di database
+            tujuanDetail: "",
+
+            jenis: item.jenis,
+
+            keterangan: item.keterangan,
+
+            // Belum ada field khusus status TTE
+            keteranganDetail: "",
+            namaDokumen: item.dokumen?.[0]?.nama_dokumen_file || "",
+            pathDokumen: item.dokumen?.[0]?.path_file || "",
+          }));
+
+        setDataSurat(suratKeluar);
+      } catch (error) {
+        console.error(
+          "Error mengambil data surat keluar:",
+          error
+        );
+
+        alert("Gagal mengambil data surat keluar.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadSuratKeluar();
+  }, []);
+
+  // =====================================================
+  // SIDEBAR
+  // =====================================================
+
   const closeSidebar = () => {
     setSidebarOpen(false);
   };
 
+  // =====================================================
+  // FILTER
+  // =====================================================
 
   const tanggalOptions = Array.from(
     { length: 31 },
@@ -126,7 +140,8 @@ function SuratKeluar() {
       item.keterangan.toLowerCase().includes(keyword) ||
       item.keteranganDetail.toLowerCase().includes(keyword);
 
-    const tanggalItem = item.tanggal.split("/")[0];
+    const tanggalItem =
+      item.tanggal.split("/")[0];
 
     const matchesTanggal =
       tanggal === "" ||
@@ -142,6 +157,10 @@ function SuratKeluar() {
       matchesJenis
     );
   });
+
+  // =====================================================
+  // PAGINATION
+  // =====================================================
 
   const totalPages = Math.max(
     1,
@@ -164,6 +183,10 @@ function SuratKeluar() {
     startIndex + itemsPerPage
   );
 
+  // =====================================================
+  // FILTER HANDLER
+  // =====================================================
+
   const changeTanggal = (value) => {
     setTanggal(value);
     setTanggalOpen(false);
@@ -178,20 +201,23 @@ function SuratKeluar() {
     setCurrentPage(1);
   };
 
+  // =====================================================
+  // TAMBAH SURAT
+  // =====================================================
 
   const handleTambahSurat = () => {
     navigate("/surat-keluar/tambah");
   };
 
-  const handleSmartDocument = () => {
-    navigate("/surat-keluar/smart-document");
-  };
+  // =====================================================
+  // EDIT SURAT
+  // =====================================================
 
   const handleEdit = (item) => {
     setOpenAction(null);
 
     navigate(
-      `/surat-keluar/${item.no}/edit`,
+      `/surat-keluar/${item.id}/edit`,
       {
         state: {
           surat: item,
@@ -200,7 +226,11 @@ function SuratKeluar() {
     );
   };
 
-  const handleDelete = (item) => {
+  // =====================================================
+  // HAPUS SURAT
+  // =====================================================
+
+  const handleDelete = async (item) => {
     setOpenAction(null);
 
     const yakin = window.confirm(
@@ -219,34 +249,68 @@ Keterangan : ${item.keterangan}`
       return;
     }
 
-    setDataSurat((prevData) =>
-      prevData.filter(
-        (surat) => surat.no !== item.no
-      )
-    );
+    try {
+      await deleteSurat(item.id);
 
-    setCurrentPage((page) =>
-      Math.min(
-        page,
-        Math.max(
-          1,
-          Math.ceil(
-            (filteredData.length - 1) /
-              itemsPerPage
+      setDataSurat((prevData) =>
+        prevData.filter(
+          (surat) => surat.id !== item.id
+        )
+      );
+
+      setCurrentPage((page) =>
+        Math.min(
+          page,
+          Math.max(
+            1,
+            Math.ceil(
+              (filteredData.length - 1) /
+                itemsPerPage
+            )
           )
         )
-      )
-    );
+      );
+
+      alert("Surat keluar berhasil dihapus!");
+    } catch (error) {
+      console.error(
+        "Error menghapus surat keluar:",
+        error
+      );
+
+      alert("Gagal menghapus surat keluar.");
+    }
   };
 
-  const toggleAction = (no) => {
+  const handleOpenDocument = (item) => {
+    if (!item.pathDokumen) {
+      alert("Berkas surat belum tersedia.");
+      return;
+    }
+
+    const fileUrl = /^https?:\/\//i.test(item.pathDokumen)
+      ? item.pathDokumen
+      : `http://localhost:5000${item.pathDokumen}`;
+
+    window.open(fileUrl, "_blank", "noopener,noreferrer");
+  };
+
+  // =====================================================
+  // TOGGLE ACTION
+  // =====================================================
+
+  const toggleAction = (id) => {
     setOpenAction((prev) =>
-      prev === no ? null : no
+      prev === id ? null : id
     );
 
     setTanggalOpen(false);
     setJenisOpen(false);
   };
+
+  // =====================================================
+  // CLASS JENIS SURAT
+  // =====================================================
 
   const getJenisClass = (jenisSurat) => {
     switch (jenisSurat) {
@@ -278,6 +342,10 @@ Keterangan : ${item.keterangan}`
         return "";
     }
   };
+
+  // =====================================================
+  // TAMPILAN
+  // =====================================================
 
   return (
     <div className="surat-keluar-page">
@@ -323,9 +391,16 @@ Keterangan : ${item.keterangan}`
               <button
                 type="button"
                 className="saw-smart-button"
-                onClick={() => navigate("/smart-document")}
+                onClick={() =>
+                  navigate("/smart-document")
+                }
               >
-                <img className="saw-button-icon-img" src={smartDocIcon} alt="" />
+                <img
+                  className="saw-button-icon-img"
+                  src={smartDocIcon}
+                  alt=""
+                />
+
                 Smart Document
               </button>
 
@@ -500,17 +575,29 @@ Keterangan : ${item.keterangan}`
                     <th>Tujuan</th>
                     <th>Jenis</th>
                     <th>Keterangan</th>
+                    <th>Berkas</th>
                     <th>Aksi</th>
                   </tr>
                 </thead>
 
                 <tbody>
 
-                  {currentData.length > 0 ? (
+                  {loading ? (
+
+                    <tr>
+                      <td
+                        colSpan="9"
+                        className="surat-keluar-empty"
+                      >
+                        Memuat data surat keluar...
+                      </td>
+                    </tr>
+
+                  ) : currentData.length > 0 ? (
 
                     currentData.map((item) => (
 
-                      <tr key={item.no}>
+                      <tr key={item.id}>
 
                         {/* NO */}
 
@@ -542,9 +629,11 @@ Keterangan : ${item.keterangan}`
                             {item.asalSurat}
                           </div>
 
-                          <div className="surat-keluar-secondary-text">
-                            {item.asalDetail}
-                          </div>
+                          {item.asalDetail && (
+                            <div className="surat-keluar-secondary-text">
+                              {item.asalDetail}
+                            </div>
+                          )}
 
                         </td>
 
@@ -556,9 +645,11 @@ Keterangan : ${item.keterangan}`
                             {item.tujuan}
                           </div>
 
-                          <div className="surat-keluar-secondary-text">
-                            {item.tujuanDetail}
-                          </div>
+                          {item.tujuanDetail && (
+                            <div className="surat-keluar-secondary-text">
+                              {item.tujuanDetail}
+                            </div>
+                          )}
 
                         </td>
 
@@ -584,10 +675,28 @@ Keterangan : ${item.keterangan}`
                             {item.keterangan}
                           </div>
 
-                          <div className="surat-keluar-keterangan-detail">
-                            {item.keteranganDetail}
-                          </div>
+                          {item.keteranganDetail && (
+                            <div className="surat-keluar-keterangan-detail">
+                              {item.keteranganDetail}
+                            </div>
+                          )}
 
+                        </td>
+
+                        <td className="surat-keluar-berkas">
+                          {item.namaDokumen ? (
+                            <button
+                              type="button"
+                              className="surat-file-button"
+                              onClick={() => handleOpenDocument(item)}
+                              title={item.namaDokumen}
+                            >
+                              <img src={docIcon} alt="" />
+                              <span>{item.namaDokumen}</span>
+                            </button>
+                          ) : (
+                            <span className="surat-file-empty">Belum ada berkas</span>
+                          )}
                         </td>
 
                         {/* AKSI */}
@@ -601,7 +710,7 @@ Keterangan : ${item.keterangan}`
                               className="surat-keluar-action-button"
                               onClick={() =>
                                 toggleAction(
-                                  item.no
+                                  item.id
                                 )
                               }
                               aria-label={`Aksi surat ${item.no}`}
@@ -610,7 +719,7 @@ Keterangan : ${item.keterangan}`
                             </button>
 
                             {openAction ===
-                              item.no && (
+                              item.id && (
 
                               <div className="surat-keluar-action-menu">
 
@@ -655,7 +764,7 @@ Keterangan : ${item.keterangan}`
                     <tr>
 
                       <td
-                        colSpan="8"
+                        colSpan="9"
                         className="surat-keluar-empty"
                       >
                         Data surat keluar tidak ditemukan.

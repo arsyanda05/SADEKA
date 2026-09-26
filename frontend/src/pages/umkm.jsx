@@ -1,5 +1,6 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import {
   Bar,
   BarChart,
@@ -12,12 +13,20 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+
 import SideBar from "./sidebarmenu";
 import Header from "./header";
 import DetailUMKM from "./detailumkm";
+
 import umkm1Icon from "../assets/umkm1.png";
 import umkm2Icon from "../assets/umkm2.png";
 import umkm3Icon from "../assets/umkm3.png";
+
+import {
+  getUMKM,
+  deleteUMKM,
+} from "../services/api";
+
 
 function ChevronDown() {
   return (
@@ -34,117 +43,28 @@ function ChevronDown() {
   );
 }
 
-/* =========================================================
-   DATA
-========================================================= */
-
-const dataUMKM = [
-  {
-    no: "001",
-    namaUsaha: "Bakso Berkah",
-    pemilik: "Ahmad Fauzi",
-    jenisUsaha: "Kuliner",
-    nib: "9120003540844",
-    rt: "02",
-    rw: "01",
-    alamat:
-      "Jl. Manukan Asri No.I-A, Manukan Kulon, Kec. Tandes, Surabaya, Jawa Timur 60185",
-  },
-  {
-    no: "002",
-    namaUsaha: "Dapur Ibu",
-    pemilik: "Siti Aminah",
-    jenisUsaha: "Kuliner",
-    nib: "9120003540943",
-    rt: "16",
-    rw: "03",
-    alamat:
-      "Jl. Manukan Asri No. 16, Manukan Kulon, Kec. Tandes, Surabaya, Jawa Timur 60185",
-  },
-  {
-    no: "003",
-    namaUsaha: "Pangkas Rambut Andi",
-    pemilik: "Andi Hirawan",
-    jenisUsaha: "Jasa",
-    nib: "9120003520123",
-    rt: "19",
-    rw: "04",
-    alamat:
-      "Jl. Manukan Asri No. 19, Manukan Kulon, Kec. Tandes, Surabaya, Jawa Timur 60185",
-  },
-  {
-    no: "004",
-    namaUsaha: "Toko Sembako Lina",
-    pemilik: "Lina Wati",
-    jenisUsaha: "Retail",
-    nib: "9120009910125",
-    rt: "23",
-    rw: "05",
-    alamat:
-      "Jl. Manukan Subur No. 08, Manukan Kulon, Kec. Tandes, Surabaya, Jawa Timur 60185",
-  },
-  {
-    no: "005",
-    namaUsaha: "Laundry Murah",
-    pemilik: "Setyo",
-    jenisUsaha: "Jasa",
-    nib: "9120009913007",
-    rt: "06",
-    rw: "02",
-    alamat:
-      "Jl. Manukan Krajan No. 02, Manukan Kulon, Kec. Tandes, Surabaya, Jawa Timur 60185",
-  },
-];
-
-/* =========================================================
-   DATA GRAFIK WILAYAH
-========================================================= */
-
-const wilayahChart = [
-  { rw: "RW 15", value: 36 },
-  { rw: "RW 14", value: 47 },
-  { rw: "RW 13", value: 44 },
-  { rw: "RW 12", value: 51 },
-  { rw: "RW 11", value: 39 },
-  { rw: "RW 10", value: 56 },
-  { rw: "RW 09", value: 42 },
-  { rw: "RW 08", value: 48 },
-  { rw: "RW 07", value: 34 },
-  { rw: "RW 06", value: 45 },
-  { rw: "RW 05", value: 61 },
-  { rw: "RW 04", value: 61 },
-  { rw: "RW 03", value: 52 },
-  { rw: "RW 02", value: 38 },
-  { rw: "RW 01", value: 45 },
-];
 
 /* =========================================================
    DONUT CHART
 ========================================================= */
 
-function DonutChart() {
-  const segments = [
-    {
-      label: "Kuliner",
-      value: 120,
-      color: "#8674f5",
-    },
-    {
-      label: "Fashion",
-      value: 75,
-      color: "#236bcf",
-    },
-    {
-      label: "Jasa",
-      value: 63,
-      color: "#3db8d3",
-    },
-    {
-      label: "Retail",
-      value: 98,
-      color: "#0c3c73",
-    },
+function DonutChart({ data }) {
+  const colors = [
+    "#8674f5",
+    "#236bcf",
+    "#3db8d3",
+    "#0c3c73",
+    "#6c8cd5",
+    "#4a9eaf",
+    "#8b6fc7",
+    "#5c7fb8",
   ];
+
+  const total = data.reduce(
+    (totalData, item) =>
+      totalData + item.value,
+    0
+  );
 
   const renderInsideLabel = ({
     cx,
@@ -154,10 +74,27 @@ function DonutChart() {
     outerRadius,
     percent,
   }) => {
-    const angle = -midAngle * (Math.PI / 180);
-    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-    const x = cx + radius * Math.cos(angle);
-    const y = cy + radius * Math.sin(angle);
+    const angle =
+      -midAngle * (Math.PI / 180);
+
+    const radius =
+      innerRadius +
+      (outerRadius - innerRadius) *
+        0.5;
+
+    const x =
+      cx + radius * Math.cos(angle);
+
+    const y =
+      cy + radius * Math.sin(angle);
+
+    /*
+     * Jangan tampilkan persentase
+     * jika bagian grafik terlalu kecil.
+     */
+    if (percent < 0.05) {
+      return null;
+    }
 
     return (
       <text
@@ -177,65 +114,137 @@ function DonutChart() {
   return (
     <div className="umkm-donut-wrapper">
       <div className="umkm-donut">
-        <ResponsiveContainer width="100%" height={370}>
-          <PieChart>
-            <Pie
-              data={segments}
-              dataKey="value"
-              nameKey="label"
-              innerRadius={92}
-              outerRadius={158}
-              paddingAngle={1}
-              label={renderInsideLabel}
-              labelLine={false}
+
+        {data.length === 0 ? (
+          <div className="umkm-empty-chart">
+            Belum ada data UMKM
+          </div>
+        ) : (
+          <>
+            <ResponsiveContainer
+              width="100%"
+              height={370}
             >
-              {segments.map((segment) => (
-                <Cell key={segment.label} fill={segment.color} />
-              ))}
-            </Pie>
-            <Tooltip formatter={(value, name) => [value, name]} />
-            <Legend wrapperStyle={{ fontSize: "10px" }} />
-          </PieChart>
-        </ResponsiveContainer>
-        <div className="umkm-donut-total">356</div>
+              <PieChart>
+                <Pie
+                  data={data}
+                  dataKey="value"
+                  nameKey="label"
+                  innerRadius={92}
+                  outerRadius={158}
+                  paddingAngle={1}
+                  label={renderInsideLabel}
+                  labelLine={false}
+                >
+                  {data.map(
+                    (segment, index) => (
+                      <Cell
+                        key={segment.label}
+                        fill={
+                          colors[
+                            index %
+                              colors.length
+                          ]
+                        }
+                      />
+                    )
+                  )}
+                </Pie>
+
+                <Tooltip
+                  formatter={(
+                    value,
+                    name
+                  ) => [value, name]}
+                />
+
+                <Legend
+                  wrapperStyle={{
+                    fontSize: "10px",
+                  }}
+                />
+              </PieChart>
+            </ResponsiveContainer>
+
+            <div className="umkm-donut-total">
+              {total}
+            </div>
+          </>
+        )}
+
       </div>
     </div>
   );
 }
 
+
 /* =========================================================
    BAR CHART
 ========================================================= */
 
-function WilayahChart() {
+function WilayahChart({ data }) {
   return (
     <div className="wilayah-chart">
-      <ResponsiveContainer width="100%" height={420}>
-        <BarChart
-          data={wilayahChart}
-          margin={{ top: 10, right: 15, left: 5, bottom: 45 }}
+
+      {data.length === 0 ? (
+        <div className="umkm-empty-chart">
+          Belum ada data UMKM
+        </div>
+      ) : (
+        <ResponsiveContainer
+          width="100%"
+          height={420}
         >
-          <XAxis
-            dataKey="rw"
-            interval={0}
-            angle={-45}
-            textAnchor="end"
-            height={65}
-            tick={{ fontSize: 10 }}
-          />
-          <YAxis
-            type="number"
-            domain={[0, 100]}
-          />
-          <Tooltip formatter={(value) => [value, "Jumlah UMKM"]} />
-          <Legend wrapperStyle={{ fontSize: "10px" }} />
-          <Bar dataKey="value" name="Jumlah UMKM" fill="#236bcf" barSize={14} />
-        </BarChart>
-      </ResponsiveContainer>
+          <BarChart
+            data={data}
+            margin={{
+              top: 10,
+              right: 15,
+              left: 5,
+              bottom: 45,
+            }}
+          >
+            <XAxis
+              dataKey="rw"
+              interval={0}
+              angle={-45}
+              textAnchor="end"
+              height={65}
+              tick={{ fontSize: 10 }}
+            />
+
+            <YAxis
+              type="number"
+              allowDecimals={false}
+            />
+
+            <Tooltip
+              formatter={(value) => [
+                value,
+                "Jumlah UMKM",
+              ]}
+            />
+
+            <Legend
+              wrapperStyle={{
+                fontSize: "10px",
+              }}
+            />
+
+            <Bar
+              dataKey="value"
+              name="Jumlah UMKM"
+              fill="#236bcf"
+              barSize={14}
+            />
+          </BarChart>
+        </ResponsiveContainer>
+      )}
 
     </div>
   );
 }
+
 
 /* =========================================================
    MAIN
@@ -243,17 +252,59 @@ function WilayahChart() {
 
 function UMKM() {
   const navigate = useNavigate();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const [search, setSearch] = useState("");
-  const [jenisUsaha, setJenisUsaha] = useState("");
-  const [wilayah, setWilayah] = useState("");
-  const [selectedRT, setSelectedRT] = useState("");
-  const [selectedUMKM, setSelectedUMKM] = useState(null);
+  const [sidebarOpen, setSidebarOpen] =
+    useState(false);
 
-  const [jenisOpen, setJenisOpen] = useState(false);
-  const [wilayahOpen, setWilayahOpen] = useState(false);
-  const [hoveredRW, setHoveredRW] = useState(null);
+  /*
+   * DATA DARI DATABASE
+   */
+  const [dataUMKM, setDataUMKM] =
+    useState([]);
+
+  const [loading, setLoading] =
+    useState(true);
+
+  const [errorMessage, setErrorMessage] =
+    useState("");
+
+  /*
+   * FILTER
+   */
+  const [search, setSearch] =
+    useState("");
+
+  const [jenisUsaha, setJenisUsaha] =
+    useState("");
+
+  const [wilayah, setWilayah] =
+    useState("");
+
+  const [selectedRT, setSelectedRT] =
+    useState("");
+
+  /*
+   * DETAIL
+   */
+  const [selectedUMKM, setSelectedUMKM] =
+    useState(null);
+
+  /*
+   * DROPDOWN
+   */
+  const [jenisOpen, setJenisOpen] =
+    useState(false);
+
+  const [wilayahOpen, setWilayahOpen] =
+    useState(false);
+
+  const [hoveredRW, setHoveredRW] =
+    useState(null);
+
+
+  /* =======================================================
+     DATA WILAYAH
+  ======================================================= */
 
   const wilayahData = {
     "01": ["01", "02", "03", "04", "05"],
@@ -273,28 +324,113 @@ function UMKM() {
     "15": ["71", "72", "73", "74", "75"],
   };
 
-  const filteredData = useMemo(() => {
-    return dataUMKM.filter((item) => {
 
-      const keyword = search.toLowerCase();
+  /* =======================================================
+     LOAD DATA UMKM
+  ======================================================= */
+
+  const loadUMKM = async () => {
+    try {
+      setLoading(true);
+      setErrorMessage("");
+
+      const data = await getUMKM();
+
+      setDataUMKM(
+        Array.isArray(data)
+          ? data
+          : []
+      );
+    } catch (error) {
+      console.error(
+        "Gagal mengambil data UMKM:",
+        error
+      );
+
+      setErrorMessage(
+        error.message ||
+          "Gagal mengambil data UMKM"
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+  useEffect(() => {
+    loadUMKM();
+  }, []);
+
+
+  /* =======================================================
+     DATA JENIS USAHA
+  ======================================================= */
+
+  const jenisUsahaOptions =
+    useMemo(() => {
+      const jenis = dataUMKM
+        .map(
+          (item) =>
+            item.jenis_usaha
+        )
+        .filter(Boolean);
+
+      return [
+        ...new Set(jenis),
+      ].sort();
+    }, [dataUMKM]);
+
+
+  /* =======================================================
+     FILTER DATA
+  ======================================================= */
+
+  const filteredData = useMemo(() => {
+    const keyword =
+      search.trim().toLowerCase();
+
+    return dataUMKM.filter((item) => {
+      const namaUsaha =
+        String(
+          item.nama_usaha || ""
+        ).toLowerCase();
+
+      const pemilik =
+        String(
+          item.pemilik || ""
+        ).toLowerCase();
+
+      const jenis =
+        String(
+          item.jenis_usaha || ""
+        ).toLowerCase();
+
+      const nib =
+        String(
+          item.nib || ""
+        ).toLowerCase();
 
       const matchSearch =
-        item.namaUsaha.toLowerCase().includes(keyword) ||
-        item.pemilik.toLowerCase().includes(keyword) ||
-        item.jenisUsaha.toLowerCase().includes(keyword) ||
-        item.nib.includes(keyword);
+        !keyword ||
+        namaUsaha.includes(keyword) ||
+        pemilik.includes(keyword) ||
+        jenis.includes(keyword) ||
+        nib.includes(keyword);
 
       const matchJenis =
         !jenisUsaha ||
-        item.jenisUsaha === jenisUsaha;
+        item.jenis_usaha ===
+          jenisUsaha;
 
       const matchWilayah =
         !wilayah ||
-        item.rw === wilayah;
+        String(item.rw || "") ===
+          wilayah;
 
       const matchRT =
         !selectedRT ||
-        item.rt === selectedRT;
+        String(item.rt || "") ===
+          selectedRT;
 
       return (
         matchSearch &&
@@ -303,22 +439,177 @@ function UMKM() {
         matchRT
       );
     });
-  }, [search, jenisUsaha, wilayah, selectedRT]);
+  }, [
+    dataUMKM,
+    search,
+    jenisUsaha,
+    wilayah,
+    selectedRT,
+  ]);
+
+
+  /* =======================================================
+     STATISTIK
+  ======================================================= */
+
+  const totalUMKM =
+    dataUMKM.length;
+
+  const totalNIB =
+    dataUMKM.filter(
+      (item) =>
+        String(item.nib || "").trim()
+          .length > 0
+    ).length;
+
+  const totalJenisUsaha =
+    new Set(
+      dataUMKM
+        .map(
+          (item) =>
+            item.jenis_usaha
+        )
+        .filter(Boolean)
+    ).size;
+
+
+  /* =======================================================
+     DATA DONUT
+  ======================================================= */
+
+  const jenisUsahaChart =
+    useMemo(() => {
+      const counter = {};
+
+      dataUMKM.forEach((item) => {
+        const jenis =
+          item.jenis_usaha ||
+          "Tidak diketahui";
+
+        counter[jenis] =
+          (counter[jenis] || 0) + 1;
+      });
+
+      return Object.entries(
+        counter
+      ).map(
+        ([label, value]) => ({
+          label,
+          value,
+        })
+      );
+    }, [dataUMKM]);
+
+
+  /* =======================================================
+     DATA BAR CHART WILAYAH
+  ======================================================= */
+
+  const wilayahChart =
+    useMemo(() => {
+      const counter = {};
+
+      dataUMKM.forEach((item) => {
+        const rw = String(
+          item.rw || ""
+        ).padStart(2, "0");
+
+        if (!rw) {
+          return;
+        }
+
+        counter[rw] =
+          (counter[rw] || 0) + 1;
+      });
+
+      return Object.keys(wilayahData)
+        .sort(
+          (a, b) =>
+            Number(a) - Number(b)
+        )
+        .map((rw) => ({
+          rw: `RW ${rw}`,
+          value: counter[rw] || 0,
+        }));
+    }, [dataUMKM]);
+
+
+  /* =======================================================
+     DELETE
+  ======================================================= */
+
+  const handleDeleteUMKM = async (data) => {
+    const id = data?.id_umkm;
+
+    if (!id) {
+      console.error(
+        "ID UMKM tidak ditemukan:",
+        data
+      );
+
+      return;
+    }
+
+    const yakin = window.confirm(
+      `Apakah Anda yakin ingin menghapus data UMKM ${data.nama_usaha}?`
+    );
+
+    if (!yakin) {
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      await deleteUMKM(id);
+
+      setSelectedUMKM(null);
+
+      await loadUMKM();
+    } catch (error) {
+      console.error(
+        "Gagal menghapus data UMKM:",
+        error
+      );
+
+      window.alert(
+        error.message ||
+          "Gagal menghapus data UMKM"
+      );
+
+      setLoading(false);
+    }
+  };
+
+
+  /* =======================================================
+     RETURN
+  ======================================================= */
 
   return (
     <div className="umkm-page">
+
       <SideBar
         isOpen={sidebarOpen}
-        onClose={() => setSidebarOpen(false)}
+        onClose={() =>
+          setSidebarOpen(false)
+        }
       />
 
       <Header
         title="UMKM"
         showSearch={true}
         searchValue={search}
-        onSearchChange={(e) => setSearch(e.target.value)}
-        onMenuClick={() => setSidebarOpen((prev) => !prev)}
+        onSearchChange={(e) =>
+          setSearch(e.target.value)
+        }
+        onMenuClick={() =>
+          setSidebarOpen(
+            (prev) => !prev
+          )
+        }
       />
+
 
       {/* =================================================
           MAIN CONTENT
@@ -326,14 +617,21 @@ function UMKM() {
 
       <main className="umkm-main">
 
-        {/* TAMBAH UMKM */}
+
+        {/* =================================================
+            TAMBAH UMKM
+        ================================================= */}
 
         <div className="umkm-add-wrapper">
 
           <button
             type="button"
             className="umkm-add-button"
-            onClick={() => navigate("/umkm/tambah")}
+            onClick={() =>
+              navigate(
+                "/umkm/tambah"
+              )
+            }
           >
             <span>+</span>
             Tambah UMKM
@@ -341,41 +639,64 @@ function UMKM() {
 
         </div>
 
+
         {/* =================================================
             STATISTICS
         ================================================= */}
 
         <section className="umkm-statistics">
 
+
+          {/* TOTAL UMKM */}
+
           <div className="umkm-stat-card">
 
             <div className="umkm-stat-icon">
-              <img src={umkm1Icon} alt="" />
+              <img
+                src={umkm1Icon}
+                alt=""
+              />
             </div>
 
             <div className="umkm-stat-content">
 
               <h2>UMKM</h2>
 
-              <strong>150</strong>
+              <strong>
+                {loading
+                  ? "..."
+                  : totalUMKM}
+              </strong>
 
-              <span>Total UMKM</span>
+              <span>
+                Total UMKM
+              </span>
 
             </div>
 
           </div>
 
+
+          {/* TOTAL NIB */}
+
           <div className="umkm-stat-card">
 
             <div className="umkm-stat-icon">
-              <img src={umkm2Icon} alt="" />
+              <img
+                src={umkm2Icon}
+                alt=""
+              />
             </div>
 
             <div className="umkm-stat-content">
 
               <h2>NIB</h2>
 
-              <strong>120</strong>
+              <strong>
+                {loading
+                  ? "..."
+                  : totalNIB}
+              </strong>
 
               <span>
                 Total Usaha yang
@@ -387,25 +708,38 @@ function UMKM() {
 
           </div>
 
+
+          {/* TOTAL JENIS */}
+
           <div className="umkm-stat-card">
 
             <div className="umkm-stat-icon">
-              <img src={umkm3Icon} alt="" />
+              <img
+                src={umkm3Icon}
+                alt=""
+              />
             </div>
 
             <div className="umkm-stat-content">
 
               <h2>Jenis</h2>
 
-              <strong>5</strong>
+              <strong>
+                {loading
+                  ? "..."
+                  : totalJenisUsaha}
+              </strong>
 
-              <span>Total Jenis Usaha</span>
+              <span>
+                Total Jenis Usaha
+              </span>
 
             </div>
 
           </div>
 
         </section>
+
 
         {/* =================================================
             REKAP UMKM
@@ -414,24 +748,45 @@ function UMKM() {
         <section className="umkm-rekap">
 
           <div className="umkm-section-title">
-            <h2>Rekap UMKM</h2>
+            <h2>
+              Rekap UMKM
+            </h2>
           </div>
+
 
           <div className="umkm-rekap-content">
 
+
+            {/* JENIS USAHA */}
+
             <div className="umkm-chart-column">
 
-              <h3>Jenis Usaha</h3>
+              <h3>
+                Jenis Usaha
+              </h3>
 
-              <DonutChart />
+              <DonutChart
+                data={
+                  jenisUsahaChart
+                }
+              />
 
             </div>
 
+
+            {/* WILAYAH */}
+
             <div className="umkm-chart-column">
 
-              <h3>Wilayah</h3>
+              <h3>
+                Wilayah
+              </h3>
 
-              <WilayahChart />
+              <WilayahChart
+                data={
+                  wilayahChart
+                }
+              />
 
             </div>
 
@@ -439,15 +794,20 @@ function UMKM() {
 
         </section>
 
+
         {/* =================================================
             DAFTAR UMKM
         ================================================= */}
 
         <section className="umkm-list-card">
 
+
           <div className="umkm-list-header">
 
-            <h2>Daftar UMKM</h2>
+            <h2>
+              Daftar UMKM
+            </h2>
+
 
             <div className="umkm-filter-box">
 
@@ -455,7 +815,10 @@ function UMKM() {
                 Filter
               </span>
 
-              {/* JENIS USAHA */}
+
+              {/* =================================================
+                  JENIS USAHA
+              ================================================= */}
 
               <div className="umkm-filter-dropdown">
 
@@ -463,13 +826,21 @@ function UMKM() {
                   type="button"
                   className="umkm-filter-button"
                   onClick={() => {
-                    setJenisOpen(!jenisOpen);
-                    setWilayahOpen(false);
+                    setJenisOpen(
+                      !jenisOpen
+                    );
+
+                    setWilayahOpen(
+                      false
+                    );
                   }}
                 >
-                  {jenisUsaha || "Jenis Usaha"}
+                  {jenisUsaha ||
+                    "Jenis Usaha"}
+
                   <ChevronDown />
                 </button>
+
 
                 {jenisOpen && (
                   <div className="umkm-dropdown-menu">
@@ -477,59 +848,48 @@ function UMKM() {
                     <button
                       type="button"
                       onClick={() => {
-                        setJenisUsaha("");
-                        setJenisOpen(false);
+                        setJenisUsaha(
+                          ""
+                        );
+
+                        setJenisOpen(
+                          false
+                        );
                       }}
                     >
                       Semua Jenis
                     </button>
 
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setJenisUsaha("Kuliner");
-                        setJenisOpen(false);
-                      }}
-                    >
-                      Kuliner
-                    </button>
 
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setJenisUsaha("Fashion");
-                        setJenisOpen(false);
-                      }}
-                    >
-                      Fashion
-                    </button>
+                    {jenisUsahaOptions.map(
+                      (jenis) => (
+                        <button
+                          key={jenis}
+                          type="button"
+                          onClick={() => {
+                            setJenisUsaha(
+                              jenis
+                            );
 
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setJenisUsaha("Jasa");
-                        setJenisOpen(false);
-                      }}
-                    >
-                      Jasa
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setJenisUsaha("Retail");
-                        setJenisOpen(false);
-                      }}
-                    >
-                      Retail
-                    </button>
+                            setJenisOpen(
+                              false
+                            );
+                          }}
+                        >
+                          {jenis}
+                        </button>
+                      )
+                    )}
 
                   </div>
                 )}
 
               </div>
 
-              {/* WILAYAH */}
+
+              {/* =================================================
+                  WILAYAH
+              ================================================= */}
 
               <div className="umkm-filter-dropdown">
 
@@ -537,8 +897,13 @@ function UMKM() {
                   type="button"
                   className="umkm-filter-button"
                   onClick={() => {
-                    setWilayahOpen(!wilayahOpen);
-                    setJenisOpen(false);
+                    setWilayahOpen(
+                      !wilayahOpen
+                    );
+
+                    setJenisOpen(
+                      false
+                    );
                   }}
                 >
                   {wilayah
@@ -548,50 +913,103 @@ function UMKM() {
                   <ChevronDown />
                 </button>
 
+
                 {wilayahOpen && (
                   <div className="umkm-dropdown-menu">
 
+                    {/* SEMUA WILAYAH */}
+
                     <div
                       className="wilayah-item"
-                      onMouseEnter={() => setHoveredRW(null)}
+                      onMouseEnter={() =>
+                        setHoveredRW(
+                          null
+                        )
+                      }
                       onClick={() => {
                         setWilayah("");
                         setSelectedRT("");
-                        setWilayahOpen(false);
+                        setWilayahOpen(
+                          false
+                        );
                       }}
                     >
-                      <span>Semua Wilayah</span>
+                      <span>
+                        Semua Wilayah
+                      </span>
                     </div>
 
-                    {Object.keys(wilayahData)
-                      .sort((a, b) => Number(a) - Number(b))
+
+                    {/* RW */}
+
+                    {Object.keys(
+                      wilayahData
+                    )
+                      .sort(
+                        (a, b) =>
+                          Number(a) -
+                          Number(b)
+                      )
                       .map((rw) => (
                         <div
                           key={rw}
                           className="wilayah-item"
-                          onMouseEnter={() => setHoveredRW(rw)}
+                          onMouseEnter={() =>
+                            setHoveredRW(
+                              rw
+                            )
+                          }
                         >
-                          <span>RW {rw}</span>
-                          <span className="rw-arrow">›</span>
 
-                          {hoveredRW === rw && (
+                          <span>
+                            RW {rw}
+                          </span>
+
+                          <span className="rw-arrow">
+                            ›
+                          </span>
+
+
+                          {/* RT */}
+
+                          {hoveredRW ===
+                            rw && (
                             <div className="rt-menu">
-                              {wilayahData[rw].map((rt) => (
-                                <div
-                                  key={rt}
-                                  className="rt-item"
-                                  onClick={(event) => {
-                                    event.stopPropagation();
-                                    setWilayah(rw);
-                                    setSelectedRT(rt);
-                                    setWilayahOpen(false);
-                                  }}
-                                >
-                                  RT {rt}
-                                </div>
-                              ))}
+
+                              {wilayahData[
+                                rw
+                              ].map(
+                                (rt) => (
+                                  <div
+                                    key={rt}
+                                    className="rt-item"
+                                    onClick={(
+                                      event
+                                    ) => {
+                                      event.stopPropagation();
+
+                                      setWilayah(
+                                        rw
+                                      );
+
+                                      setSelectedRT(
+                                        rt
+                                      );
+
+                                      setWilayahOpen(
+                                        false
+                                      );
+                                    }}
+                                  >
+                                    RT{" "}
+                                    {rt}
+                                  </div>
+                                )
+                              )}
+
                             </div>
                           )}
+
                         </div>
                       ))}
 
@@ -603,6 +1021,18 @@ function UMKM() {
             </div>
 
           </div>
+
+
+          {/* =================================================
+              ERROR
+          ================================================= */}
+
+          {errorMessage && (
+            <div className="umkm-error-message">
+              {errorMessage}
+            </div>
+          )}
+
 
           {/* =================================================
               TABLE
@@ -627,43 +1057,108 @@ function UMKM() {
 
               </thead>
 
+
               <tbody>
 
-                {filteredData.map((item) => (
-                  <tr
-                    key={item.no}
-                    className="umkm-table-row-clickable"
-                    onClick={() => setSelectedUMKM(item)}
-                  >
-
-                    <td>{item.no}</td>
-
-                    <td className="umkm-business-name">
-                      {item.namaUsaha}
+                {loading ? (
+                  <tr>
+                    <td
+                      colSpan="8"
+                      style={{
+                        textAlign:
+                          "center",
+                        padding:
+                          "30px",
+                      }}
+                    >
+                      Memuat data UMKM...
                     </td>
-
-                    <td>{item.pemilik}</td>
-
-                    <td>{item.jenisUsaha}</td>
-
-                    <td>{item.nib}</td>
-
-                    <td>{item.rt}</td>
-
-                    <td>{item.rw}</td>
-
-                    <td className="umkm-address">
-                      {item.alamat}
-                    </td>
-
                   </tr>
-                ))}
+                ) : filteredData.length ===
+                  0 ? (
+                  <tr>
+                    <td
+                      colSpan="8"
+                      style={{
+                        textAlign:
+                          "center",
+                        padding:
+                          "30px",
+                      }}
+                    >
+                      Tidak ada data UMKM
+                    </td>
+                  </tr>
+                ) : (
+                  filteredData.map(
+                    (item, index) => (
+                      <tr
+                        key={
+                          item.id_umkm
+                        }
+                        className="umkm-table-row-clickable"
+                        onClick={() =>
+                          setSelectedUMKM(
+                            item
+                          )
+                        }
+                      >
+
+                        <td>
+                          {String(
+                            index + 1
+                          ).padStart(
+                            3,
+                            "0"
+                          )}
+                        </td>
+
+                        <td className="umkm-business-name">
+                          {item.nama_usaha ||
+                            "-"}
+                        </td>
+
+                        <td>
+                          {item.pemilik ||
+                            "-"}
+                        </td>
+
+                        <td>
+                          {item.jenis_usaha ||
+                            "-"}
+                        </td>
+
+                        <td>
+                          {item.nib ||
+                            "-"}
+                        </td>
+
+                        <td>
+                          {item.rt ||
+                            "-"}
+                        </td>
+
+                        <td>
+                          {item.rw ||
+                            "-"}
+                        </td>
+
+                        <td className="umkm-address">
+                          {item.alamat ||
+                            "-"}
+                        </td>
+
+                      </tr>
+                    )
+                  )
+                )}
 
               </tbody>
 
             </table>
 
           </div>
+
 
           {/* =================================================
               FOOTER TABLE
@@ -674,18 +1169,28 @@ function UMKM() {
             <div className="umkm-showing">
 
               Menampilkan{" "}
+
               <strong>
-                1-{filteredData.length}
+                {filteredData.length}
               </strong>{" "}
-              dari <strong>150</strong> UMKM
+
+              dari{" "}
+
+              <strong>
+                {dataUMKM.length}
+              </strong>{" "}
+
+              UMKM
 
             </div>
+
 
             <div className="umkm-pagination">
 
               <button
                 type="button"
                 className="pagination-prev"
+                disabled
               >
                 ← Sebelumnya
               </button>
@@ -700,6 +1205,7 @@ function UMKM() {
               <button
                 type="button"
                 className="pagination-number"
+                disabled
               >
                 2
               </button>
@@ -707,6 +1213,7 @@ function UMKM() {
               <button
                 type="button"
                 className="pagination-number"
+                disabled
               >
                 3
               </button>
@@ -714,6 +1221,7 @@ function UMKM() {
               <button
                 type="button"
                 className="pagination-next"
+                disabled
               >
                 Selanjutnya →
               </button>
@@ -726,14 +1234,20 @@ function UMKM() {
 
       </main>
 
+
+      {/* =================================================
+          DETAIL UMKM
+      ================================================= */}
+
       {selectedUMKM && (
         <DetailUMKM
           data={selectedUMKM}
-          onClose={() => setSelectedUMKM(null)}
-          onDelete={(data) => {
-            console.log("Hapus data:", data);
-            setSelectedUMKM(null);
-          }}
+          onClose={() =>
+            setSelectedUMKM(null)
+          }
+          onDelete={
+            handleDeleteUMKM
+          }
         />
       )}
 

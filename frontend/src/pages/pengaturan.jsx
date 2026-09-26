@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SideBar from "./sidebarmenu";
 import Header from "./header";
 import profileImage from "../assets/foto.png";
@@ -30,7 +30,6 @@ const UserIcon = ({ size = 48 }) => (
     />
   </svg>
 );
-
 
 const SettingsIcon = ({ size = 72 }) => (
   <svg
@@ -84,8 +83,6 @@ const SettingsIcon = ({ size = 72 }) => (
   </svg>
 );
 
-
-
 const BellIcon = ({ size = 30 }) => (
   <svg
     width={size}
@@ -101,8 +98,6 @@ const BellIcon = ({ size = 30 }) => (
     <path d="M10 21h4" />
   </svg>
 );
-
-
 
 const GlobeIcon = ({ size = 35 }) => (
   <svg
@@ -120,7 +115,6 @@ const GlobeIcon = ({ size = 35 }) => (
   </svg>
 );
 
-
 const ChevronDown = () => (
   <svg
     width="22"
@@ -136,17 +130,20 @@ const ChevronDown = () => (
   </svg>
 );
 
-
-
 function Pengaturan() {
-
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const [profilePhoto, setProfilePhoto] = useState(profileImage);
+  const [profilePhoto, setProfilePhoto] = useState(() => {
+    return (
+      localStorage.getItem("sadeka_profile_photo") ||
+      profileImage
+    );
+  });
 
   const [profile, setProfile] = useState({
     nama: "Nadia Safira",
     nip: "198205127569835",
+    jabatan: "Sekretaris",
     emailDinas: "NadiaSafira.835@kelurahan.go.id",
     emailPribadi: "NadSafiraaa@gmail.com",
     passwordBaru: "",
@@ -158,10 +155,57 @@ function Pengaturan() {
     zonaWaktu: "WIB (Waktu Indonesia Barat)",
   });
 
+  useEffect(() => {
+    try {
+      const savedUser = localStorage.getItem(
+        "sadeka_user"
+      );
 
-  // =======================================================
-  // PROFILE CHANGE
-  // =======================================================
+      if (savedUser) {
+        const user = JSON.parse(savedUser);
+
+        setProfile((prev) => ({
+          ...prev,
+
+          nama:
+            user.nama ||
+            user.name ||
+            prev.nama,
+
+          nip:
+            user.nip ||
+            prev.nip,
+
+          jabatan:
+            user.jabatan ||
+            user.role ||
+            prev.jabatan,
+
+          emailDinas:
+            user.emailDinas ||
+            user.email ||
+            prev.emailDinas,
+
+          emailPribadi:
+            user.emailPribadi ||
+            prev.emailPribadi,
+        }));
+      }
+
+      const savedPhoto = localStorage.getItem(
+        "sadeka_profile_photo"
+      );
+
+      if (savedPhoto) {
+        setProfilePhoto(savedPhoto);
+      }
+    } catch (error) {
+      console.error(
+        "Gagal membaca data profil:",
+        error
+      );
+    }
+  }, []);
 
   const handleProfileChange = (e) => {
     const { name, value } = e.target;
@@ -171,7 +215,6 @@ function Pengaturan() {
       [name]: value,
     }));
   };
-
 
   const handleSystemChange = (e) => {
     const {
@@ -190,10 +233,7 @@ function Pengaturan() {
     }));
   };
 
-
-
   const handlePhotoChange = (e) => {
-
     const file = e.target.files?.[0];
 
     if (!file) return;
@@ -204,26 +244,34 @@ function Pengaturan() {
         "image/png",
       ].includes(file.type)
     ) {
-      alert("Foto harus berformat JPG atau PNG.");
+      alert(
+        "Foto harus berformat JPG atau PNG."
+      );
+
       return;
     }
 
     if (file.size > 2 * 1024 * 1024) {
-      alert("Ukuran foto maksimal 2MB.");
+      alert(
+        "Ukuran foto maksimal 2MB."
+      );
+
       return;
     }
 
-    const imageUrl = URL.createObjectURL(file);
+    const reader = new FileReader();
 
-    setProfilePhoto(imageUrl);
+    reader.onload = () => {
+      setProfilePhoto(reader.result);
+    };
+
+    reader.readAsDataURL(file);
   };
 
-
-
   const handleSaveProfile = (e) => {
-
     e.preventDefault();
 
+    // Validasi password
     if (
       profile.passwordBaru &&
       profile.passwordBaru !==
@@ -236,47 +284,132 @@ function Pengaturan() {
       return;
     }
 
-    console.log(
-      "Data profil:",
-      profile
-    );
+    try {
+      // Ambil user lama dari localStorage
+      let existingUser = {};
 
-    alert(
-      "Perubahan profil berhasil disimpan."
-    );
+      const savedUser =
+        localStorage.getItem("sadeka_user");
+
+      if (savedUser) {
+        existingUser = JSON.parse(savedUser);
+      }
+
+      // Gabungkan data lama dengan data profil terbaru
+      const updatedUser = {
+        ...existingUser,
+
+        nama: profile.nama,
+
+        // Jika sistem lama menggunakan name,
+        // kita tetap update agar Header kompatibel.
+        name: profile.nama,
+
+        nip: profile.nip,
+
+        jabatan: profile.jabatan,
+
+        emailDinas:
+          profile.emailDinas,
+
+        emailPribadi:
+          profile.emailPribadi,
+      };
+
+      const profileKey = `sadeka_profile_${
+        existingUser.username || existingUser.id_user
+      }`;
+
+      localStorage.setItem(
+        profileKey,
+        JSON.stringify({
+          nama: profile.nama,
+          name: profile.nama,
+          nip: profile.nip,
+          jabatan: profile.jabatan,
+          emailDinas: profile.emailDinas,
+          emailPribadi: profile.emailPribadi,
+        })
+      );
+
+      // Simpan user
+      localStorage.setItem(
+        "sadeka_user",
+        JSON.stringify(updatedUser)
+      );
+
+      // Simpan foto jika sudah diubah
+      if (
+        profilePhoto &&
+        profilePhoto !== profileImage
+      ) {
+        localStorage.setItem(
+          "sadeka_profile_photo",
+          profilePhoto
+        );
+      }
+
+      // Beri tahu Header bahwa profil berubah
+      window.dispatchEvent(
+        new Event("profileUpdated")
+      );
+
+      setProfile((prev) => ({
+        ...prev,
+        passwordBaru: "",
+        konfirmasiPassword: "",
+      }));
+
+      alert(
+        "Perubahan profil berhasil disimpan."
+      );
+    } catch (error) {
+      console.error(
+        "Gagal menyimpan profil:",
+        error
+      );
+
+      alert(
+        "Gagal menyimpan perubahan profil."
+      );
+    }
   };
-
-
 
   const handleSaveSystem = (e) => {
-
     e.preventDefault();
 
-    console.log(
-      "Pengaturan sistem:",
-      systemSettings
-    );
+    try {
+      localStorage.setItem(
+        "sadeka_system_settings",
+        JSON.stringify(systemSettings)
+      );
 
-    alert(
-      "Pengaturan sistem berhasil disimpan."
-    );
+      alert(
+        "Pengaturan sistem berhasil disimpan."
+      );
+    } catch (error) {
+      console.error(
+        "Gagal menyimpan pengaturan sistem:",
+        error
+      );
+
+      alert(
+        "Gagal menyimpan pengaturan sistem."
+      );
+    }
   };
-
-
 
   return (
     <div className="pengaturan-page">
 
-
       <SideBar
         isOpen={sidebarOpen}
-        onClose={() => setSidebarOpen(false)}
+        onClose={() =>
+          setSidebarOpen(false)
+        }
       />
 
-
-
       <main className="pengaturan-main">
-
 
         <Header
           title="Pengaturan"
@@ -286,15 +419,11 @@ function Pengaturan() {
           }
         />
 
-
-
         <section className="pengaturan-content">
 
           <div className="pengaturan-layout">
 
-
             <section className="pengaturan-profile-card">
-
 
               <div className="pengaturan-section-title">
 
@@ -303,7 +432,9 @@ function Pengaturan() {
                 </div>
 
                 <div>
-                  <h2>Profile Pengguna</h2>
+                  <h2>
+                    Profile Pengguna
+                  </h2>
 
                   <p>
                     Informasi Pribadi
@@ -312,6 +443,7 @@ function Pengaturan() {
 
               </div>
 
+              {/* FOTO PROFIL */}
 
               <div className="pengaturan-photo-section">
 
@@ -319,11 +451,10 @@ function Pengaturan() {
 
                   <img
                     src={profilePhoto}
-                    alt="Foto profil Nadia Safira"
+                    alt={`Foto profil ${profile.nama}`}
                   />
 
                 </div>
-
 
                 <div className="pengaturan-photo-action">
 
@@ -338,7 +469,9 @@ function Pengaturan() {
                     id="profile-photo"
                     type="file"
                     accept=".jpg,.jpeg,.png"
-                    onChange={handlePhotoChange}
+                    onChange={
+                      handlePhotoChange
+                    }
                     hidden
                   />
 
@@ -350,13 +483,14 @@ function Pengaturan() {
 
               </div>
 
-
+              {/* FORM PROFILE */}
 
               <form
                 className="pengaturan-profile-form"
-                onSubmit={handleSaveProfile}
+                onSubmit={
+                  handleSaveProfile
+                }
               >
-
 
                 <div className="pengaturan-form-row">
 
@@ -370,12 +504,15 @@ function Pengaturan() {
                       id="nama"
                       name="nama"
                       type="text"
-                      value={profile.nama}
-                      onChange={handleProfileChange}
+                      value={
+                        profile.nama
+                      }
+                      onChange={
+                        handleProfileChange
+                      }
                     />
 
                   </div>
-
 
                   <div className="pengaturan-form-group">
 
@@ -387,15 +524,41 @@ function Pengaturan() {
                       id="nip"
                       name="nip"
                       type="text"
-                      value={profile.nip}
-                      onChange={handleProfileChange}
+                      value={
+                        profile.nip
+                      }
+                      onChange={
+                        handleProfileChange
+                      }
                     />
 
                   </div>
 
                 </div>
 
+                {/* JABATAN */}
 
+                <div className="pengaturan-form-group full">
+
+                  <label htmlFor="jabatan">
+                    Jabatan
+                  </label>
+
+                  <input
+                    id="jabatan"
+                    name="jabatan"
+                    type="text"
+                    value={
+                      profile.jabatan
+                    }
+                    onChange={
+                      handleProfileChange
+                    }
+                  />
+
+                </div>
+
+                {/* EMAIL DINAS */}
 
                 <div className="pengaturan-form-group full">
 
@@ -407,12 +570,17 @@ function Pengaturan() {
                     id="emailDinas"
                     name="emailDinas"
                     type="email"
-                    value={profile.emailDinas}
-                    onChange={handleProfileChange}
+                    value={
+                      profile.emailDinas
+                    }
+                    onChange={
+                      handleProfileChange
+                    }
                   />
 
                 </div>
 
+                {/* EMAIL PRIBADI */}
 
                 <div className="pengaturan-form-group full">
 
@@ -424,62 +592,17 @@ function Pengaturan() {
                     id="emailPribadi"
                     name="emailPribadi"
                     type="email"
-                    value={profile.emailPribadi}
-                    onChange={handleProfileChange}
+                    value={
+                      profile.emailPribadi
+                    }
+                    onChange={
+                      handleProfileChange
+                    }
                   />
 
                 </div>
 
-
-
-                <div className="pengaturan-security">
-
-                  <h3>
-                    Keamanan Akun
-                  </h3>
-
-                  <div className="pengaturan-password-row">
-
-                    <div className="pengaturan-form-group">
-
-                      <label htmlFor="passwordBaru">
-                        Kata Sandi Baru
-                      </label>
-
-                      <input
-                        id="passwordBaru"
-                        name="passwordBaru"
-                        type="password"
-                        value={profile.passwordBaru}
-                        onChange={handleProfileChange}
-                      />
-
-                    </div>
-
-
-                    <div className="pengaturan-form-group">
-
-                      <label htmlFor="konfirmasiPassword">
-                        Konfirmasi Kata Sandi
-                      </label>
-
-                      <input
-                        id="konfirmasiPassword"
-                        name="konfirmasiPassword"
-                        type="password"
-                        value={
-                          profile.konfirmasiPassword
-                        }
-                        onChange={
-                          handleProfileChange
-                        }
-                      />
-
-                    </div>
-
-                  </div>
-
-                </div>
+                {/* BUTTON PROFILE */}
 
                 <div className="pengaturan-profile-actions">
 
@@ -506,9 +629,7 @@ function Pengaturan() {
 
             </section>
 
-
             <section className="pengaturan-system-card">
-
 
               <div className="pengaturan-system-header">
 
@@ -517,6 +638,7 @@ function Pengaturan() {
                 </div>
 
                 <div>
+
                   <h2>
                     Pengaturan Sistem
                   </h2>
@@ -524,16 +646,19 @@ function Pengaturan() {
                   <p>
                     Konfigurasi sistem
                   </p>
+
                 </div>
 
               </div>
 
-
               <form
                 className="pengaturan-system-form"
-                onSubmit={handleSaveSystem}
+                onSubmit={
+                  handleSaveSystem
+                }
               >
 
+                {/* NOTIFIKASI */}
 
                 <div className="pengaturan-system-section">
 
@@ -546,7 +671,6 @@ function Pengaturan() {
                     </h3>
 
                   </div>
-
 
                   <div className="pengaturan-notification-setting">
 
@@ -564,9 +688,6 @@ function Pengaturan() {
 
                     </div>
 
-
-                    {/* TOGGLE */}
-
                     <label className="pengaturan-switch">
 
                       <input
@@ -581,7 +702,9 @@ function Pengaturan() {
                       />
 
                       <span className="pengaturan-slider">
+
                         <span className="pengaturan-slider-circle" />
+
                       </span>
 
                     </label>
@@ -590,6 +713,7 @@ function Pengaturan() {
 
                 </div>
 
+                {/* LOKASI */}
 
                 <div className="pengaturan-location-section">
 
@@ -603,15 +727,12 @@ function Pengaturan() {
 
                   </div>
 
-
                   <label
                     htmlFor="zonaWaktu"
                     className="pengaturan-location-label"
                   >
                     Zona Waktu
                   </label>
-
-
 
                   <div className="pengaturan-select-wrapper">
 
@@ -647,7 +768,6 @@ function Pengaturan() {
                   </div>
 
                 </div>
-
 
                 <button
                   type="submit"

@@ -1,17 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SideBar from "./sidebarmenu";
 import Header from "./header";
+import {
+  getPenduduk,
+  deletePenduduk
+} from "../services/api";
 
 function DataPenduduk() {
   const navigate = useNavigate();
 
-
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-
   const [search, setSearch] = useState("");
-
 
   const [rt, setRt] = useState("");
   const [rw, setRw] = useState("");
@@ -21,77 +22,79 @@ function DataPenduduk() {
   const [rwOpen, setRwOpen] = useState(false);
   const [statusOpen, setStatusOpen] = useState(false);
 
-
   const [openAction, setOpenAction] = useState(null);
 
   const [currentPage, setCurrentPage] = useState(1);
 
   const itemsPerPage = 5;
 
+  const [dataPenduduk, setDataPenduduk] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
 
-  const [dataPenduduk, setDataPenduduk] = useState([
-    {
-      no: "001",
-      nama: "Budiono Suhari",
-      nik: "35782750000202",
-      tempatLahir: "Surabaya",
-      tanggalLahir: "10 Agustus 1975",
-      alamat: "Jl Cendrawasih No 9",
-      rt: "02",
-      rw: "02",
-      jk: "L",
-      status: "Tetap",
-    },
-    {
-      no: "002",
-      nama: "Rizky Ramadhan",
-      nik: "35782750602001",
-      tempatLahir: "Tasikmalaya",
-      tanggalLahir: "20 November 2001",
-      alamat: "Jl Sari Asri Block B",
-      rt: "07",
-      rw: "08",
-      jk: "L",
-      status: "Sementara",
-    },
-    {
-      no: "003",
-      nama: "Aisyah Salsabil",
-      nik: "35782760150003",
-      tempatLahir: "Bekasi",
-      tanggalLahir: "05 Desember 1998",
-      alamat: "Jl Komp. Candi Block AE",
-      rt: "06",
-      rw: "08",
-      jk: "P",
-      status: "Meninggal",
-    },
-    {
-      no: "004",
-      nama: "Siti Nuraini",
-      nik: "35782725045000",
-      tempatLahir: "Solo",
-      tanggalLahir: "12 Mei 1988",
-      alamat: "Jl Cendana Block C No 8",
-      rt: "05",
-      rw: "08",
-      jk: "P",
-      status: "Tetap",
-    },
-    {
-      no: "005",
-      nama: "Reza Saputra",
-      nik: "35782767200012",
-      tempatLahir: "Sumatra",
-      tanggalLahir: "22 Juli 2000",
-      alamat: "Jl Keputusan No 11",
-      rt: "09",
-      rw: "10",
-      jk: "L",
-      status: "Pindah",
-    },
-  ]);
+  // =========================================================
+  // MENGAMBIL DATA PENDUDUK DARI BACKEND
+  // =========================================================
 
+  useEffect(() => {
+    const loadPenduduk = async () => {
+      try {
+        setIsLoading(true);
+        setLoadError("");
+        const data = await getPenduduk();
+
+        const formattedData = data.map((item, index) => ({
+          id: item.id_penduduk,
+
+          no: String(index + 1).padStart(3, "0"),
+
+          nama: item.nama,
+
+          nik: item.nik,
+
+          tempatLahir: item.tempat_lahir,
+
+          tanggalLahir: new Date(
+            item.tanggal_lahir
+          ).toLocaleDateString("id-ID", {
+            day: "2-digit",
+            month: "long",
+            year: "numeric"
+          }),
+
+          alamat: item.alamat,
+
+          rt: item.rt,
+
+          rw: item.rw,
+
+          jk:
+            item.jenis_kelamin === "Laki-laki"
+              ? "L"
+              : "P",
+
+          status: item.status_penduduk
+        }));
+
+        setDataPenduduk(formattedData);
+
+      } catch (error) {
+        console.error(
+          "Gagal mengambil data penduduk:",
+          error
+        );
+        setLoadError("Data penduduk belum dapat dimuat. Pastikan backend berjalan di http://localhost:5000.");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadPenduduk();
+  }, []);
+
+  // =========================================================
+  // OPTIONS FILTER
+  // =========================================================
 
   const rtOptions = Array.from(
     { length: 124 },
@@ -109,8 +112,12 @@ function DataPenduduk() {
     "Tetap",
     "Sementara",
     "Meninggal",
-    "Pindah",
+    "Pindah"
   ];
+
+  // =========================================================
+  // FILTER DATA
+  // =========================================================
 
   const filteredData = dataPenduduk.filter((item) => {
     const keyword = search.toLowerCase().trim();
@@ -149,6 +156,9 @@ function DataPenduduk() {
     );
   });
 
+  // =========================================================
+  // PAGINATION
+  // =========================================================
 
   const totalPages = Math.max(
     1,
@@ -178,11 +188,17 @@ function DataPenduduk() {
           filteredData.length
         );
 
+  // =========================================================
+  // SIDEBAR
+  // =========================================================
 
   const closeSidebar = () => {
     setSidebarOpen(false);
   };
 
+  // =========================================================
+  // DROPDOWN
+  // =========================================================
 
   const closeAllDropdown = () => {
     setRtOpen(false);
@@ -190,22 +206,28 @@ function DataPenduduk() {
     setStatusOpen(false);
   };
 
+  // =========================================================
+  // EDIT DATA
+  // =========================================================
 
   const handleEdit = (item) => {
     setOpenAction(null);
 
     navigate(
-      `/data-penduduk/${item.no}/edit`,
+      `/data-penduduk/${item.id}/edit`,
       {
         state: {
-          penduduk: item,
-        },
+          penduduk: item
+        }
       }
     );
   };
 
+  // =========================================================
+  // HAPUS DATA
+  // =========================================================
 
-  const handleDelete = (item) => {
+  const handleDelete = async (item) => {
     const jenisKelamin =
       item.jk === "L"
         ? "Laki-laki"
@@ -224,27 +246,54 @@ function DataPenduduk() {
         `Data yang dihapus tidak dapat dikembalikan.`
     );
 
+    // Jika user memilih Cancel
     if (!confirmed) {
       return;
     }
 
-    setDataPenduduk((prev) =>
-      prev.filter(
-        (data) => data.no !== item.no
-      )
-    );
+    try {
+      // Hapus data dari database
+      await deletePenduduk(item.id);
 
-    setOpenAction(null);
+      // Hapus juga dari state frontend
+      setDataPenduduk((prev) =>
+        prev.filter(
+          (data) => data.id !== item.id
+        )
+      );
 
-    if (
-      currentData.length === 1 &&
-      currentPage > 1
-    ) {
-      setCurrentPage(
-        (page) => page - 1
+      setOpenAction(null);
+
+      // Jika item terakhir pada halaman dihapus,
+      // kembali ke halaman sebelumnya
+      if (
+        currentData.length === 1 &&
+        currentPage > 1
+      ) {
+        setCurrentPage(
+          (page) => page - 1
+        );
+      }
+
+      alert(
+        "Data penduduk berhasil dihapus."
+      );
+
+    } catch (error) {
+      console.error(
+        "Gagal menghapus data penduduk:",
+        error
+      );
+
+      alert(
+        "Gagal menghapus data penduduk."
       );
     }
   };
+
+  // =========================================================
+  // PAGINATION
+  // =========================================================
 
   const goToPage = (page) => {
     if (
@@ -258,6 +307,9 @@ function DataPenduduk() {
     setOpenAction(null);
   };
 
+  // =========================================================
+  // TAMPILAN
+  // =========================================================
 
   return (
     <div className="penduduk-page">
@@ -267,9 +319,7 @@ function DataPenduduk() {
         onClose={closeSidebar}
       />
 
-
       <main className="penduduk-main">
-
 
         <Header
           title="Data Penduduk"
@@ -289,6 +339,9 @@ function DataPenduduk() {
 
         <section className="penduduk-content">
 
+          {/* =================================================
+              TOMBOL TAMBAH
+          ================================================= */}
 
           <div className="penduduk-top-action">
 
@@ -312,9 +365,13 @@ function DataPenduduk() {
 
           </div>
 
+          {/* =================================================
+              CARD TABEL
+          ================================================= */}
 
           <div className="penduduk-table-card">
 
+            {/* HEADER TABEL + FILTER */}
 
             <div className="penduduk-table-top">
 
@@ -327,6 +384,8 @@ function DataPenduduk() {
                 <span className="penduduk-filter-label">
                   Filter
                 </span>
+
+                {/* ================= RT ================= */}
 
                 <div className="penduduk-filter-dropdown">
 
@@ -353,7 +412,6 @@ function DataPenduduk() {
                     </span>
                   </button>
 
-
                   {rtOpen && (
                     <div className="penduduk-filter-menu">
 
@@ -368,7 +426,6 @@ function DataPenduduk() {
                       >
                         Semua RT
                       </button>
-
 
                       {rtOptions.map(
                         (option) => (
@@ -391,6 +448,8 @@ function DataPenduduk() {
                   )}
 
                 </div>
+
+                {/* ================= RW ================= */}
 
                 <div className="penduduk-filter-dropdown">
 
@@ -417,7 +476,6 @@ function DataPenduduk() {
                     </span>
                   </button>
 
-
                   {rwOpen && (
                     <div className="penduduk-filter-menu">
 
@@ -432,7 +490,6 @@ function DataPenduduk() {
                       >
                         Semua RW
                       </button>
-
 
                       {rwOptions.map(
                         (option) => (
@@ -456,10 +513,7 @@ function DataPenduduk() {
 
                 </div>
 
-
-                {/* =============================================
-                    FILTER STATUS
-                ============================================= */}
+                {/* ================= STATUS ================= */}
 
                 <div className="penduduk-filter-dropdown">
 
@@ -484,7 +538,6 @@ function DataPenduduk() {
                     </span>
                   </button>
 
-
                   {statusOpen && (
                     <div className="penduduk-filter-menu">
 
@@ -499,7 +552,6 @@ function DataPenduduk() {
                       >
                         Semua Status
                       </button>
-
 
                       {statusOptions.map(
                         (option) => (
@@ -527,9 +579,8 @@ function DataPenduduk() {
 
             </div>
 
-
             {/* =================================================
-                TABLE
+                TABEL
             ================================================= */}
 
             <div className="penduduk-table-scroll">
@@ -578,19 +629,26 @@ function DataPenduduk() {
 
                 </thead>
 
-
                 <tbody>
 
-                  {currentData.length > 0 ? (
+                  {isLoading ? (
+                    <tr>
+                      <td colSpan="8" className="penduduk-empty">
+                        Memuat data penduduk...
+                      </td>
+                    </tr>
+                  ) : loadError ? (
+                    <tr>
+                      <td colSpan="8" className="penduduk-empty penduduk-load-error">
+                        {loadError}
+                      </td>
+                    </tr>
+                  ) : currentData.length > 0 ? (
 
                     currentData.map(
                       (item) => (
 
-                        <tr key={item.no}>
-
-                          {/* =================================
-                              NO
-                          ================================= */}
+                        <tr key={item.id}>
 
                           <td className="penduduk-col-no">
 
@@ -600,11 +658,6 @@ function DataPenduduk() {
 
                           </td>
 
-
-                          {/* =================================
-                              NAMA
-                          ================================= */}
-
                           <td className="penduduk-col-nama">
 
                             <div className="penduduk-name">
@@ -613,11 +666,6 @@ function DataPenduduk() {
 
                           </td>
 
-
-                          {/* =================================
-                              NIK
-                          ================================= */}
-
                           <td className="penduduk-col-nik">
 
                             <div className="penduduk-nik">
@@ -625,11 +673,6 @@ function DataPenduduk() {
                             </div>
 
                           </td>
-
-
-                          {/* =================================
-                              TTL
-                          ================================= */}
 
                           <td className="penduduk-col-ttl">
 
@@ -647,11 +690,6 @@ function DataPenduduk() {
 
                           </td>
 
-
-                          {/* =================================
-                              ALAMAT
-                          ================================= */}
-
                           <td className="penduduk-col-alamat">
 
                             <div className="penduduk-address">
@@ -668,11 +706,6 @@ function DataPenduduk() {
                             </div>
 
                           </td>
-
-
-                          {/* =================================
-                              JENIS KELAMIN
-                          ================================= */}
 
                           <td className="penduduk-col-jk">
 
@@ -693,11 +726,6 @@ function DataPenduduk() {
 
                           </td>
 
-
-                          {/* =================================
-                              STATUS
-                          ================================= */}
-
                           <td className="penduduk-col-status">
 
                             <span
@@ -713,10 +741,9 @@ function DataPenduduk() {
 
                           </td>
 
-
-                          {/* =================================
-                              AKSI
-                          ================================= */}
+                          {/* =================================================
+                              AKSI TITIK TIGA
+                          ================================================= */}
 
                           <td className="penduduk-col-aksi">
 
@@ -728,22 +755,27 @@ function DataPenduduk() {
                                 onClick={() =>
                                   setOpenAction(
                                     openAction ===
-                                      item.no
+                                      item.id
                                       ? null
-                                      : item.no
+                                      : item.id
                                   )
                                 }
                                 aria-label={`Aksi untuk ${item.nama}`}
                                 title="Aksi"
                               >
-                                ⋮
+                                <span className="penduduk-action-dots" aria-hidden="true">
+                                  <span />
+                                  <span />
+                                  <span />
+                                </span>
                               </button>
 
-
                               {openAction ===
-                                item.no && (
+                                item.id && (
 
                                 <div className="penduduk-action-menu">
+
+                                  {/* EDIT */}
 
                                   <button
                                     type="button"
@@ -757,6 +789,7 @@ function DataPenduduk() {
                                     Edit
                                   </button>
 
+                                  {/* HAPUS */}
 
                                   <button
                                     type="button"
@@ -805,9 +838,8 @@ function DataPenduduk() {
 
             </div>
 
-
             {/* =================================================
-                FOOTER
+                FOOTER + PAGINATION
             ================================================= */}
 
             <div className="penduduk-table-footer">
@@ -830,11 +862,6 @@ function DataPenduduk() {
 
               </div>
 
-
-              {/* =============================================
-                  PAGINATION
-              ============================================= */}
-
               <div className="penduduk-pagination">
 
                 <button
@@ -852,10 +879,9 @@ function DataPenduduk() {
                   Sebelumnya
                 </button>
 
-
                 {Array.from(
                   {
-                    length: totalPages,
+                    length: totalPages
                   },
                   (_, index) =>
                     index + 1
@@ -877,7 +903,6 @@ function DataPenduduk() {
                   </button>
 
                 ))}
-
 
                 <button
                   type="button"
@@ -905,10 +930,7 @@ function DataPenduduk() {
 
       </main>
 
-
-      {/* =================================================
-          OVERLAY DROPDOWN
-      ================================================= */}
+      {/* OVERLAY FILTER */}
 
       {(rtOpen ||
         rwOpen ||

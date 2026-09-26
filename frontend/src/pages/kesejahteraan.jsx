@@ -1,13 +1,21 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import SideBar from "./sidebarmenu";
 import DetailKesejahteraan from "./detailkesejahteraan";
 import Header from "./header";
+
 import ksj1Icon from "../assets/ksj1.png";
 import ksj2Icon from "../assets/ksj2.png";
 import ksj3Icon from "../assets/ksj3.png";
 import ksj4Icon from "../assets/ksj4.png";
 import ksj5Icon from "../assets/ksj5.png";
+
+import {
+  getKesejahteraan,
+  deleteKesejahteraan,
+} from "../services/api";
+
 import {
   PieChart,
   Pie,
@@ -22,82 +30,9 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const dataKesejahteraan = [
-  {
-    no: "001",
-    nama: "Haryadi",
-    nik: "3530110702060001",
-    kategori: "Rutilahu",
-    status: "Selesai",
-    rt: "02",
-    rw: "01",
-    keterangan:
-      "Kondisi atap dan dinding rumah yang mengalami kerusakan sudah diperbaiki",
-  },
-  {
-    no: "002",
-    nama: "Sri Rejeki",
-    nik: "3530115702060001",
-    kategori: "Ibu Hamil",
-    status: "Dalam Penanganan",
-    rt: "16",
-    rw: "03",
-    keterangan:
-      "Kehamilan 7 bulan, rutin melakukan pemeriksaan",
-  },
-  {
-    no: "003",
-    nama: "Nadira",
-    nik: "3520116704090001",
-    kategori: "Stunting",
-    status: "Belum Ditangani",
-    rt: "19",
-    rw: "04",
-    keterangan:
-      "Memerlukan pemantauan pertumbuhan dan asupan gizi secara berkala",
-  },
-  {
-    no: "004",
-    nama: "Kayla",
-    nik: "3540121702090001",
-    kategori: "Putus Sekolah",
-    status: "Selesai",
-    rt: "23",
-    rw: "05",
-    keterangan:
-      "Telah kembali melanjutkan pendidikan",
-  },
-  {
-    no: "005",
-    nama: "Utami",
-    nik: "3550118702980001",
-    kategori: "Ibu Hamil",
-    status: "Dalam Penanganan",
-    rt: "06",
-    rw: "02",
-    keterangan:
-      "Rutin melakukan pemeriksaan kehamilan di fasilitas kesehatan",
-  },
-];
-
-const kategoriData = [
-  {
-    name: "Stunting",
-    value: 113,
-  },
-  {
-    name: "Ibu Hamil",
-    value: 102,
-  },
-  {
-    name: "Rutilahu",
-    value: 172,
-  },
-  {
-    name: "Putus Sekolah",
-    value: 72,
-  },
-];
+/* =========================================================
+   WARNA PIE CHART
+   ========================================================= */
 
 const pieColors = [
   "#8674f5",
@@ -106,134 +41,257 @@ const pieColors = [
   "#0c3c73",
 ];
 
-const wilayahData = [
-  {
-    name: "Stunting",
-    "RW 01": 8,
-    "RW 02": 5,
-    "RW 03": 11,
-    "RW 04": 7,
-    "RW 05": 9,
-    "RW 06": 4,
-    "RW 07": 10,
-    "RW 08": 12,
-    "RW 09": 6,
-    "RW 10": 5,
-    "RW 11": 8,
-    "RW 12": 6,
-    "RW 13": 4,
-    "RW 14": 7,
-    "RW 15": 5,
-  },
-  {
-    name: "Ibu Hamil",
-    "RW 01": 6,
-    "RW 02": 9,
-    "RW 03": 7,
-    "RW 04": 8,
-    "RW 05": 5,
-    "RW 06": 7,
-    "RW 07": 9,
-    "RW 08": 8,
-    "RW 09": 6,
-    "RW 10": 5,
-    "RW 11": 8,
-    "RW 12": 6,
-    "RW 13": 7,
-    "RW 14": 5,
-    "RW 15": 4,
-  },
-  {
-    name: "Rutilahu",
-    "RW 01": 12,
-    "RW 02": 9,
-    "RW 03": 14,
-    "RW 04": 16,
-    "RW 05": 10,
-    "RW 06": 8,
-    "RW 07": 13,
-    "RW 08": 11,
-    "RW 09": 15,
-    "RW 10": 12,
-    "RW 11": 10,
-    "RW 12": 13,
-    "RW 13": 9,
-    "RW 14": 13,
-    "RW 15": 9,
-  },
-  {
-    name: "Putus Sekolah",
-    "RW 01": 5,
-    "RW 02": 3,
-    "RW 03": 6,
-    "RW 04": 7,
-    "RW 05": 3,
-    "RW 06": 4,
-    "RW 07": 6,
-    "RW 08": 5,
-    "RW 09": 8,
-    "RW 10": 4,
-    "RW 11": 5,
-    "RW 12": 4,
-    "RW 13": 6,
-    "RW 14": 5,
-    "RW 15": 4,
-  },
-];
-
-const wilayahChartData = Array.from(
-  { length: 15 },
-  (_, index) => {
-    const rw = `RW ${String(index + 1).padStart(2, "0")}`;
-
-    return {
-      rw,
-      Stunting: wilayahData[0][rw],
-      "Ibu Hamil": wilayahData[1][rw],
-      Rutilahu: wilayahData[2][rw],
-      "Putus Sekolah": wilayahData[3][rw],
-    };
-  }
-);
+/* =========================================================
+   WARNA BAR CHART
+   ========================================================= */
 
 const rwColors = [
   ...pieColors,
 ];
 
+/* =========================================================
+   COMPONENT
+   ========================================================= */
+
 function Kesejahteraan() {
   const navigate = useNavigate();
+
+  /* =======================================================
+     SIDEBAR
+     ======================================================= */
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  /* =======================================================
+     DATA KESEJAHTERAAN
+     ======================================================= */
+
+  const [dataKesejahteraan, setDataKesejahteraan] = useState([]);
+
+  const [loading, setLoading] = useState(true);
+
+  /* =======================================================
+     FILTER
+     ======================================================= */
 
   const [search, setSearch] = useState("");
   const [wilayah, setWilayah] = useState("");
   const [status, setStatus] = useState("");
   const [kategori, setKategori] = useState("");
-  const [selectedKesejahteraan, setSelectedKesejahteraan] = useState(null);
+
+  /* =======================================================
+     DETAIL
+     ======================================================= */
+
+  const [
+    selectedKesejahteraan,
+    setSelectedKesejahteraan,
+  ] = useState(null);
+
+  /* =======================================================
+     DROPDOWN
+     ======================================================= */
 
   const [wilayahOpen, setWilayahOpen] = useState(false);
   const [statusOpen, setStatusOpen] = useState(false);
   const [kategoriOpen, setKategoriOpen] = useState(false);
 
+  /* =======================================================
+     PAGINATION
+     ======================================================= */
+
   const [currentPage, setCurrentPage] = useState(1);
+
+  /* =======================================================
+     ERROR
+     ======================================================= */
+
+  const [errorMessage, setErrorMessage] = useState("");
+
+  /* =======================================================
+     AMBIL DATA KESEJAHTERAAN DARI API
+     ======================================================= */
+
+  const loadKesejahteraan = async () => {
+    try {
+      setLoading(true);
+      setErrorMessage("");
+
+      const data = await getKesejahteraan();
+
+      setDataKesejahteraan(data);
+    } catch (error) {
+      console.error(
+        "Gagal mengambil data kesejahteraan:",
+        error
+      );
+
+      setErrorMessage(
+        error.message ||
+          "Gagal mengambil data kesejahteraan"
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  /* =======================================================
+     LOAD DATA SAAT HALAMAN DIBUKA
+     ======================================================= */
+
+  useEffect(() => {
+    loadKesejahteraan();
+  }, []);
+
+  /* =======================================================
+     STATISTIK KESEJAHTERAAN DINAMIS
+     ======================================================= */
+
+  const statistikKesejahteraan = useMemo(() => {
+    const total = dataKesejahteraan.length;
+
+    const stunting = dataKesejahteraan.filter(
+      (item) => item.kategori === "Stunting"
+    ).length;
+
+    const ibuHamil = dataKesejahteraan.filter(
+      (item) => item.kategori === "Ibu Hamil"
+    ).length;
+
+    const rutilahu = dataKesejahteraan.filter(
+      (item) => item.kategori === "Rutilahu"
+    ).length;
+
+    const putusSekolah = dataKesejahteraan.filter(
+      (item) => item.kategori === "Putus Sekolah"
+    ).length;
+
+    return {
+      total,
+      stunting,
+      ibuHamil,
+      rutilahu,
+      putusSekolah,
+    };
+  }, [dataKesejahteraan]);
+
+  /* =======================================================
+     DATA PIE CHART DINAMIS
+     ======================================================= */
+
+  const kategoriData = useMemo(() => {
+    return [
+      {
+        name: "Stunting",
+        value: statistikKesejahteraan.stunting,
+      },
+      {
+        name: "Ibu Hamil",
+        value: statistikKesejahteraan.ibuHamil,
+      },
+      {
+        name: "Rutilahu",
+        value: statistikKesejahteraan.rutilahu,
+      },
+      {
+        name: "Putus Sekolah",
+        value: statistikKesejahteraan.putusSekolah,
+      },
+    ];
+  }, [statistikKesejahteraan]);
+
+  /* =======================================================
+     DATA BAR CHART WILAYAH DINAMIS
+     ======================================================= */
+
+  const wilayahChartData = useMemo(() => {
+    return Array.from(
+      { length: 15 },
+      (_, index) => {
+        const rw = `RW ${String(index + 1).padStart(
+          2,
+          "0"
+        )}`;
+
+        const dataRW = dataKesejahteraan.filter(
+          (item) =>
+            `RW ${String(item.rw).padStart(
+              2,
+              "0"
+            )}` === rw
+        );
+
+        return {
+          rw,
+
+          Stunting: dataRW.filter(
+            (item) =>
+              item.kategori === "Stunting"
+          ).length,
+
+          "Ibu Hamil": dataRW.filter(
+            (item) =>
+              item.kategori === "Ibu Hamil"
+          ).length,
+
+          Rutilahu: dataRW.filter(
+            (item) =>
+              item.kategori === "Rutilahu"
+          ).length,
+
+          "Putus Sekolah": dataRW.filter(
+            (item) =>
+              item.kategori === "Putus Sekolah"
+          ).length,
+        };
+      }
+    );
+  }, [dataKesejahteraan]);
+
+  /* =======================================================
+     FILTER DATA
+     ======================================================= */
 
   const filteredData = useMemo(() => {
     return dataKesejahteraan.filter((item) => {
-      const keyword = search.toLowerCase();
+      const keyword = search
+        .toLowerCase()
+        .trim();
+
+      const nama = String(
+        item.nama || ""
+      ).toLowerCase();
+
+      const nik = String(
+        item.nik || ""
+      ).toLowerCase();
+
+      const itemKategori = String(
+        item.kategori || ""
+      ).toLowerCase();
+
+      const keterangan = String(
+        item.keterangan || ""
+      ).toLowerCase();
 
       const cocokSearch =
-        item.nama.toLowerCase().includes(keyword) ||
-        item.nik.includes(keyword) ||
-        item.kategori.toLowerCase().includes(keyword) ||
-        item.keterangan.toLowerCase().includes(keyword);
+        nama.includes(keyword) ||
+        nik.includes(keyword) ||
+        itemKategori.includes(keyword) ||
+        keterangan.includes(keyword);
 
       const cocokWilayah =
-        !wilayah || item.rw === wilayah;
+        !wilayah ||
+        String(item.rw).padStart(2, "0") ===
+          wilayah;
 
       const cocokStatus =
-        !status || item.status === status;
+        !status ||
+        item.status === status;
 
       const cocokKategori =
-        !kategori || item.kategori === kategori;
+        !kategori ||
+        item.kategori === kategori;
 
       return (
         cocokSearch &&
@@ -242,7 +300,17 @@ function Kesejahteraan() {
         cocokKategori
       );
     });
-  }, [search, wilayah, status, kategori]);
+  }, [
+    dataKesejahteraan,
+    search,
+    wilayah,
+    status,
+    kategori,
+  ]);
+
+  /* =======================================================
+     PAGINATION
+     ======================================================= */
 
   const totalPages = Math.max(
     1,
@@ -253,6 +321,20 @@ function Kesejahteraan() {
     (currentPage - 1) * 5,
     currentPage * 5
   );
+
+  /* =======================================================
+     JAGA CURRENT PAGE
+     ======================================================= */
+
+  useEffect(() => {
+    if (currentPage > totalPages) {
+      setCurrentPage(totalPages);
+    }
+  }, [currentPage, totalPages]);
+
+  /* =======================================================
+     FILTER HANDLER
+     ======================================================= */
 
   const selectWilayah = (value) => {
     setWilayah(value);
@@ -272,6 +354,57 @@ function Kesejahteraan() {
     setCurrentPage(1);
   };
 
+  /* =======================================================
+     HAPUS DATA KESEJAHTERAAN
+     ======================================================= */
+
+  const handleDeleteKesejahteraan = async (data) => {
+    const id = data?.id_kesejahteraan;
+
+    if (!id) {
+      console.error(
+        "ID kesejahteraan tidak ditemukan:",
+        data
+      );
+
+      return;
+    }
+
+    const yakin = window.confirm(
+      `Apakah Anda yakin ingin menghapus data kesejahteraan milik ${data.nama}?`
+    );
+
+    if (!yakin) {
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      await deleteKesejahteraan(id);
+
+      setSelectedKesejahteraan(null);
+
+      await loadKesejahteraan();
+    } catch (error) {
+      console.error(
+        "Gagal menghapus data kesejahteraan:",
+        error
+      );
+
+      window.alert(
+        error.message ||
+          "Gagal menghapus data kesejahteraan"
+      );
+
+      setLoading(false);
+    }
+  };
+
+  /* =======================================================
+     LABEL PIE CHART
+     ======================================================= */
+
   const renderPieLabel = ({
     cx,
     cy,
@@ -280,10 +413,20 @@ function Kesejahteraan() {
     outerRadius,
     percent,
   }) => {
-    const angle = -midAngle * (Math.PI / 180);
-    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-    const x = cx + radius * Math.cos(angle);
-    const y = cy + radius * Math.sin(angle);
+    const angle =
+      -midAngle * (Math.PI / 180);
+
+    const radius =
+      innerRadius +
+      (outerRadius - innerRadius) * 0.5;
+
+    const x =
+      cx +
+      radius * Math.cos(angle);
+
+    const y =
+      cy +
+      radius * Math.sin(angle);
 
     return (
       <text
@@ -300,12 +443,27 @@ function Kesejahteraan() {
     );
   };
 
+  /* =======================================================
+     RETURN
+     ======================================================= */
+
   return (
     <div className="kesejahteraan-page">
+
+      {/* ===================================================
+          SIDEBAR
+          =================================================== */}
+
       <SideBar
         isOpen={sidebarOpen}
-        onClose={() => setSidebarOpen(false)}
+        onClose={() =>
+          setSidebarOpen(false)
+        }
       />
+
+      {/* ===================================================
+          HEADER
+          =================================================== */}
 
       <Header
         title="Kesejahteraan"
@@ -315,20 +473,30 @@ function Kesejahteraan() {
           setSearch(e.target.value);
           setCurrentPage(1);
         }}
-        onMenuClick={() => setSidebarOpen((prev) => !prev)}
+        onMenuClick={() =>
+          setSidebarOpen((prev) => !prev)
+        }
       />
 
-      {/* MAIN */}
+      {/* ===================================================
+          MAIN
+          =================================================== */}
+
       <main className="kesejahteraan-main">
 
-        {/* TAMBAH */}
+        {/* =================================================
+            TAMBAH
+            ================================================= */}
+
         <div className="kesejahteraan-add-wrapper">
 
           <button
             type="button"
             className="kesejahteraan-add-button"
             onClick={() =>
-              navigate("/kesejahteraan/tambah")
+              navigate(
+                "/kesejahteraan/tambah"
+              )
             }
           >
             + Tambah Kesejahteraan
@@ -336,81 +504,169 @@ function Kesejahteraan() {
 
         </div>
 
-        {/* STATISTIK */}
+        {/* =================================================
+            ERROR
+            ================================================= */}
+
+        {errorMessage && (
+          <div
+            style={{
+              marginBottom: "15px",
+              padding: "12px 15px",
+              borderRadius: "8px",
+              background: "#ffecec",
+              color: "#c62828",
+            }}
+          >
+            {errorMessage}
+          </div>
+        )}
+
+        {/* =================================================
+            STATISTIK
+            ================================================= */}
+
         <section className="kesejahteraan-stats">
 
+          {/* TOTAL */}
+
           <div className="kesejahteraan-stat-card">
+
             <div className="stat-icon kesejahteraan-icon">
-              <img src={ksj1Icon} alt="" />
+              <img
+                src={ksj1Icon}
+                alt=""
+              />
             </div>
 
             <div>
               <h3>Kesejahteraan</h3>
-              <strong>459</strong>
+
+              <strong>
+                {statistikKesejahteraan.total}
+              </strong>
+
               <p>Total Kesejahteraan</p>
             </div>
+
           </div>
 
+          {/* STUNTING */}
+
           <div className="kesejahteraan-stat-card">
+
             <div className="stat-icon">
-              <img src={ksj2Icon} alt="" />
+              <img
+                src={ksj2Icon}
+                alt=""
+              />
             </div>
 
             <div>
               <h3>Stunting</h3>
-              <strong>113</strong>
+
+              <strong>
+                {statistikKesejahteraan.stunting}
+              </strong>
+
               <p>Total Stunting</p>
             </div>
+
           </div>
 
+          {/* IBU HAMIL */}
+
           <div className="kesejahteraan-stat-card">
+
             <div className="stat-icon">
-              <img src={ksj3Icon} alt="" />
+              <img
+                src={ksj3Icon}
+                alt=""
+              />
             </div>
 
             <div>
               <h3>Ibu Hamil</h3>
-              <strong>102</strong>
+
+              <strong>
+                {statistikKesejahteraan.ibuHamil}
+              </strong>
+
               <p>Total Ibu Hamil</p>
             </div>
+
           </div>
 
+          {/* RUTILAHU */}
+
           <div className="kesejahteraan-stat-card">
+
             <div className="stat-icon">
-              <img src={ksj4Icon} alt="" />
+              <img
+                src={ksj4Icon}
+                alt=""
+              />
             </div>
 
             <div>
               <h3>Rutilahu</h3>
-              <strong>172</strong>
+
+              <strong>
+                {statistikKesejahteraan.rutilahu}
+              </strong>
+
               <p>Total Rutilahu</p>
             </div>
+
           </div>
 
+          {/* PUTUS SEKOLAH */}
+
           <div className="kesejahteraan-stat-card">
+
             <div className="stat-icon">
-              <img src={ksj5Icon} alt="" />
+              <img
+                src={ksj5Icon}
+                alt=""
+              />
             </div>
 
             <div>
-              <h3>Putus<br />Sekolah</h3>
-              <strong>72</strong>
+              <h3>
+                Putus
+                <br />
+                Sekolah
+              </h3>
+
+              <strong>
+                {statistikKesejahteraan.putusSekolah}
+              </strong>
+
               <p>Total Putus Sekolah</p>
             </div>
+
           </div>
 
         </section>
 
-        {/* REKAP */}
+        {/* =================================================
+            REKAP
+            ================================================= */}
+
         <section className="kesejahteraan-rekap">
 
           <div className="kesejahteraan-rekap-title">
-            <h2>Rekap Kesejahteraan</h2>
+            <h2>
+              Rekap Kesejahteraan
+            </h2>
           </div>
 
           <div className="kesejahteraan-chart-wrapper">
 
-            {/* PIE */}
+            {/* =============================================
+                PIE CHART
+                ============================================= */}
+
             <div className="kesejahteraan-pie-section">
 
               <h3>Kategori</h3>
@@ -421,6 +677,7 @@ function Kesejahteraan() {
                   width={420}
                   height={390}
                 >
+
                   <Pie
                     data={kategoriData}
                     cx="50%"
@@ -434,21 +691,30 @@ function Kesejahteraan() {
                     label={renderPieLabel}
                     labelLine={false}
                   >
+
                     {kategoriData.map(
                       (_, index) => (
                         <Cell
                           key={index}
-                          fill={pieColors[index]}
+                          fill={
+                            pieColors[index]
+                          }
                         />
                       )
                     )}
+
                   </Pie>
 
                   <Tooltip />
+
                 </PieChart>
 
                 <div className="pie-total">
-                  <strong>459</strong>
+
+                  <strong>
+                    {statistikKesejahteraan.total}
+                  </strong>
+
                 </div>
 
               </div>
@@ -461,6 +727,7 @@ function Kesejahteraan() {
                       className="pie-legend-item"
                       key={item.name}
                     >
+
                       <span
                         style={{
                           background:
@@ -469,6 +736,7 @@ function Kesejahteraan() {
                       />
 
                       {item.name}
+
                     </div>
                   )
                 )}
@@ -477,7 +745,10 @@ function Kesejahteraan() {
 
             </div>
 
-            {/* BAR */}
+            {/* =============================================
+                BAR CHART
+                ============================================= */}
+
             <div className="kesejahteraan-bar-section">
 
               <h3>Wilayah</h3>
@@ -486,6 +757,7 @@ function Kesejahteraan() {
                 width="100%"
                 height={430}
               >
+
                 <BarChart
                   data={wilayahChartData}
                   margin={{
@@ -495,6 +767,7 @@ function Kesejahteraan() {
                     bottom: 45,
                   }}
                 >
+
                   <CartesianGrid
                     strokeDasharray="2 2"
                   />
@@ -505,7 +778,9 @@ function Kesejahteraan() {
                     angle={-45}
                     textAnchor="end"
                     height={65}
-                    tick={{ fontSize: 10 }}
+                    tick={{
+                      fontSize: 10,
+                    }}
                   />
 
                   <YAxis
@@ -514,9 +789,16 @@ function Kesejahteraan() {
                   />
 
                   <Tooltip
-                    position={{ y: 0 }}
-                    allowEscapeViewBox={{ x: true, y: true }}
-                    wrapperStyle={{ zIndex: 10 }}
+                    position={{
+                      y: 0,
+                    }}
+                    allowEscapeViewBox={{
+                      x: true,
+                      y: true,
+                    }}
+                    wrapperStyle={{
+                      zIndex: 10,
+                    }}
                   />
 
                   <Legend
@@ -525,12 +807,32 @@ function Kesejahteraan() {
                     }}
                   />
 
-                  <Bar dataKey="Stunting" fill={rwColors[0]} barSize={10} />
-                  <Bar dataKey="Ibu Hamil" fill={rwColors[1]} barSize={10} />
-                  <Bar dataKey="Rutilahu" fill={rwColors[2]} barSize={10} />
-                  <Bar dataKey="Putus Sekolah" fill={rwColors[3]} barSize={10} />
+                  <Bar
+                    dataKey="Stunting"
+                    fill={rwColors[0]}
+                    barSize={10}
+                  />
+
+                  <Bar
+                    dataKey="Ibu Hamil"
+                    fill={rwColors[1]}
+                    barSize={10}
+                  />
+
+                  <Bar
+                    dataKey="Rutilahu"
+                    fill={rwColors[2]}
+                    barSize={10}
+                  />
+
+                  <Bar
+                    dataKey="Putus Sekolah"
+                    fill={rwColors[3]}
+                    barSize={10}
+                  />
 
                 </BarChart>
+
               </ResponsiveContainer>
 
             </div>
@@ -539,34 +841,54 @@ function Kesejahteraan() {
 
         </section>
 
-        {/* DAFTAR */}
+        {/* =================================================
+            DAFTAR
+            ================================================= */}
+
         <section className="kesejahteraan-list-card">
+
+          {/* ===============================================
+              HEADER DAFTAR
+              =============================================== */}
 
           <div className="kesejahteraan-list-header">
 
-            <h2>Daftar Kesejahteraan</h2>
+            <h2>
+              Daftar Kesejahteraan
+            </h2>
 
             <div className="kesejahteraan-filter">
 
               <span>Filter</span>
 
-              {/* WILAYAH */}
+              {/* =========================================
+                  WILAYAH
+                  ========================================= */}
+
               <div className="kesejahteraan-filter-dropdown">
 
                 <button
                   type="button"
                   className="kesejahteraan-filter-button"
                   onClick={() => {
-                    setWilayahOpen(!wilayahOpen);
+
+                    setWilayahOpen(
+                      !wilayahOpen
+                    );
+
                     setStatusOpen(false);
+
                     setKategoriOpen(false);
+
                   }}
                 >
+
                   {wilayah
                     ? `RW ${wilayah}`
                     : "Wilayah"}
 
                   <b>▼</b>
+
                 </button>
 
                 {wilayahOpen && (
@@ -584,8 +906,11 @@ function Kesejahteraan() {
                     {Array.from(
                       { length: 15 },
                       (_, index) => {
+
                         const rw =
-                          String(index + 1).padStart(
+                          String(
+                            index + 1
+                          ).padStart(
                             2,
                             "0"
                           );
@@ -595,12 +920,15 @@ function Kesejahteraan() {
                             type="button"
                             key={rw}
                             onClick={() =>
-                              selectWilayah(rw)
+                              selectWilayah(
+                                rw
+                              )
                             }
                           >
                             RW {rw}
                           </button>
                         );
+
                       }
                     )}
 
@@ -609,20 +937,32 @@ function Kesejahteraan() {
 
               </div>
 
-              {/* STATUS */}
+              {/* =========================================
+                  STATUS
+                  ========================================= */}
+
               <div className="kesejahteraan-filter-dropdown">
 
                 <button
                   type="button"
                   className="kesejahteraan-filter-button"
                   onClick={() => {
-                    setStatusOpen(!statusOpen);
+
+                    setStatusOpen(
+                      !statusOpen
+                    );
+
                     setWilayahOpen(false);
+
                     setKategoriOpen(false);
+
                   }}
                 >
+
                   {status || "Status"}
+
                   <b>▼</b>
+
                 </button>
 
                 {statusOpen && (
@@ -640,7 +980,9 @@ function Kesejahteraan() {
                     <button
                       type="button"
                       onClick={() =>
-                        selectStatus("Selesai")
+                        selectStatus(
+                          "Selesai"
+                        )
                       }
                     >
                       Selesai
@@ -673,22 +1015,32 @@ function Kesejahteraan() {
 
               </div>
 
-              {/* KATEGORI */}
+              {/* =========================================
+                  KATEGORI
+                  ========================================= */}
+
               <div className="kesejahteraan-filter-dropdown">
 
                 <button
                   type="button"
                   className="kesejahteraan-filter-button"
                   onClick={() => {
+
                     setKategoriOpen(
                       !kategoriOpen
                     );
+
                     setWilayahOpen(false);
+
                     setStatusOpen(false);
+
                   }}
                 >
+
                   {kategori || "Kategori"}
+
                   <b>▼</b>
+
                 </button>
 
                 {kategoriOpen && (
@@ -706,7 +1058,9 @@ function Kesejahteraan() {
                     <button
                       type="button"
                       onClick={() =>
-                        selectKategori("Stunting")
+                        selectKategori(
+                          "Stunting"
+                        )
                       }
                     >
                       Stunting
@@ -715,7 +1069,9 @@ function Kesejahteraan() {
                     <button
                       type="button"
                       onClick={() =>
-                        selectKategori("Ibu Hamil")
+                        selectKategori(
+                          "Ibu Hamil"
+                        )
                       }
                     >
                       Ibu Hamil
@@ -724,7 +1080,9 @@ function Kesejahteraan() {
                     <button
                       type="button"
                       onClick={() =>
-                        selectKategori("Rutilahu")
+                        selectKategori(
+                          "Rutilahu"
+                        )
                       }
                     >
                       Rutilahu
@@ -750,12 +1108,16 @@ function Kesejahteraan() {
 
           </div>
 
-          {/* TABLE */}
+          {/* ===============================================
+              TABLE
+              =============================================== */}
+
           <div className="kesejahteraan-table-wrapper">
 
             <table className="kesejahteraan-table">
 
               <thead>
+
                 <tr>
                   <th>No</th>
                   <th>Nama</th>
@@ -767,58 +1129,148 @@ function Kesejahteraan() {
                   <th>Keterangan</th>
                   <th>Aksi</th>
                 </tr>
+
               </thead>
 
               <tbody>
 
-                {currentData.map((item) => (
+                {loading ? (
 
-                  <tr key={item.no}>
+                  <tr>
 
-                    <td>{item.no}</td>
-
-                    <td>{item.nama}</td>
-
-                    <td>{item.nik}</td>
-
-                    <td>{item.kategori}</td>
-
-                    <td>
-                      <span
-                        className={
-                          item.status === "Selesai"
-                            ? "status-selesai"
-                            : item.status ===
-                              "Dalam Penanganan"
-                            ? "status-penanganan"
-                            : "status-belum"
-                        }
-                      >
-                        {item.status}
-                      </span>
-                    </td>
-
-                    <td>{item.rt}</td>
-
-                    <td>{item.rw}</td>
-
-                    <td className="keterangan-cell">
-                      {item.keterangan}
-                    </td>
-
-                    <td>
-                      <button
-                        type="button"
-                        className="kesejahteraan-action-button"
-                        onClick={() => setSelectedKesejahteraan(item)}
-                      >
-                        ⋮
-                      </button>
+                    <td
+                      colSpan="9"
+                      style={{
+                        textAlign:
+                          "center",
+                      }}
+                    >
+                      Memuat data
+                      kesejahteraan...
                     </td>
 
                   </tr>
 
-                ))}
+                ) : currentData.length === 0 ? (
+
+                  <tr>
+
+                    <td
+                      colSpan="9"
+                      style={{
+                        textAlign:
+                          "center",
+                      }}
+                    >
+                      Tidak ada data
+                      kesejahteraan
+                    </td>
+
+                  </tr>
+
+                ) : (
+
+                  currentData.map(
+                    (item, index) => (
+
+                      <tr
+                        key={
+                          item.id_kesejahteraan
+                        }
+                      >
+
+                        {/* NO */}
+
+                        <td>
+                          {
+                            (currentPage -
+                              1) *
+                              5 +
+                              index +
+                              1
+                          }
+                        </td>
+
+                        {/* NAMA */}
+
+                        <td>
+                          {item.nama}
+                        </td>
+
+                        {/* NIK */}
+
+                        <td>
+                          {item.nik}
+                        </td>
+
+                        {/* KATEGORI */}
+
+                        <td>
+                          {item.kategori}
+                        </td>
+
+                        {/* STATUS */}
+
+                        <td>
+
+                          <span
+                            className={
+                              item.status ===
+                              "Selesai"
+                                ? "status-selesai"
+                                : item.status ===
+                                  "Dalam Penanganan"
+                                ? "status-penanganan"
+                                : "status-belum"
+                            }
+                          >
+                            {item.status}
+                          </span>
+
+                        </td>
+
+                        {/* RT */}
+
+                        <td>
+                          {item.rt}
+                        </td>
+
+                        {/* RW */}
+
+                        <td>
+                          {item.rw}
+                        </td>
+
+                        {/* KETERANGAN */}
+
+                        <td className="keterangan-cell">
+                          {item.keterangan}
+                        </td>
+
+                        {/* AKSI */}
+
+                        <td>
+
+                          <button
+                            type="button"
+                            className="kesejahteraan-action-button"
+                            onClick={() =>
+                              setSelectedKesejahteraan(
+                                item
+                              )
+                            }
+                          >
+                            ⋮
+                          </button>
+
+                        </td>
+
+                      </tr>
+
+                    )
+                  )
+
+                )}
 
               </tbody>
 
@@ -826,29 +1278,47 @@ function Kesejahteraan() {
 
           </div>
 
-          {/* FOOTER */}
+          {/* ===============================================
+              FOOTER
+              =============================================== */}
+
           <div className="kesejahteraan-list-footer">
 
             <div>
+
               Menampilkan{" "}
+
               <strong>
-                {filteredData.length === 0
+
+                {filteredData.length ===
+                0
                   ? "0"
                   : `${(currentPage - 1) * 5 + 1}-${Math.min(
                       currentPage * 5,
                       filteredData.length
                     )}`}
-              </strong>{" "}
-              dari{" "}
-              <strong>{filteredData.length}</strong>{" "}
-              Kesejahteraan
+
+              </strong>
+
+              {" "}dari{" "}
+
+              <strong>
+                {filteredData.length}
+              </strong>
+
+              {" "}Kesejahteraan
+
             </div>
 
             <div className="pagination">
 
+              {/* SEBELUMNYA */}
+
               <button
                 type="button"
-                disabled={currentPage === 1}
+                disabled={
+                  currentPage === 1
+                }
                 onClick={() =>
                   setCurrentPage(
                     currentPage - 1
@@ -858,27 +1328,47 @@ function Kesejahteraan() {
                 ← Sebelumnya
               </button>
 
-              {[1, 2, 3].map((page) => (
-                <button
-                  type="button"
-                  key={page}
-                  className={
-                    currentPage === page
-                      ? "active"
-                      : ""
-                  }
-                  onClick={() =>
-                    setCurrentPage(page)
-                  }
-                >
-                  {page}
-                </button>
-              ))}
+              {/* NOMOR HALAMAN */}
+
+              {Array.from(
+                {
+                  length: totalPages,
+                },
+                (_, index) => {
+
+                  const page =
+                    index + 1;
+
+                  return (
+                    <button
+                      type="button"
+                      key={page}
+                      className={
+                        currentPage ===
+                        page
+                          ? "active"
+                          : ""
+                      }
+                      onClick={() =>
+                        setCurrentPage(
+                          page
+                        )
+                      }
+                    >
+                      {page}
+                    </button>
+                  );
+
+                }
+              )}
+
+              {/* SELANJUTNYA */}
 
               <button
                 type="button"
                 disabled={
-                  currentPage === totalPages
+                  currentPage ===
+                  totalPages
                 }
                 onClick={() =>
                   setCurrentPage(
@@ -897,15 +1387,28 @@ function Kesejahteraan() {
 
       </main>
 
+      {/* ===================================================
+          DETAIL KESEJAHTERAAN
+          =================================================== */}
+
       {selectedKesejahteraan && (
+
         <DetailKesejahteraan
-          data={selectedKesejahteraan}
-          onClose={() => setSelectedKesejahteraan(null)}
-          onDelete={(data) => {
-            console.log("Hapus data:", data);
-            setSelectedKesejahteraan(null);
-          }}
+          data={
+            selectedKesejahteraan
+          }
+
+          onClose={() =>
+            setSelectedKesejahteraan(
+              null
+            )
+          }
+
+          onDelete={
+            handleDeleteKesejahteraan
+          }
         />
+
       )}
 
     </div>

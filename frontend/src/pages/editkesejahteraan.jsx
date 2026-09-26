@@ -1,81 +1,97 @@
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useState } from "react";
+
 import Header from "./header";
 import simpanDataIcon from "../assets/simpandata.png";
 
-const dataKesejahteraan = [
-  {
-    no: "001",
-    nama: "Haryadi",
-    nik: "3530110702060001",
-    kategori: "Rutilahu",
-    status: "Selesai",
-    rt: "02",
-    rw: "01",
-    keterangan:
-      "Kondisi atap dan dinding rumah yang mengalami kerusakan sudah diperbaiki",
-  },
-  {
-    no: "002",
-    nama: "Sri Rejeki",
-    nik: "3530115702060001",
-    kategori: "Ibu Hamil",
-    status: "Dalam Penanganan",
-    rt: "16",
-    rw: "03",
-    keterangan:
-      "Kehamilan 7 bulan, rutin melakukan pemeriksaan",
-  },
-  {
-    no: "003",
-    nama: "Nadira",
-    nik: "3520116704090001",
-    kategori: "Stunting",
-    status: "Belum Ditangani",
-    rt: "19",
-    rw: "04",
-    keterangan:
-      "Memerlukan pemantauan pertumbuhan dan asupan gizi secara berkala",
-  },
-  {
-    no: "004",
-    nama: "Kayla",
-    nik: "3540121702090001",
-    kategori: "Putus Sekolah",
-    status: "Selesai",
-    rt: "23",
-    rw: "05",
-    keterangan:
-      "Telah kembali melanjutkan pendidikan",
-  },
-  {
-    no: "005",
-    nama: "Utami",
-    nik: "3550118702980001",
-    kategori: "Ibu Hamil",
-    status: "Dalam Penanganan",
-    rt: "06",
-    rw: "02",
-    keterangan:
-      "Rutin melakukan pemeriksaan kehamilan di fasilitas kesehatan",
-  },
-];
+import {
+  getDetailKesejahteraan,
+  getPenduduk,
+  updateKesejahteraan,
+} from "../services/api";
 
 function EditKesejahteraan() {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const data =
-    dataKesejahteraan.find((item) => item.no === id) ||
-    dataKesejahteraan[0];
-
   const [formData, setFormData] = useState({
-    penduduk: data.nama,
-    kategori: data.kategori,
-    status: data.status,
-    keterangan: data.keterangan,
+    penduduk: "",
+    kategori: "",
+    status: "",
+    keterangan: "",
   });
 
+  const [dataPenduduk, setDataPenduduk] = useState([]);
+
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+
+  const [errorMessage, setErrorMessage] = useState("");
+
+  /*
+   * ==============================
+   * LOAD DATA KESEJAHTERAAN
+   * ==============================
+   */
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        setLoading(true);
+        setErrorMessage("");
+
+        /*
+         * Ambil data kesejahteraan berdasarkan ID
+         * dan data penduduk secara bersamaan.
+         */
+        const [dataKesejahteraan, penduduk] =
+          await Promise.all([
+            getDetailKesejahteraan(id),
+            getPenduduk(),
+          ]);
+
+        /*
+         * Simpan data penduduk untuk
+         * pencarian nama / NIK saat submit.
+         */
+        setDataPenduduk(penduduk);
+
+        /*
+         * Isi form berdasarkan data
+         * yang berasal dari database.
+         */
+        setFormData({
+          penduduk:
+            dataKesejahteraan.nama || "",
+          kategori:
+            dataKesejahteraan.kategori || "",
+          status:
+            dataKesejahteraan.status || "",
+          keterangan:
+            dataKesejahteraan.keterangan || "",
+        });
+      } catch (error) {
+        console.error(
+          "Error mengambil data kesejahteraan:",
+          error
+        );
+
+        setErrorMessage(
+          error.message ||
+            "Gagal mengambil data kesejahteraan"
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
+  }, [id]);
+
+  /*
+   * ==============================
+   * HANDLE INPUT
+   * ==============================
+   */
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -85,35 +101,216 @@ function EditKesejahteraan() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  /*
+   * ==============================
+   * HANDLE SUBMIT
+   * ==============================
+   */
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log("Data yang diedit:", {
-      id,
-      ...formData,
-    });
+    /*
+     * Validasi data
+     */
+    if (
+      !formData.penduduk.trim() ||
+      !formData.kategori ||
+      !formData.status ||
+      !formData.keterangan.trim()
+    ) {
+      window.alert(
+        "Semua data wajib diisi."
+      );
+      return;
+    }
 
-    navigate("/kesejahteraan");
+    /*
+     * Normalisasi input penduduk
+     * agar pencarian tidak sensitif
+     * terhadap huruf besar / kecil.
+     */
+    const inputPenduduk =
+      formData.penduduk
+        .trim()
+        .toLowerCase();
+
+    /*
+     * Cari penduduk berdasarkan
+     * nama atau NIK.
+     */
+    const pendudukDipilih =
+      dataPenduduk.find((item) => {
+        const nama = String(
+          item.nama || ""
+        )
+          .trim()
+          .toLowerCase();
+
+        const nik = String(
+          item.nik || ""
+        )
+          .trim()
+          .toLowerCase();
+
+        return (
+          nama === inputPenduduk ||
+          nik === inputPenduduk
+        );
+      });
+
+    /*
+     * Jika penduduk tidak ditemukan
+     */
+    if (!pendudukDipilih) {
+      window.alert(
+        "Data penduduk tidak ditemukan. Masukkan nama atau NIK yang sesuai dengan data penduduk."
+      );
+      return;
+    }
+
+    try {
+      setSaving(true);
+
+      /*
+       * Update data Kesejahteraan
+       * ke PostgreSQL melalui API.
+       */
+      await updateKesejahteraan(id, {
+        id_penduduk:
+          pendudukDipilih.id_penduduk,
+        kategori:
+          formData.kategori,
+        status:
+          formData.status,
+        keterangan:
+          formData.keterangan.trim(),
+      });
+
+      window.alert(
+        "Data kesejahteraan berhasil diperbarui."
+      );
+
+      /*
+       * Kembali ke halaman Kesejahteraan
+       */
+      navigate("/kesejahteraan");
+    } catch (error) {
+      console.error(
+        "Error mengubah data kesejahteraan:",
+        error
+      );
+
+      window.alert(
+        error.message ||
+          "Gagal mengubah data kesejahteraan."
+      );
+    } finally {
+      setSaving(false);
+    }
   };
 
+  /*
+   * ==============================
+   * LOADING
+   * ==============================
+   */
+  if (loading) {
+    return (
+      <div className="tambah-kesejahteraan-page">
+
+        <Header
+          title="Kesejahteraan"
+          showSearch={false}
+        />
+
+        <main className="tambah-kesejahteraan-content">
+
+          <div
+            style={{
+              padding: "40px",
+              textAlign: "center",
+            }}
+          >
+            Memuat data kesejahteraan...
+          </div>
+
+        </main>
+      </div>
+    );
+  }
+
+  /*
+   * ==============================
+   * ERROR
+   * ==============================
+   */
+  if (errorMessage) {
+    return (
+      <div className="tambah-kesejahteraan-page">
+
+        <Header
+          title="Kesejahteraan"
+          showSearch={false}
+        />
+
+        <main className="tambah-kesejahteraan-content">
+
+          <div
+            style={{
+              padding: "40px",
+              textAlign: "center",
+            }}
+          >
+
+            <p>{errorMessage}</p>
+
+            <button
+              type="button"
+              className="back-kesejahteraan-button"
+              onClick={() =>
+                navigate("/kesejahteraan")
+              }
+            >
+              ←&nbsp; Kembali ke Kesejahteraan
+            </button>
+
+          </div>
+
+        </main>
+      </div>
+    );
+  }
+
+  /*
+   * ==============================
+   * HALAMAN EDIT
+   * ==============================
+   */
   return (
     <div className="tambah-kesejahteraan-page">
 
       {/* HEADER */}
-      <Header title="Kesejahteraan" showSearch={false} />
+      <Header
+        title="Kesejahteraan"
+        showSearch={false}
+      />
 
       {/* CONTENT */}
       <main className="tambah-kesejahteraan-content">
 
         {/* TOMBOL KEMBALI */}
         <div className="tambah-kesejahteraan-top-action">
+
           <button
             type="button"
             className="back-kesejahteraan-button"
-            onClick={() => navigate("/kesejahteraan")}
+            onClick={() =>
+              navigate("/kesejahteraan")
+            }
           >
             ←&nbsp; Kembali ke Kesejahteraan
           </button>
+
         </div>
 
         {/* FORM CARD */}
@@ -127,99 +324,135 @@ function EditKesejahteraan() {
 
             <div className="tambah-kesejahteraan-form-grid">
 
-              {/* KOLOM KIRI */}
+              {/* =========================
+                  KOLOM KIRI
+              ========================== */}
               <div className="tambah-kesejahteraan-form-column">
 
                 <div className="kesejahteraan-form-group">
+
                   <label>
                     Penduduk<span>*</span>
                   </label>
 
                   <div className="kesejahteraan-search-input">
+
                     <input
                       type="text"
                       name="penduduk"
                       value={formData.penduduk}
                       onChange={handleChange}
                       placeholder="Cari data penduduk"
+                      disabled={saving}
                     />
 
                     <span className="search-icon">
                       ⌕
                     </span>
+
                   </div>
+
+                  <small>
+                    Masukkan nama atau NIK sesuai
+                    data penduduk.
+                  </small>
+
                 </div>
 
               </div>
 
-              {/* KOLOM KANAN */}
+              {/* =========================
+                  KOLOM KANAN
+              ========================== */}
               <div className="tambah-kesejahteraan-form-column">
 
                 {/* KATEGORI */}
                 <div className="kesejahteraan-form-group">
+
                   <label>
                     Kategori<span>*</span>
                   </label>
 
                   <div className="kesejahteraan-select-wrapper">
+
                     <select
                       name="kategori"
                       value={formData.kategori}
                       onChange={handleChange}
+                      disabled={saving}
                     >
+
                       <option value="">
                         Pilih kategori kesejahteraan
                       </option>
+
                       <option value="Stunting">
                         Stunting
                       </option>
+
                       <option value="Ibu Hamil">
                         Ibu Hamil
                       </option>
+
                       <option value="Rutilahu">
                         Rutilahu
                       </option>
+
                       <option value="Putus Sekolah">
                         Putus Sekolah
                       </option>
+
                     </select>
 
                     <span className="select-arrow"></span>
+
                   </div>
+
                 </div>
 
                 {/* STATUS */}
                 <div className="kesejahteraan-form-group">
+
                   <label>
                     Status<span>*</span>
                   </label>
 
                   <div className="kesejahteraan-select-wrapper">
+
                     <select
                       name="status"
                       value={formData.status}
                       onChange={handleChange}
+                      disabled={saving}
                     >
+
                       <option value="">
                         Masukkan status
                       </option>
+
                       <option value="Belum Ditangani">
                         Belum Ditangani
                       </option>
+
                       <option value="Dalam Penanganan">
                         Dalam Penanganan
                       </option>
+
                       <option value="Selesai">
                         Selesai
                       </option>
+
                     </select>
 
                     <span className="select-arrow"></span>
+
                   </div>
+
                 </div>
 
                 {/* KETERANGAN */}
                 <div className="kesejahteraan-form-group">
+
                   <label>
                     Keterangan<span>*</span>
                   </label>
@@ -229,7 +462,9 @@ function EditKesejahteraan() {
                     value={formData.keterangan}
                     onChange={handleChange}
                     placeholder="Masukkan Keterangan"
+                    disabled={saving}
                   />
+
                 </div>
 
               </div>
@@ -237,18 +472,33 @@ function EditKesejahteraan() {
 
             {/* SIMPAN */}
             <div className="tambah-kesejahteraan-submit">
+
               <button
                 type="submit"
                 className="save-kesejahteraan-button"
+                disabled={saving}
               >
-                <img className="save-icon-img" src={simpanDataIcon} alt="" />
-                Simpan Perubahan
+
+                <img
+                  className="save-icon-img"
+                  src={simpanDataIcon}
+                  alt=""
+                />
+
+                {saving
+                  ? "Menyimpan..."
+                  : "Simpan Perubahan"}
+
               </button>
+
             </div>
 
           </form>
+
         </section>
+
       </main>
+
     </div>
   );
 }

@@ -1,83 +1,78 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+
 import Header from "./header";
 import simpanDataIcon from "../assets/simpandata.png";
 
-const dataUMKM = [
-  {
-    no: "001",
-    namaUsaha: "Bakso Berkah",
-    pemilik: "Ahmad Fauzi",
-    jenisUsaha: "Kuliner",
-    nib: "9120003540844",
-    rt: "02",
-    rw: "01",
-    alamat:
-      "Jl. Manukan Asri No.I-A, Manukan Kulon, Kec. Tandes, Surabaya, Jawa Timur 60185",
-  },
-  {
-    no: "002",
-    namaUsaha: "Dapur Ibu",
-    pemilik: "Siti Aminah",
-    jenisUsaha: "Kuliner",
-    nib: "9120003540943",
-    rt: "16",
-    rw: "03",
-    alamat:
-      "Jl. Manukan Asri No. 16, Manukan Kulon, Kec. Tandes, Surabaya, Jawa Timur 60185",
-  },
-  {
-    no: "003",
-    namaUsaha: "Pangkas Rambut Andi",
-    pemilik: "Andi Hirawan",
-    jenisUsaha: "Jasa",
-    nib: "9120003520123",
-    rt: "19",
-    rw: "04",
-    alamat:
-      "Jl. Manukan Asri No. 19, Manukan Kulon, Kec. Tandes, Surabaya, Jawa Timur 60185",
-  },
-  {
-    no: "004",
-    namaUsaha: "Toko Sembako Lina",
-    pemilik: "Linawati",
-    jenisUsaha: "Retail",
-    nib: "9120009910125",
-    rt: "23",
-    rw: "05",
-    alamat:
-      "Jl. Manukan Subur No. 08, Manukan Kulon, Kec. Tandes, Surabaya, Jawa Timur 60185",
-  },
-  {
-    no: "005",
-    namaUsaha: "Laundry Murah",
-    pemilik: "Setyo",
-    jenisUsaha: "Jasa",
-    nib: "9120009913007",
-    rt: "06",
-    rw: "02",
-    alamat:
-      "Jl. Manukan Krajan No. 02, Manukan Kulon, Kec. Tandes, Surabaya, Jawa Timur 60185",
-  },
-];
+import {
+  getDetailUMKM,
+  updateUMKM,
+} from "../services/api";
+
 
 function EditUmkm() {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const data = dataUMKM.find((item) => item.no === id);
+  const [formData, setFormData] = useState({
+    namaUsaha: "",
+    pemilik: "",
+    jenisUsaha: "",
+    nib: "",
+    rt: "",
+    rw: "",
+    alamat: "",
+  });
 
-  const [formData, setFormData] = useState(
-    data || {
-      namaUsaha: "",
-      pemilik: "",
-      jenisUsaha: "",
-      nib: "",
-      rt: "",
-      rw: "",
-      alamat: "",
-    }
-  );
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+
+  /* =========================================================
+     AMBIL DATA UMKM
+  ========================================================= */
+
+  useEffect(() => {
+    const loadDataUMKM = async () => {
+      try {
+        setLoading(true);
+        setErrorMessage("");
+
+        const data = await getDetailUMKM(id);
+
+        setFormData({
+          namaUsaha: data.nama_usaha || "",
+          pemilik: data.pemilik || "",
+          jenisUsaha: data.jenis_usaha || "",
+          nib: data.nib || "",
+          rt: data.rt || "",
+          rw: data.rw || "",
+          alamat: data.alamat || "",
+        });
+
+      } catch (error) {
+        console.error(
+          "Gagal mengambil detail UMKM:",
+          error
+        );
+
+        setErrorMessage(
+          error.message ||
+          "Gagal mengambil data UMKM"
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadDataUMKM();
+  }, [id]);
+
+
+  /* =========================================================
+     HANDLE CHANGE
+  ========================================================= */
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -88,48 +83,247 @@ function EditUmkm() {
     }));
   };
 
-  const handleSubmit = (e) => {
+
+  /* =========================================================
+     HANDLE SUBMIT
+  ========================================================= */
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log("Data UMKM diperbarui:", formData);
+    if (
+      !formData.namaUsaha.trim() ||
+      !formData.pemilik.trim() ||
+      !formData.jenisUsaha.trim() ||
+      !formData.nib.trim() ||
+      !formData.rt.trim() ||
+      !formData.rw.trim() ||
+      !formData.alamat.trim()
+    ) {
+      window.alert(
+        "Semua data UMKM wajib diisi."
+      );
 
-    navigate("/umkm");
+      return;
+    }
+
+    try {
+      setSaving(true);
+      setErrorMessage("");
+
+      await updateUMKM(id, {
+        nama_usaha: formData.namaUsaha.trim(),
+        pemilik: formData.pemilik.trim(),
+        jenis_usaha: formData.jenisUsaha.trim(),
+        nib: formData.nib.trim(),
+        rt: formData.rt.trim(),
+        rw: formData.rw.trim(),
+        alamat: formData.alamat.trim(),
+      });
+
+      window.alert(
+        "Data UMKM berhasil diperbarui."
+      );
+
+      navigate("/umkm");
+
+    } catch (error) {
+      console.error(
+        "Gagal mengubah data UMKM:",
+        error
+      );
+
+      window.alert(
+        error.message ||
+        "Gagal mengubah data UMKM."
+      );
+    } finally {
+      setSaving(false);
+    }
   };
+
+
+  /* =========================================================
+     LOADING
+  ========================================================= */
+
+  if (loading) {
+    return (
+      <div className="tambah-umkm-page">
+
+        <Header
+          title="UMKM"
+          showSearch={false}
+          onMenuClick={() =>
+            navigate("/umkm")
+          }
+        />
+
+        <main className="tambah-umkm-content">
+
+          <div className="tambah-umkm-top-action">
+
+            <button
+              type="button"
+              className="back-umkm-button"
+              onClick={() =>
+                navigate("/umkm")
+              }
+            >
+              ← Kembali ke UMKM
+            </button>
+
+          </div>
+
+          <section className="tambah-umkm-card">
+
+            <div className="tambah-umkm-card-title">
+              <h2>Edit UMKM</h2>
+            </div>
+
+            <div
+              style={{
+                padding: "30px",
+                textAlign: "center",
+              }}
+            >
+              Memuat data UMKM...
+            </div>
+
+          </section>
+
+        </main>
+
+      </div>
+    );
+  }
+
+
+  /* =========================================================
+     ERROR
+  ========================================================= */
+
+  if (errorMessage) {
+    return (
+      <div className="tambah-umkm-page">
+
+        <Header
+          title="UMKM"
+          showSearch={false}
+          onMenuClick={() =>
+            navigate("/umkm")
+          }
+        />
+
+        <main className="tambah-umkm-content">
+
+          <div className="tambah-umkm-top-action">
+
+            <button
+              type="button"
+              className="back-umkm-button"
+              onClick={() =>
+                navigate("/umkm")
+              }
+            >
+              ← Kembali ke UMKM
+            </button>
+
+          </div>
+
+          <section className="tambah-umkm-card">
+
+            <div className="tambah-umkm-card-title">
+              <h2>Edit UMKM</h2>
+            </div>
+
+            <div
+              style={{
+                padding: "30px",
+                textAlign: "center",
+                color: "#d32f2f",
+              }}
+            >
+              {errorMessage}
+            </div>
+
+          </section>
+
+        </main>
+
+      </div>
+    );
+  }
+
+
+  /* =========================================================
+     RETURN
+  ========================================================= */
 
   return (
     <div className="tambah-umkm-page">
+
       {/* HEADER */}
+
       <Header
         title="UMKM"
         showSearch={false}
-        onMenuClick={() => navigate("/umkm")}
+        onMenuClick={() =>
+          navigate("/umkm")
+        }
       />
 
+
       {/* CONTENT */}
+
       <main className="tambah-umkm-content">
+
         {/* KEMBALI */}
+
         <div className="tambah-umkm-top-action">
+
           <button
             type="button"
             className="back-umkm-button"
-            onClick={() => navigate("/umkm")}
+            onClick={() =>
+              navigate("/umkm")
+            }
           >
             ← Kembali ke UMKM
           </button>
+
         </div>
 
+
         {/* FORM */}
+
         <section className="tambah-umkm-card">
+
           <div className="tambah-umkm-card-title">
-            <h2>Edit UMKM</h2>
+
+            <h2>
+              Edit UMKM
+            </h2>
+
           </div>
 
-          <form onSubmit={handleSubmit}>
+
+          <form
+            onSubmit={handleSubmit}
+          >
+
             <div className="tambah-umkm-form-grid">
-              {/* KOLOM KIRI */}
+
+              {/* =================================================
+                  KOLOM KIRI
+              ================================================= */}
+
               <div className="tambah-umkm-form-column">
 
+                {/* NAMA USAHA */}
+
                 <div className="umkm-form-group">
+
                   <label>
                     Nama Usaha <span>*</span>
                   </label>
@@ -137,13 +331,24 @@ function EditUmkm() {
                   <input
                     type="text"
                     name="namaUsaha"
-                    value={formData.namaUsaha}
-                    onChange={handleChange}
+                    value={
+                      formData.namaUsaha
+                    }
+                    onChange={
+                      handleChange
+                    }
                     placeholder="Masukkan nama usaha"
+                    required
+                    disabled={saving}
                   />
+
                 </div>
 
+
+                {/* PEMILIK */}
+
                 <div className="umkm-form-group">
+
                   <label>
                     Pemilik <span>*</span>
                   </label>
@@ -151,13 +356,24 @@ function EditUmkm() {
                   <input
                     type="text"
                     name="pemilik"
-                    value={formData.pemilik}
-                    onChange={handleChange}
+                    value={
+                      formData.pemilik
+                    }
+                    onChange={
+                      handleChange
+                    }
                     placeholder="Masukkan nama pemilik"
+                    required
+                    disabled={saving}
                   />
+
                 </div>
 
+
+                {/* JENIS USAHA */}
+
                 <div className="umkm-form-group">
+
                   <label>
                     Jenis Usaha <span>*</span>
                   </label>
@@ -165,32 +381,58 @@ function EditUmkm() {
                   <input
                     type="text"
                     name="jenisUsaha"
-                    value={formData.jenisUsaha}
-                    onChange={handleChange}
+                    value={
+                      formData.jenisUsaha
+                    }
+                    onChange={
+                      handleChange
+                    }
                     placeholder="Masukkan jenis usaha"
+                    required
+                    disabled={saving}
                   />
+
                 </div>
 
+
+                {/* NIB */}
+
                 <div className="umkm-form-group">
+
                   <label>
-                    Nomor Induk Berusaha (NIB) <span>*</span>
+                    Nomor Induk Berusaha (NIB){" "}
+                    <span>*</span>
                   </label>
 
                   <input
                     type="text"
                     name="nib"
-                    value={formData.nib}
-                    onChange={handleChange}
+                    value={
+                      formData.nib
+                    }
+                    onChange={
+                      handleChange
+                    }
                     placeholder="Masukkan NIB"
+                    required
+                    disabled={saving}
                   />
+
                 </div>
 
               </div>
 
-              {/* KOLOM KANAN */}
+
+              {/* =================================================
+                  KOLOM KANAN
+              ================================================= */}
+
               <div className="tambah-umkm-form-column">
 
+                {/* RT */}
+
                 <div className="umkm-form-group">
+
                   <label>
                     RT <span>*</span>
                   </label>
@@ -198,13 +440,24 @@ function EditUmkm() {
                   <input
                     type="text"
                     name="rt"
-                    value={formData.rt}
-                    onChange={handleChange}
+                    value={
+                      formData.rt
+                    }
+                    onChange={
+                      handleChange
+                    }
                     placeholder="Masukkan RT usaha"
+                    required
+                    disabled={saving}
                   />
+
                 </div>
 
+
+                {/* RW */}
+
                 <div className="umkm-form-group">
+
                   <label>
                     RW <span>*</span>
                   </label>
@@ -212,41 +465,80 @@ function EditUmkm() {
                   <input
                     type="text"
                     name="rw"
-                    value={formData.rw}
-                    onChange={handleChange}
+                    value={
+                      formData.rw
+                    }
+                    onChange={
+                      handleChange
+                    }
                     placeholder="Masukkan RW usaha"
+                    required
+                    disabled={saving}
                   />
+
                 </div>
 
+
+                {/* ALAMAT */}
+
                 <div className="umkm-form-group">
+
                   <label>
                     Alamat <span>*</span>
                   </label>
 
                   <textarea
                     name="alamat"
-                    value={formData.alamat}
-                    onChange={handleChange}
+                    value={
+                      formData.alamat
+                    }
+                    onChange={
+                      handleChange
+                    }
                     placeholder="Masukkan alamat usaha"
+                    required
+                    disabled={saving}
                   />
+
                 </div>
 
               </div>
+
             </div>
 
-            {/* SIMPAN */}
+
+            {/* =================================================
+                SIMPAN
+            ================================================= */}
+
             <div className="umkm-form-submit">
+
               <button
                 type="submit"
                 className="save-umkm-button"
+                disabled={saving}
               >
-                <img className="save-icon-img" src={simpanDataIcon} alt="" />
-                Simpan Perubahan
+
+                <img
+                  className="save-icon-img"
+                  src={simpanDataIcon}
+                  alt=""
+                />
+
+                {saving
+                  ? "Menyimpan..."
+                  : "Simpan Perubahan"}
+
               </button>
+
             </div>
+
           </form>
+
         </section>
+
       </main>
+
     </div>
   );
 }

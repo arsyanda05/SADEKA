@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+import { createPenduduk } from "../services/api";
+
 import Header from "./header";
 import simpanDataIcon from "../assets/simpandata.png";
 import simpanIcon from "../assets/simpan.png";
@@ -29,51 +32,106 @@ function TambahPenduduk() {
     }));
   };
 
-  const handleSubmit = (event) => {
+  // ==============================
+  // SIMPAN DATA PENDUDUK
+  // ==============================
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    console.log("Data Penduduk:", formData);
-    alert("Data penduduk berhasil disimpan!");
-    navigate("/data-penduduk");
+    try {
+      // Mengubah nama field dari frontend
+      // ke nama field yang digunakan backend
+      const data = {
+        nik: formData.nik,
+        nama: formData.nama,
+        tempat_lahir: formData.tempatLahir,
+        tanggal_lahir: formData.tanggalLahir,
+        jenis_kelamin: formData.jenisKelamin,
+        alamat: formData.alamat,
+        rt: formData.rt,
+        rw: formData.rw,
+        status_penduduk: formData.status,
+      };
+
+      console.log("Data yang dikirim:", data);
+
+      // Mengirim data ke API POST
+      await createPenduduk(data);
+
+      alert("Data penduduk berhasil disimpan!");
+
+      // Kembali ke halaman Data Penduduk
+      navigate("/data-penduduk");
+    } catch (error) {
+      console.error(
+        "Gagal menyimpan data penduduk:",
+        error
+      );
+
+      alert("Gagal menyimpan data penduduk.");
+    }
   };
 
+  // ==============================
+  // SIMPAN DRAFT
+  // ==============================
   const handleDraft = () => {
     console.log("Draft Penduduk:", formData);
+
     alert("Draft data penduduk berhasil disimpan!");
   };
 
   return (
     <div className="tambah-penduduk-page">
-      <Header title="Tambah Penduduk" showSearch={false} />
+      <Header
+        title="Tambah Penduduk"
+        showSearch={false}
+      />
 
       <main className="tambah-penduduk-content">
+
+        {/* ==============================
+            TOMBOL KEMBALI
+        ============================== */}
         <div className="tambah-penduduk-back-wrapper">
           <button
             type="button"
             className="tambah-penduduk-back-button"
-            onClick={() => navigate("/data-penduduk")}
+            onClick={() =>
+              navigate("/data-penduduk")
+            }
           >
             <img
               className="tambah-penduduk-back-icon"
               src={backIcon}
               alt=""
             />
+
             Kembali ke Data Penduduk
           </button>
         </div>
 
+        {/* ==============================
+            FORM TAMBAH
+        ============================== */}
         <form
           className="tambah-penduduk-form"
           onSubmit={handleSubmit}
         >
           <section className="tambah-penduduk-card">
+
             <div className="tambah-penduduk-card-title">
               <h2>Informasi Data Penduduk</h2>
             </div>
 
             <div className="tambah-penduduk-form-grid">
+
+              {/* NIK */}
               <div className="tambah-penduduk-form-group">
-                <label htmlFor="nik">NIK (Nomor Induk Kependudukan)</label>
+                <label htmlFor="nik">
+                  NIK (Nomor Induk Kependudukan)
+                </label>
+
                 <input
                   id="nik"
                   name="nik"
@@ -86,8 +144,12 @@ function TambahPenduduk() {
                 />
               </div>
 
+              {/* NAMA */}
               <div className="tambah-penduduk-form-group">
-                <label htmlFor="nama">Nama Lengkap</label>
+                <label htmlFor="nama">
+                  Nama Lengkap
+                </label>
+
                 <input
                   id="nama"
                   name="nama"
@@ -99,8 +161,12 @@ function TambahPenduduk() {
                 />
               </div>
 
+              {/* TEMPAT LAHIR */}
               <div className="tambah-penduduk-form-group">
-                <label htmlFor="tempatLahir">Tempat Lahir</label>
+                <label htmlFor="tempatLahir">
+                  Tempat Lahir
+                </label>
+
                 <input
                   id="tempatLahir"
                   name="tempatLahir"
@@ -112,8 +178,12 @@ function TambahPenduduk() {
                 />
               </div>
 
+              {/* TANGGAL LAHIR */}
               <div className="tambah-penduduk-form-group">
-                <label htmlFor="tanggalLahir">Tanggal Lahir</label>
+                <label htmlFor="tanggalLahir">
+                  Tanggal Lahir
+                </label>
+
                 <input
                   id="tanggalLahir"
                   name="tanggalLahir"
@@ -124,8 +194,12 @@ function TambahPenduduk() {
                 />
               </div>
 
+              {/* JENIS KELAMIN */}
               <div className="tambah-penduduk-form-group">
-                <label htmlFor="jenisKelamin">Jenis Kelamin</label>
+                <label htmlFor="jenisKelamin">
+                  Jenis Kelamin
+                </label>
+
                 <select
                   id="jenisKelamin"
                   name="jenisKelamin"
@@ -133,16 +207,30 @@ function TambahPenduduk() {
                   onChange={handleChange}
                   required
                 >
-                  <option value="" disabled hidden>
+                  <option
+                    value=""
+                    disabled
+                    hidden
+                  >
                     Pilih Jenis Kelamin
                   </option>
-                  <option value="L">Laki-laki</option>
-                  <option value="P">Perempuan</option>
+
+                  <option value="L">
+                    Laki-laki
+                  </option>
+
+                  <option value="P">
+                    Perempuan
+                  </option>
                 </select>
               </div>
 
+              {/* ALAMAT */}
               <div className="tambah-penduduk-form-group tambah-penduduk-full-width">
-                <label htmlFor="alamat">Alamat Domisili</label>
+                <label htmlFor="alamat">
+                  Alamat Domisili
+                </label>
+
                 <textarea
                   id="alamat"
                   name="alamat"
@@ -153,8 +241,12 @@ function TambahPenduduk() {
                 />
               </div>
 
+              {/* RT */}
               <div className="tambah-penduduk-form-group tambah-penduduk-small-field">
-                <label htmlFor="rt">RT</label>
+                <label htmlFor="rt">
+                  RT
+                </label>
+
                 <input
                   id="rt"
                   name="rt"
@@ -166,8 +258,12 @@ function TambahPenduduk() {
                 />
               </div>
 
+              {/* RW */}
               <div className="tambah-penduduk-form-group tambah-penduduk-small-field">
-                <label htmlFor="rw">RW</label>
+                <label htmlFor="rw">
+                  RW
+                </label>
+
                 <input
                   id="rw"
                   name="rw"
@@ -179,8 +275,12 @@ function TambahPenduduk() {
                 />
               </div>
 
+              {/* STATUS */}
               <div className="tambah-penduduk-form-group tambah-penduduk-status-field">
-                <label htmlFor="status">Status</label>
+                <label htmlFor="status">
+                  Status
+                </label>
+
                 <select
                   id="status"
                   name="status"
@@ -188,39 +288,81 @@ function TambahPenduduk() {
                   onChange={handleChange}
                   required
                 >
-                  <option value="" disabled hidden>
+                  <option
+                    value=""
+                    disabled
+                    hidden
+                  >
                     Pilih Status
                   </option>
-                  <option value="Tetap">Tetap</option>
-                  <option value="Sementara">Sementara</option>
-                  <option value="Meninggal">Meninggal</option>
-                  <option value="Pindah">Pindah</option>
+
+                  <option value="Tetap">
+                    Tetap
+                  </option>
+
+                  <option value="Sementara">
+                    Sementara
+                  </option>
+
+                  <option value="Meninggal">
+                    Meninggal
+                  </option>
+
+                  <option value="Pindah">
+                    Pindah
+                  </option>
                 </select>
               </div>
+
             </div>
           </section>
 
+          {/* ==============================
+              STATUS & TOMBOL
+          ============================== */}
           <section className="tambah-penduduk-form-status">
+
             <div>
-              <strong>Status Pengisian : Form Siap Disimpan</strong>
-              <span>Data tervalidasi oleh Sistem SADEKA</span>
+              <strong>
+                Status Pengisian : Form Siap Disimpan
+              </strong>
+
+              <span>
+                Data tervalidasi oleh Sistem SADEKA
+              </span>
             </div>
-            <b>Terisi 100%</b>
+
+            <b>
+              Terisi 100%
+            </b>
+
+            {/* SIMPAN DRAFT */}
             <button
               type="button"
               className="tambah-penduduk-draft-button"
               onClick={handleDraft}
             >
-              <img src={simpanIcon} alt="" />
+              <img
+                src={simpanIcon}
+                alt=""
+              />
+
               Simpan Draft
             </button>
+
+            {/* SIMPAN DATA */}
             <button
               type="submit"
               className="tambah-penduduk-save-button"
             >
-              <img src={simpanDataIcon} alt="" />
+              <img
+                src={simpanDataIcon}
+                alt=""
+              />
+
               Simpan Data Penduduk
             </button>
+
           </section>
         </form>
       </main>

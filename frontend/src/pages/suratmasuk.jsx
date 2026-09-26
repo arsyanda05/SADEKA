@@ -1,11 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+import { getSurat, deleteSurat } from "../services/api";
+
 import smartDocIcon from "../assets/smartdoc.png";
+import docIcon from "../assets/doc.png";
 import SideBar from "./sidebarmenu";
 import Header from "./header";
 
 function SuratMasuk() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // =====================================================
+  // DATA SURAT
+  // =====================================================
+
+  const [dataSurat, setDataSurat] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // =====================================================
+  // FILTER
+  // =====================================================
 
   const [search, setSearch] = useState("");
   const [tanggal, setTanggal] = useState("");
@@ -14,7 +29,15 @@ function SuratMasuk() {
   const [tanggalOpen, setTanggalOpen] = useState(false);
   const [jenisOpen, setJenisOpen] = useState(false);
 
+  // =====================================================
+  // ACTION
+  // =====================================================
+
   const [openAction, setOpenAction] = useState(null);
+
+  // =====================================================
+  // PAGINATION
+  // =====================================================
 
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -22,82 +45,80 @@ function SuratMasuk() {
 
   const itemsPerPage = 5;
 
+  // =====================================================
+  // SIDEBAR
+  // =====================================================
+
   const closeSidebar = () => {
     setSidebarOpen(false);
   };
 
-  /* =========================================================
-     DATA SURAT MASUK
-  ========================================================= */
+  // =====================================================
+  // AMBIL DATA SURAT DARI BACKEND
+  // =====================================================
 
-  const dataSurat = [
-    {
-      no: "001",
-      nomorSurat: "005/145/Kec.Sby/2026",
-      tanggal: "10/09/2026",
-      asalSurat: "Kecamatan Sukolilo",
-      asalDetail: "Sekretariat Camat",
-      tujuan: "Lurah Manukan Kulon",
-      jenis: "Undangan Dinas",
-      keterangan:
-        "Rakor Pemantapan diskusi dan evaluasi bersama lintas kelurahan",
-    },
+  useEffect(() => {
+    const loadSurat = async () => {
+      try {
+        setLoading(true);
 
-    {
-      no: "002",
-      nomorSurat: "470/098/DKPS/2025",
-      tanggal: "02/01/2025",
-      asalSurat: "Dinas Kependudukan",
-      asalDetail: "Bid. Pelayanan & Pendaftaran",
-      tujuan: "Sekretaris Kelurahan",
-      jenis: "Undangan Dinas",
-      keterangan: "Alokasi KTP elektronik",
-    },
+        const data = await getSurat();
 
-    {
-      no: "003",
-      nomorSurat: "021/RT04/RW06/2025",
-      tanggal: "20/05/2025",
-      asalSurat: "Ketua RW 05",
-      asalDetail: "Lingkungan Kebonsari",
-      tujuan: "Sekretaris Kelurahan",
-      jenis: "Permohonan",
-      keterangan:
-        "Permohonan Bantuan Perbaikan surau lapangan",
-    },
+        // Hanya mengambil surat dengan arah_surat = Masuk
+        const suratMasuk = data
+          .filter((item) => item.arah_surat === "Masuk")
+          .map((item, index) => ({
+            id: item.id_surat,
 
-    {
-      no: "004",
-      nomorSurat: "800/12/PUSKES/2023",
-      tanggal: "11/08/2023",
-      asalSurat: "Puskesmas Manukan",
-      asalDetail: "Unit Kesehatan",
-      tujuan: "Kepala Posyandu",
-      jenis: "Laporan",
-      keterangan:
-        "Laporan Kasus Demam Berdarah penting: segera menjadwalkan fogging",
-    },
+            // Nomor urut untuk tampilan
+            no: String(index + 1).padStart(3, "0"),
 
-    {
-      no: "005",
-      nomorSurat: "025/RT15/RW16/2022",
-      tanggal: "09/09/2022",
-      asalSurat: "Ketua RW 16",
-      asalDetail: "Komp. Sari Asih",
-      tujuan: "Sekretaris Kelurahan",
-      jenis: "Laporan",
-      keterangan: "Laporan Pengolahan Bank Sampah",
-    },
-  ];
+            nomorSurat: item.nomor_surat,
 
-  /* =========================================================
-     FILTER OPTIONS
-  ========================================================= */
+            // PostgreSQL -> format DD/MM/YYYY
+            tanggal: new Date(item.tanggal).toLocaleDateString(
+              "id-ID",
+              {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+              }
+            ),
+
+            asalSurat: item.asal,
+
+            // Saat ini database belum memiliki asalDetail
+            asalDetail: "",
+
+            tujuan: item.tujuan,
+
+            jenis: item.jenis,
+
+            keterangan: item.keterangan,
+            namaDokumen: item.dokumen?.[0]?.nama_dokumen_file || "",
+            pathDokumen: item.dokumen?.[0]?.path_file || "",
+          }));
+
+        setDataSurat(suratMasuk);
+      } catch (error) {
+        console.error("Gagal mengambil data surat:", error);
+
+        alert("Gagal mengambil data surat dari server.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadSurat();
+  }, []);
+
+  // =====================================================
+  // FILTER OPTIONS
+  // =====================================================
 
   const tanggalOptions = Array.from(
     { length: 31 },
-    (_, index) =>
-      String(index + 1).padStart(2, "0")
+    (_, index) => String(index + 1).padStart(2, "0")
   );
 
   const jenisOptions = [
@@ -111,9 +132,9 @@ function SuratMasuk() {
     "Surat Keterangan Usaha",
   ];
 
-  /* =========================================================
-     FILTER DATA
-  ========================================================= */
+  // =====================================================
+  // FILTER DATA
+  // =====================================================
 
   const filteredData = dataSurat.filter((item) => {
     const keyword = search.toLowerCase();
@@ -131,12 +152,10 @@ function SuratMasuk() {
     const tanggalItem = item.tanggal.split("/")[0];
 
     const matchesTanggal =
-      tanggal === "" ||
-      tanggalItem === tanggal;
+      tanggal === "" || tanggalItem === tanggal;
 
     const matchesJenis =
-      jenis === "" ||
-      item.jenis === jenis;
+      jenis === "" || item.jenis === jenis;
 
     return (
       matchesSearch &&
@@ -145,15 +164,13 @@ function SuratMasuk() {
     );
   });
 
-  /* =========================================================
-     PAGINATION
-  ========================================================= */
+  // =====================================================
+  // PAGINATION
+  // =====================================================
 
   const totalPages = Math.max(
     1,
-    Math.ceil(
-      filteredData.length / itemsPerPage
-    )
+    Math.ceil(filteredData.length / itemsPerPage)
   );
 
   const safeCurrentPage = Math.min(
@@ -162,17 +179,16 @@ function SuratMasuk() {
   );
 
   const startIndex =
-    (safeCurrentPage - 1) *
-    itemsPerPage;
+    (safeCurrentPage - 1) * itemsPerPage;
 
   const currentData = filteredData.slice(
     startIndex,
     startIndex + itemsPerPage
   );
 
-  /* =========================================================
-     FILTER TANGGAL
-  ========================================================= */
+  // =====================================================
+  // FILTER TANGGAL
+  // =====================================================
 
   const changeTanggal = (value) => {
     setTanggal(value);
@@ -181,9 +197,9 @@ function SuratMasuk() {
     setCurrentPage(1);
   };
 
-  /* =========================================================
-     FILTER JENIS
-  ========================================================= */
+  // =====================================================
+  // FILTER JENIS
+  // =====================================================
 
   const changeJenis = (value) => {
     setJenis(value);
@@ -192,28 +208,25 @@ function SuratMasuk() {
     setCurrentPage(1);
   };
 
-  /* =========================================================
-     EDIT
-  ========================================================= */
+  // =====================================================
+  // EDIT
+  // =====================================================
 
   const handleEdit = (item) => {
     setOpenAction(null);
 
-    navigate(
-      `/surat-masuk/${item.no}/edit`,
-      {
-        state: {
-          surat: item,
-        },
-      }
-    );
+    navigate(`/surat-masuk/${item.id}/edit`, {
+      state: {
+        surat: item,
+      },
+    });
   };
 
-  /* =========================================================
-     HAPUS
-  ========================================================= */
+  // =====================================================
+  // HAPUS
+  // =====================================================
 
-  const handleDelete = (item) => {
+  const handleDelete = async (item) => {
     setOpenAction(null);
 
     const yakin = window.confirm(
@@ -232,38 +245,71 @@ Keterangan : ${item.keterangan}`
       return;
     }
 
-    const index = dataSurat.findIndex(
-      (surat) => surat.no === item.no
-    );
+    try {
+      // Hapus dari database
+      await deleteSurat(item.id);
 
-    if (index !== -1) {
-      dataSurat.splice(index, 1);
+      // Hapus dari tampilan
+      setDataSurat((dataLama) =>
+        dataLama.filter(
+          (surat) => surat.id !== item.id
+        )
+      );
+
+      // Pastikan halaman pagination tetap valid
+      setCurrentPage((page) => {
+        const jumlahDataSetelahHapus =
+          filteredData.length - 1;
+
+        const halamanBaru = Math.max(
+          1,
+          Math.ceil(
+            jumlahDataSetelahHapus /
+              itemsPerPage
+          )
+        );
+
+        return Math.min(page, halamanBaru);
+      });
+    } catch (error) {
+      console.error(
+        "Gagal menghapus surat:",
+        error
+      );
+
+      alert("Gagal menghapus surat.");
     }
-
-    const newTotalPages = Math.max(
-      1,
-      Math.ceil(
-        dataSurat.length / itemsPerPage
-      )
-    );
-
-    setCurrentPage((page) =>
-      Math.min(page, newTotalPages)
-    );
   };
 
-  /* =========================================================
-     TOGGLE ACTION
-  ========================================================= */
+  const handleOpenDocument = (item) => {
+    if (!item.pathDokumen) {
+      alert("Berkas surat belum tersedia.");
+      return;
+    }
 
-  const toggleAction = (no) => {
+    const fileUrl = /^https?:\/\//i.test(item.pathDokumen)
+      ? item.pathDokumen
+      : `http://localhost:5000${item.pathDokumen}`;
+
+    window.open(fileUrl, "_blank", "noopener,noreferrer");
+  };
+
+  // =====================================================
+  // TOGGLE ACTION
+  // =====================================================
+
+  const toggleAction = (id) => {
     setOpenAction((prev) =>
-      prev === no ? null : no
+      prev === id ? null : id
     );
 
     setTanggalOpen(false);
     setJenisOpen(false);
   };
+
+  // =====================================================
+  // RENDER
+  // =====================================================
 
   return (
     <div className="surat-masuk-page">
@@ -283,7 +329,9 @@ Keterangan : ${item.keterangan}`
 
       <main className="surat-masuk-main">
 
-        {/* HEADER */}
+        {/* =====================================================
+            HEADER
+        ===================================================== */}
 
         <Header
           title="Surat Masuk"
@@ -298,15 +346,15 @@ Keterangan : ${item.keterangan}`
           }
         />
 
-        {/* =================================================
+        {/* =====================================================
             CONTENT
-        ================================================= */}
+        ===================================================== */}
 
         <section className="surat-masuk-content">
 
-          {/* =================================================
+          {/* =====================================================
               TOP ACTION
-          ================================================= */}
+          ===================================================== */}
 
           <div className="surat-masuk-top-action">
 
@@ -317,9 +365,16 @@ Keterangan : ${item.keterangan}`
               <button
                 type="button"
                 className="saw-smart-button"
-                onClick={() => navigate("/smart-document")}
+                onClick={() =>
+                  navigate("/smart-document")
+                }
               >
-                <img className="saw-button-icon-img" src={smartDocIcon} alt="" />
+                <img
+                  className="saw-button-icon-img"
+                  src={smartDocIcon}
+                  alt=""
+                />
+
                 Smart Document
               </button>
 
@@ -329,9 +384,7 @@ Keterangan : ${item.keterangan}`
                 type="button"
                 className="add-surat-button"
                 onClick={() =>
-                  navigate(
-                    "/surat-masuk/tambah"
-                  )
+                  navigate("/surat-masuk/tambah")
                 }
               >
                 <span className="add-surat-icon">
@@ -347,15 +400,15 @@ Keterangan : ${item.keterangan}`
 
           </div>
 
-          {/* =================================================
+          {/* =====================================================
               TABLE CARD
-          ================================================= */}
+          ===================================================== */}
 
           <div className="surat-masuk-table-card">
 
-            {/* =================================================
+            {/* =====================================================
                 TABLE TOP
-            ================================================= */}
+            ===================================================== */}
 
             <div className="table-top">
 
@@ -373,7 +426,9 @@ Keterangan : ${item.keterangan}`
                   Filter
                 </span>
 
-                {/* TANGGAL */}
+                {/* =================================================
+                    TANGGAL
+                ================================================= */}
 
                 <div className="simple-dropdown">
 
@@ -430,7 +485,9 @@ Keterangan : ${item.keterangan}`
 
                 </div>
 
-                {/* JENIS */}
+                {/* =================================================
+                    JENIS
+                ================================================= */}
 
                 <div className="simple-dropdown">
 
@@ -489,9 +546,9 @@ Keterangan : ${item.keterangan}`
 
             </div>
 
-            {/* =================================================
+            {/* =====================================================
                 TABLE
-            ================================================= */}
+            ===================================================== */}
 
             <div className="table-scroll">
 
@@ -507,6 +564,7 @@ Keterangan : ${item.keterangan}`
                     <th>Tujuan</th>
                     <th>Jenis</th>
                     <th>Keterangan</th>
+                    <th>Berkas</th>
                     <th>Aksi</th>
                   </tr>
 
@@ -514,25 +572,46 @@ Keterangan : ${item.keterangan}`
 
                 <tbody>
 
-                  {currentData.length > 0 ? (
+                  {/* =================================================
+                      LOADING
+                  ================================================= */}
+
+                  {loading ? (
+
+                    <tr>
+                      <td
+                        colSpan="9"
+                        className="surat-masuk-empty"
+                      >
+                        Memuat data surat...
+                      </td>
+                    </tr>
+
+                  ) : currentData.length > 0 ? (
 
                     currentData.map((item) => (
 
-                      <tr key={item.no}>
+                      <tr key={item.id}>
 
-                        {/* NO */}
+                        {/* =================================================
+                            NO
+                        ================================================= */}
 
                         <td className="surat-masuk-no">
                           {item.no}
                         </td>
 
-                        {/* NOMOR SURAT */}
+                        {/* =================================================
+                            NOMOR SURAT
+                        ================================================= */}
 
                         <td className="surat-masuk-nomor">
                           {item.nomorSurat}
                         </td>
 
-                        {/* TANGGAL */}
+                        {/* =================================================
+                            TANGGAL
+                        ================================================= */}
 
                         <td className="surat-masuk-tanggal">
 
@@ -542,7 +621,9 @@ Keterangan : ${item.keterangan}`
 
                         </td>
 
-                        {/* ASAL */}
+                        {/* =================================================
+                            ASAL
+                        ================================================= */}
 
                         <td className="surat-masuk-asal">
 
@@ -550,19 +631,25 @@ Keterangan : ${item.keterangan}`
                             {item.asalSurat}
                           </div>
 
-                          <div className="surat-masuk-secondary-text">
-                            {item.asalDetail}
-                          </div>
+                          {item.asalDetail && (
+                            <div className="surat-masuk-secondary-text">
+                              {item.asalDetail}
+                            </div>
+                          )}
 
                         </td>
 
-                        {/* TUJUAN */}
+                        {/* =================================================
+                            TUJUAN
+                        ================================================= */}
 
                         <td className="surat-masuk-tujuan">
                           {item.tujuan}
                         </td>
 
-                        {/* JENIS */}
+                        {/* =================================================
+                            JENIS
+                        ================================================= */}
 
                         <td className="surat-masuk-jenis">
 
@@ -597,7 +684,9 @@ Keterangan : ${item.keterangan}`
 
                         </td>
 
-                        {/* KETERANGAN */}
+                        {/* =================================================
+                            KETERANGAN
+                        ================================================= */}
 
                         <td className="surat-masuk-keterangan">
 
@@ -607,7 +696,25 @@ Keterangan : ${item.keterangan}`
 
                         </td>
 
-                        {/* AKSI */}
+                        <td className="surat-masuk-berkas">
+                          {item.namaDokumen ? (
+                            <button
+                              type="button"
+                              className="surat-file-button"
+                              onClick={() => handleOpenDocument(item)}
+                              title={item.namaDokumen}
+                            >
+                              <img src={docIcon} alt="" />
+                              <span>{item.namaDokumen}</span>
+                            </button>
+                          ) : (
+                            <span className="surat-file-empty">Belum ada berkas</span>
+                          )}
+                        </td>
+
+                        {/* =================================================
+                            AKSI
+                        ================================================= */}
 
                         <td className="surat-masuk-aksi">
 
@@ -618,7 +725,7 @@ Keterangan : ${item.keterangan}`
                               className="surat-masuk-action-button"
                               onClick={() =>
                                 toggleAction(
-                                  item.no
+                                  item.id
                                 )
                               }
                               aria-label={`Aksi surat ${item.no}`}
@@ -627,7 +734,7 @@ Keterangan : ${item.keterangan}`
                             </button>
 
                             {openAction ===
-                              item.no && (
+                              item.id && (
 
                               <div className="surat-masuk-action-menu">
 
@@ -645,9 +752,7 @@ Keterangan : ${item.keterangan}`
                                   type="button"
                                   className="surat-masuk-delete-action"
                                   onClick={() =>
-                                    handleDelete(
-                                      item
-                                    )
+                                    handleDelete(item)
                                   }
                                 >
                                   Hapus
@@ -670,7 +775,7 @@ Keterangan : ${item.keterangan}`
                     <tr>
 
                       <td
-                        colSpan="8"
+                        colSpan="9"
                         className="surat-masuk-empty"
                       >
                         Data surat masuk tidak ditemukan.
@@ -686,9 +791,9 @@ Keterangan : ${item.keterangan}`
 
             </div>
 
-            {/* =================================================
+            {/* =====================================================
                 FOOTER
-            ================================================= */}
+            ===================================================== */}
 
             <div className="table-footer">
 
@@ -716,7 +821,9 @@ Keterangan : ${item.keterangan}`
 
               </p>
 
-              {/* PAGINATION */}
+              {/* =================================================
+                  PAGINATION
+              ================================================= */}
 
               <div className="pagination">
 

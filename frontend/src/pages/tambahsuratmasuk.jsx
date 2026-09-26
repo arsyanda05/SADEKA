@@ -4,9 +4,11 @@ import Header from "./header";
 import backIcon from "../assets/back.png";
 import simpanIcon from "../assets/simpan.png";
 import simpanDataIcon from "../assets/simpandata.png";
+import { createSuratWithDocument } from "../services/api";
 
 function TambahSuratMasuk() {
 	const navigate = useNavigate();
+
 	const [formData, setFormData] = useState({
 		nomorSurat: "",
 		tanggal: "",
@@ -14,20 +16,46 @@ function TambahSuratMasuk() {
 		tujuan: "",
 		keterangan: "",
 		jenis: "",
+		dokumen: null,
 	});
 
+	const [loading, setLoading] = useState(false);
+
 	const handleChange = (event) => {
-		const { name, value } = event.target;
+		const { name, value, files } = event.target;
+
 		setFormData((previous) => ({
 			...previous,
-			[name]: value,
+			[name]: files ? files[0] : value,
 		}));
 	};
 
-	const handleSubmit = (event) => {
+	const handleSubmit = async (event) => {
 		event.preventDefault();
-		alert("Surat masuk berhasil disimpan!");
-		navigate("/surat-masuk");
+
+		try {
+			setLoading(true);
+
+			await createSuratWithDocument({
+				nomor_surat: formData.nomorSurat,
+				tanggal: formData.tanggal,
+				jenis: formData.jenis,
+				arah_surat: "Masuk",
+				asal: formData.asalSurat,
+				tujuan: formData.tujuan,
+				keterangan: formData.keterangan,
+			}, formData.dokumen);
+
+			alert("Surat masuk berhasil disimpan!");
+
+			navigate("/surat-masuk");
+		} catch (error) {
+			console.error("Error menyimpan surat masuk:", error);
+
+			alert("Gagal menyimpan surat masuk.");
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	const handleDraft = () => {
@@ -50,13 +78,20 @@ function TambahSuratMasuk() {
 					</button>
 				</div>
 
-				<form className="tambah-surat-masuk-form" onSubmit={handleSubmit}>
+				<form
+					className="tambah-surat-masuk-form"
+					onSubmit={handleSubmit}
+				>
 					<section className="tambah-surat-masuk-card">
 						<h2>Informasi Surat Masuk</h2>
 
 						<div className="tambah-surat-masuk-grid">
+
 							<div className="tambah-surat-masuk-field">
-								<label htmlFor="nomorSurat">Nomor Surat</label>
+								<label htmlFor="nomorSurat">
+									Nomor Surat
+								</label>
+
 								<input
 									id="nomorSurat"
 									name="nomorSurat"
@@ -68,7 +103,10 @@ function TambahSuratMasuk() {
 							</div>
 
 							<div className="tambah-surat-masuk-field">
-								<label htmlFor="tanggal">Tanggal</label>
+								<label htmlFor="tanggal">
+									Tanggal
+								</label>
+
 								<input
 									id="tanggal"
 									name="tanggal"
@@ -80,7 +118,10 @@ function TambahSuratMasuk() {
 							</div>
 
 							<div className="tambah-surat-masuk-field">
-								<label htmlFor="asalSurat">Asal Surat</label>
+								<label htmlFor="asalSurat">
+									Asal Surat
+								</label>
+
 								<input
 									id="asalSurat"
 									name="asalSurat"
@@ -92,7 +133,10 @@ function TambahSuratMasuk() {
 							</div>
 
 							<div className="tambah-surat-masuk-field">
-								<label htmlFor="tujuan">Tujuan Surat</label>
+								<label htmlFor="tujuan">
+									Tujuan Surat
+								</label>
+
 								<input
 									id="tujuan"
 									name="tujuan"
@@ -104,7 +148,10 @@ function TambahSuratMasuk() {
 							</div>
 
 							<div className="tambah-surat-masuk-field tambah-surat-masuk-keterangan">
-								<label htmlFor="keterangan">Keterangan</label>
+								<label htmlFor="keterangan">
+									Keterangan
+								</label>
+
 								<textarea
 									id="keterangan"
 									name="keterangan"
@@ -116,7 +163,10 @@ function TambahSuratMasuk() {
 							</div>
 
 							<div className="tambah-surat-masuk-field">
-								<label htmlFor="jenis">Jenis Surat</label>
+								<label htmlFor="jenis">
+									Jenis Surat
+								</label>
+
 								<select
 									id="jenis"
 									name="jenis"
@@ -127,25 +177,76 @@ function TambahSuratMasuk() {
 									<option value="" disabled hidden>
 										Pilih Jenis Surat
 									</option>
-									<option value="Surat Keterangan Usaha">Surat Keterangan Usaha</option>
-									<option value="Undangan Dinas">Undangan Dinas</option>
-									<option value="Permohonan">Permohonan</option>
-									<option value="Laporan">Laporan</option>
-									<option value="Undangan Rapat">Undangan Rapat</option>
-									<option value="Rekomendasi">Rekomendasi</option>
-									<option value="Pengantar">Pengantar</option>
-									<option value="Pemberitahuan">Pemberitahuan</option>
+
+									<option value="Surat Keterangan Usaha">
+										Surat Keterangan Usaha
+									</option>
+
+									<option value="Undangan Dinas">
+										Undangan Dinas
+									</option>
+
+									<option value="Permohonan">
+										Permohonan
+									</option>
+
+									<option value="Laporan">
+										Laporan
+									</option>
+
+									<option value="Undangan Rapat">
+										Undangan Rapat
+									</option>
+
+									<option value="Rekomendasi">
+										Rekomendasi
+									</option>
+
+									<option value="Pengantar">
+										Pengantar
+									</option>
+
+									<option value="Pemberitahuan">
+										Pemberitahuan
+									</option>
 								</select>
 							</div>
+
+							<div className="tambah-surat-masuk-field tambah-surat-masuk-berkas">
+								<label htmlFor="dokumenSuratMasuk">
+									Berkas Surat (PDF)
+								</label>
+								<input
+									id="dokumenSuratMasuk"
+									name="dokumen"
+									type="file"
+									accept="application/pdf,.pdf"
+									onChange={handleChange}
+									required
+								/>
+								{formData.dokumen && (
+									<small className="tambah-surat-masuk-selected-file">
+										{formData.dokumen.name}
+									</small>
+								)}
+							</div>
+
 						</div>
 					</section>
 
 					<section className="tambah-surat-masuk-status-bar">
 						<div>
-							<strong>Status Pengisian : Form Siap Disimpan</strong>
-							<small>Data tervalidasi oleh Sistem SADEKA</small>
+							<strong>
+								Status Pengisian : Form Siap Disimpan
+							</strong>
+
+							<small>
+								Data tervalidasi oleh Sistem SADEKA
+							</small>
 						</div>
+
 						<span>Terisi 100%</span>
+
 						<button
 							type="button"
 							className="tambah-surat-masuk-draft-button"
@@ -154,9 +255,17 @@ function TambahSuratMasuk() {
 							<img src={simpanIcon} alt="" />
 							Simpan Draft
 						</button>
-						<button type="submit" className="tambah-surat-masuk-save-button">
+
+						<button
+							type="submit"
+							className="tambah-surat-masuk-save-button"
+							disabled={loading}
+						>
 							<img src={simpanDataIcon} alt="" />
-							Simpan dan Teruskan
+
+							{loading
+								? "Menyimpan..."
+								: "Simpan dan Teruskan"}
 						</button>
 					</section>
 				</form>

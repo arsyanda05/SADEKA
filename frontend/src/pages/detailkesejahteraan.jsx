@@ -1,93 +1,12 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 import editDataIcon from "../assets/editdata.png";
 import hapusDataIcon from "../assets/hapusdata.png";
+
 import ksj2Icon from "../assets/ksj2.png";
 import ksj3Icon from "../assets/ksj3.png";
 import ksj4Icon from "../assets/ksj4.png";
 import ksj5Icon from "../assets/ksj5.png";
-
-const fallbackData = [
-  {
-    no: "001",
-    nama: "Haryadi",
-    nik: "3530110702060001",
-    kategori: "Rutilahu",
-    status: "Selesai",
-    rt: "02",
-    rw: "01",
-    keterangan:
-      "Kondisi atap dan dinding rumah yang mengalami kerusakan sudah diperbaiki",
-    tempatTanggalLahir: "Surabaya, 13 April 1995",
-    usia: "31 Tahun",
-    jenisKelamin: "Laki-laki",
-    alamat:
-      "Jl. Manukan Asri No.I-A, Manukan Kulon, Kec. Tandes, Surabaya, Jawa Timur 60185",
-  },
-  {
-    no: "002",
-    nama: "Sri Rejeki",
-    nik: "3530115702060001",
-    kategori: "Ibu Hamil",
-    status: "Dalam Penanganan",
-    rt: "16",
-    rw: "03",
-    keterangan:
-      "Kehamilan 7 bulan, rutin melakukan pemeriksaan",
-    tempatTanggalLahir: "Surabaya, 20 Januari 1998",
-    usia: "28 Tahun",
-    jenisKelamin: "Perempuan",
-    alamat:
-      "Jl. Manukan Asri No. 16, Manukan Kulon, Kec. Tandes, Surabaya, Jawa Timur 60185",
-  },
-  {
-    no: "003",
-    nama: "Nadira",
-    nik: "3520116704090001",
-    kategori: "Stunting",
-    status: "Belum Ditangani",
-    rt: "03",
-    rw: "01",
-    keterangan:
-      "Memerlukan pemantauan pertumbuhan dan asupan gizi secara berkala",
-    tempatTanggalLahir: "Surabaya, 13 April 2020",
-    usia: "6 Tahun",
-    jenisKelamin: "Perempuan",
-    alamat:
-      "Jl. Manukan Asri No.06, Manukan Kulon, Kec. Tandes, Surabaya, Jawa Timur 60185",
-  },
-  {
-    no: "004",
-    nama: "Kayla",
-    nik: "3540121702090001",
-    kategori: "Putus Sekolah",
-    status: "Selesai",
-    rt: "23",
-    rw: "05",
-    keterangan:
-      "Telah kembali melanjutkan pendidikan",
-    tempatTanggalLahir: "Surabaya, 17 Februari 2009",
-    usia: "17 Tahun",
-    jenisKelamin: "Perempuan",
-    alamat:
-      "Jl. Manukan Subur No. 08, Manukan Kulon, Kec. Tandes, Surabaya, Jawa Timur 60185",
-  },
-  {
-    no: "005",
-    nama: "Utami",
-    nik: "3550118702980001",
-    kategori: "Ibu Hamil",
-    status: "Dalam Penanganan",
-    rt: "06",
-    rw: "02",
-    keterangan:
-      "Rutin melakukan pemeriksaan kehamilan di fasilitas kesehatan",
-    tempatTanggalLahir: "Surabaya, 2 September 1998",
-    usia: "28 Tahun",
-    jenisKelamin: "Perempuan",
-    alamat:
-      "Jl. Manukan Krajan No. 02, Manukan Kulon, Kec. Tandes, Surabaya, Jawa Timur 60185",
-  },
-];
 
 function DetailKesejahteraan({
   data,
@@ -96,14 +15,22 @@ function DetailKesejahteraan({
   onDelete,
 }) {
   const navigate = useNavigate();
-  const { id } = useParams();
 
-  const resolvedData =
-    data ??
-    fallbackData.find((item) => item.no === id) ??
-    null;
+  /*
+   * Jika tidak ada data,
+   * detail tidak ditampilkan.
+   */
+  const resolvedData = data ?? null;
 
-  if (!resolvedData) return null;
+  if (!resolvedData) {
+    return null;
+  }
+
+  /*
+   * ==============================
+   * ICON KATEGORI
+   * ==============================
+   */
 
   const categoryIcon =
     resolvedData.kategori === "Stunting"
@@ -116,6 +43,12 @@ function DetailKesejahteraan({
       ? ksj5Icon
       : ksj2Icon;
 
+  /*
+   * ==============================
+   * CLOSE
+   * ==============================
+   */
+
   const handleClose = () => {
     if (onClose) {
       onClose();
@@ -125,30 +58,92 @@ function DetailKesejahteraan({
     navigate("/kesejahteraan");
   };
 
+  /*
+   * ==============================
+   * EDIT
+   * ==============================
+   */
+
   const handleEdit = () => {
+    /*
+     * Jika parent menyediakan onEdit,
+     * gunakan fungsi tersebut.
+     */
     if (onEdit) {
       onEdit(resolvedData);
       return;
     }
 
-    navigate(`/kesejahteraan/${resolvedData.no}/edit`);
+    /*
+     * Jika tidak ada onEdit,
+     * langsung menuju halaman edit
+     * berdasarkan ID dari database.
+     */
+    if (!resolvedData.id_kesejahteraan) {
+      console.error(
+        "ID kesejahteraan tidak ditemukan:",
+        resolvedData
+      );
+
+      return;
+    }
+
+    navigate(
+      `/kesejahteraan/${resolvedData.id_kesejahteraan}/edit`
+    );
   };
+
+  /*
+   * ==============================
+   * DELETE
+   * ==============================
+   */
 
   const handleDelete = () => {
+    /*
+     * Proses hapus dikelola oleh parent
+     * karena parent sudah memiliki:
+     *
+     * 1. Konfirmasi
+     * 2. API delete
+     * 3. Refresh data
+     * 4. Menutup detail
+     */
     if (onDelete) {
       onDelete(resolvedData);
+      return;
     }
+
+    /*
+     * Jika komponen digunakan tanpa onDelete,
+     * tidak melakukan proses delete sendiri.
+     */
+    console.error(
+      "Fungsi onDelete belum diberikan ke DetailKesejahteraan."
+    );
   };
 
+  /*
+   * ==============================
+   * RETURN
+   * ==============================
+   */
+
   return (
-    <div className="kesejahteraan-detail-overlay" onClick={handleClose}>
+    <div
+      className="kesejahteraan-detail-overlay"
+      onClick={handleClose}
+    >
       <aside
         className="kesejahteraan-detail-sidebar"
         onClick={(e) => e.stopPropagation()}
       >
         {/* JUDUL */}
+
         <div className="kesejahteraan-detail-header">
-          <h2>Detail Data Kesejahteraan</h2>
+          <h2>
+            Detail Data Kesejahteraan
+          </h2>
 
           <button
             type="button"
@@ -161,22 +156,30 @@ function DetailKesejahteraan({
         </div>
 
         {/* DATA UTAMA */}
+
         <div className="kesejahteraan-detail-main-card">
           <div className="kesejahteraan-detail-main-top">
             <div>
-              <h3>{resolvedData.nama}</h3>
+              <h3>
+                {resolvedData.nama || "-"}
+              </h3>
 
               <p className="kesejahteraan-detail-age">
-                {resolvedData.usia}
+                {resolvedData.usia || "-"}
               </p>
 
               <div className="kesejahteraan-detail-category">
                 <img
                   className="category-person-icon"
                   src={categoryIcon}
-                  alt={resolvedData.kategori}
+                  alt={
+                    resolvedData.kategori || "Kategori"
+                  }
                 />
-                <span>{resolvedData.kategori}</span>
+
+                <span>
+                  {resolvedData.kategori || "-"}
+                </span>
               </div>
             </div>
 
@@ -184,20 +187,25 @@ function DetailKesejahteraan({
               className={`kesejahteraan-detail-status ${
                 resolvedData.status === "Selesai"
                   ? "status-selesai"
-                  : resolvedData.status === "Dalam Penanganan"
+                  : resolvedData.status ===
+                    "Dalam Penanganan"
                   ? "status-penanganan"
                   : "status-belum"
               }`}
             >
               <span>•</span>
-              {resolvedData.status}
+
+              {resolvedData.status || "-"}
             </span>
           </div>
         </div>
 
         {/* KETERANGAN */}
+
         <div className="kesejahteraan-detail-card">
-          <h3>Keterangan</h3>
+          <h3>
+            Keterangan
+          </h3>
 
           <p className="kesejahteraan-detail-description">
             {resolvedData.keterangan || "-"}
@@ -205,19 +213,39 @@ function DetailKesejahteraan({
         </div>
 
         {/* DATA PENDUDUK */}
+
         <div className="kesejahteraan-detail-card detail-penduduk-card">
-          <h3>Data Penduduk</h3>
+          <h3>
+            Data Penduduk
+          </h3>
 
           <div className="kesejahteraan-detail-data-list">
-            <div className="kesejahteraan-detail-row">
-              <span>Nama</span>
-              <strong>{resolvedData.nama || "-"}</strong>
-            </div>
+
+            {/* NAMA */}
 
             <div className="kesejahteraan-detail-row">
-              <span>NIK</span>
-              <strong>{resolvedData.nik || "-"}</strong>
+              <span>
+                Nama
+              </span>
+
+              <strong>
+                {resolvedData.nama || "-"}
+              </strong>
             </div>
+
+            {/* NIK */}
+
+            <div className="kesejahteraan-detail-row">
+              <span>
+                NIK
+              </span>
+
+              <strong>
+                {resolvedData.nik || "-"}
+              </strong>
+            </div>
+
+            {/* TEMPAT TANGGAL LAHIR */}
 
             <div className="kesejahteraan-detail-row">
               <span>
@@ -227,56 +255,110 @@ function DetailKesejahteraan({
               </span>
 
               <strong>
-                {resolvedData.tempatTanggalLahir || "-"}
+                {resolvedData.tempatTanggalLahir ||
+                  "-"}
               </strong>
             </div>
 
-            <div className="kesejahteraan-detail-row">
-              <span>Usia</span>
-              <strong>{resolvedData.usia || "-"}</strong>
-            </div>
+            {/* USIA */}
 
             <div className="kesejahteraan-detail-row">
-              <span>Jenis Kelamin</span>
-              <strong>{resolvedData.jenisKelamin || "-"}</strong>
+              <span>
+                Usia
+              </span>
+
+              <strong>
+                {resolvedData.usia || "-"}
+              </strong>
             </div>
 
-            <div className="kesejahteraan-detail-row">
-              <span>RW</span>
-              <strong>{resolvedData.rw || "-"}</strong>
-            </div>
+            {/* JENIS KELAMIN */}
 
             <div className="kesejahteraan-detail-row">
-              <span>RT</span>
-              <strong>{resolvedData.rt || "-"}</strong>
+              <span>
+                Jenis Kelamin
+              </span>
+
+              <strong>
+                {resolvedData.jenisKelamin || "-"}
+              </strong>
             </div>
 
+            {/* RW */}
+
             <div className="kesejahteraan-detail-row">
-              <span>Alamat</span>
-              <strong>{resolvedData.alamat || "-"}</strong>
+              <span>
+                RW
+              </span>
+
+              <strong>
+                {resolvedData.rw || "-"}
+              </strong>
             </div>
+
+            {/* RT */}
+
+            <div className="kesejahteraan-detail-row">
+              <span>
+                RT
+              </span>
+
+              <strong>
+                {resolvedData.rt || "-"}
+              </strong>
+            </div>
+
+            {/* ALAMAT */}
+
+            <div className="kesejahteraan-detail-row">
+              <span>
+                Alamat
+              </span>
+
+              <strong>
+                {resolvedData.alamat || "-"}
+              </strong>
+            </div>
+
           </div>
         </div>
 
         {/* AKSI */}
+
         <div className="kesejahteraan-detail-actions">
+
+          {/* EDIT */}
+
           <button
             type="button"
             className="kesejahteraan-edit-button"
             onClick={handleEdit}
           >
-            <img className="action-icon-img" src={editDataIcon} alt="" />
+            <img
+              className="action-icon-img"
+              src={editDataIcon}
+              alt=""
+            />
+
             Edit Data
           </button>
+
+          {/* HAPUS */}
 
           <button
             type="button"
             className="kesejahteraan-delete-button"
             onClick={handleDelete}
           >
-            <img className="action-icon-img" src={hapusDataIcon} alt="" />
+            <img
+              className="action-icon-img"
+              src={hapusDataIcon}
+              alt=""
+            />
+
             Hapus Data
           </button>
+
         </div>
       </aside>
     </div>

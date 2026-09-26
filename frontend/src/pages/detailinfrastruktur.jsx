@@ -1,83 +1,85 @@
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+
 import pjuImage from "../assets/pju.jpg";
 import mapsIcon from "../assets/maps.png";
 import editDataIcon from "../assets/editdata.png";
 import hapusDataIcon from "../assets/hapusdata.png";
 
-const fallbackData = [
-  {
-    no: "001",
-    jenis: "CCTV",
-    kondisi: "Baik",
-    pic: "Setyo",
-    telepon: "081963542083",
-    rt: "02",
-    rw: "01",
-    alamat:
-      "Jl. Manukan Asri No.I-A, Manukan Kulon, Kec. Tandes, Surabaya, Jawa Timur 60185",
-  },
-  {
-    no: "002",
-    jenis: "PJU",
-    kondisi: "Baik",
-    pic: "Bambang",
-    telepon: "088863542099",
-    rt: "16",
-    rw: "03",
-    alamat:
-      "Jl. Manukan Asri No. 16, Manukan Kulon, Kec. Tandes, Surabaya, Jawa Timur 60185",
-  },
-  {
-    no: "003",
-    jenis: "CCTV",
-    kondisi: "Rusak Ringan",
-    pic: "Rini",
-    telepon: "085263542081",
-    rt: "19",
-    rw: "04",
-    alamat:
-      "Jl. Manukan Asri No. 19, Manukan Kulon, Kec. Tandes, Surabaya, Jawa Timur 60185",
-  },
-  {
-    no: "004",
-    jenis: "Saluran",
-    kondisi: "Rusak Ringan",
-    pic: "Hadi",
-    telepon: "081977512083",
-    rt: "23",
-    rw: "05",
-    alamat:
-      "Jl. Manukan Subur No. 08, Manukan Kulon, Kec. Tandes, Surabaya, Jawa Timur 60185",
-  },
-  {
-    no: "005",
-    jenis: "CCTV",
-    kondisi: "Rusak Berat",
-    pic: "Julia",
-    telepon: "081263549001",
-    rt: "06",
-    rw: "02",
-    alamat:
-      "Jl. Manukan Krajan No. 02, Manukan Kulon, Kec. Tandes, Surabaya, Jawa Timur 60185",
-  },
-];
+import {
+  getDetailInfrastruktur,
+} from "../services/api";
 
-function DetailInfrastruktur({ data, onClose, onEdit, onDelete }) {
+function DetailInfrastruktur({
+  data,
+  onClose,
+  onDelete,
+}) {
   const navigate = useNavigate();
-  const params = useParams();
   const { id } = useParams();
-  const resolvedData = data ?? fallbackData.find((item) => item.no === params.id) ?? null;
 
-  if (!resolvedData) return null;
+  const [detailData, setDetailData] = useState(
+    data ?? null
+  );
 
-  const kondisiClass =
-    resolvedData.kondisi === "Baik"
-      ? "detail-condition baik"
-      : resolvedData.kondisi === "Rusak Ringan"
-      ? "detail-condition ringan"
-      : "detail-condition berat";
+  const [loading, setLoading] = useState(
+    !data
+  );
 
-  const photoSource = resolvedData.foto || pjuImage;
+  const [errorMessage, setErrorMessage] =
+    useState("");
+
+  // ============================================================
+  // AMBIL DETAIL DARI DATABASE
+  // ============================================================
+
+  useEffect(() => {
+    const loadDetail = async () => {
+      // Kalau data sudah dikirim dari halaman Infrastruktur,
+      // tidak perlu request lagi.
+      if (data) {
+        setDetailData(data);
+        setLoading(false);
+        return;
+      }
+
+      if (!id) {
+        setLoading(false);
+        setErrorMessage(
+          "ID infrastruktur tidak ditemukan"
+        );
+        return;
+      }
+
+      try {
+        setLoading(true);
+        setErrorMessage("");
+
+        const result =
+          await getDetailInfrastruktur(id);
+
+        setDetailData(result);
+      } catch (error) {
+        console.error(
+          "Error mengambil detail infrastruktur:",
+          error
+        );
+
+        setErrorMessage(
+          error.message ||
+            "Gagal mengambil detail infrastruktur"
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadDetail();
+  }, [data, id]);
+
+  // ============================================================
+  // TUTUP DETAIL
+  // ============================================================
 
   const handleClose = () => {
     if (onClose) {
@@ -88,15 +90,220 @@ function DetailInfrastruktur({ data, onClose, onEdit, onDelete }) {
     navigate("/infrastruktur");
   };
 
+  // ============================================================
+  // LOADING
+  // ============================================================
+
+  if (loading) {
+    return (
+      <div
+        className="detail-overlay"
+        onClick={handleClose}
+      >
+        <aside
+          className="detail-sidebar"
+          onClick={(e) =>
+            e.stopPropagation()
+          }
+        >
+          <div className="detail-header">
+            <h2>
+              Detail Data Infrastruktur
+            </h2>
+
+            <button
+              type="button"
+              className="detail-close"
+              onClick={handleClose}
+              aria-label="Tutup"
+            >
+              ×
+            </button>
+          </div>
+
+          <div
+            style={{
+              padding: "30px",
+              textAlign: "center",
+            }}
+          >
+            Memuat data...
+          </div>
+        </aside>
+      </div>
+    );
+  }
+
+  // ============================================================
+  // ERROR
+  // ============================================================
+
+  if (errorMessage || !detailData) {
+    return (
+      <div
+        className="detail-overlay"
+        onClick={handleClose}
+      >
+        <aside
+          className="detail-sidebar"
+          onClick={(e) =>
+            e.stopPropagation()
+          }
+        >
+          <div className="detail-header">
+            <h2>
+              Detail Data Infrastruktur
+            </h2>
+
+            <button
+              type="button"
+              className="detail-close"
+              onClick={handleClose}
+              aria-label="Tutup"
+            >
+              ×
+            </button>
+          </div>
+
+          <div
+            style={{
+              padding: "30px",
+              textAlign: "center",
+            }}
+          >
+            <p>
+              {errorMessage ||
+                "Data infrastruktur tidak ditemukan"}
+            </p>
+          </div>
+        </aside>
+      </div>
+    );
+  }
+
+  // ============================================================
+  // DATA DARI DATABASE
+  // ============================================================
+
+  const resolvedData = detailData;
+
+  // Database:
+  // kondisi_status
+  const kondisi =
+    resolvedData.kondisi_status || "";
+
+  const kondisiClass =
+    kondisi === "Baik"
+      ? "detail-condition baik"
+      : kondisi === "Rusak Ringan"
+      ? "detail-condition ringan"
+      : "detail-condition berat";
+
+  // ============================================================
+  // FOTO
+  // ============================================================
+
+  // Saat ini database masih menyimpan nama file foto,
+  // bukan file gambar sebenarnya.
+  //
+  // Jadi kalau foto belum berupa URL/path gambar,
+  // gunakan gambar default pju.jpg.
+
+  const photoSource =
+    resolvedData.foto &&
+    (
+      resolvedData.foto.startsWith("http") ||
+      resolvedData.foto.startsWith("/") ||
+      resolvedData.foto.startsWith("data:")
+    )
+      ? resolvedData.foto
+      : pjuImage;
+
+  // ============================================================
+  // FORMAT TANGGAL
+  // ============================================================
+
+  const formatTanggal = (tanggal) => {
+    if (!tanggal) {
+      return "-";
+    }
+
+    try {
+      return new Date(
+        tanggal.toString()
+      ).toLocaleDateString("id-ID", {
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+      });
+    } catch (error) {
+      return "-";
+    }
+  };
+
+  // ============================================================
+  // FORMAT KOORDINAT
+  // ============================================================
+
+  const latitude =
+    resolvedData.latitude;
+
+  const longitude =
+    resolvedData.longitude;
+
+  // ============================================================
+  // LIHAT LOKASI
+  // ============================================================
+
+  const handleOpenMaps = () => {
+    if (
+      latitude === undefined ||
+      latitude === null ||
+      longitude === undefined ||
+      longitude === null
+    ) {
+      return;
+    }
+
+    window.open(
+      `https://www.google.com/maps?q=${latitude},${longitude}`,
+      "_blank"
+    );
+  };
+
+  // ============================================================
+  // EDIT
+  // ============================================================
+
+  const handleEdit = () => {
+    navigate(
+      `/infrastruktur/${resolvedData.id_infrastruktur}/edit`
+    );
+  };
+
+  // ============================================================
+  // RENDER
+  // ============================================================
+
   return (
-    <div className="detail-overlay" onClick={handleClose}>
+    <div
+      className="detail-overlay"
+      onClick={handleClose}
+    >
       <aside
         className="detail-sidebar"
-        onClick={(e) => e.stopPropagation()}
+        onClick={(e) =>
+          e.stopPropagation()
+        }
       >
+        {/* ================================================== */}
         {/* HEADER */}
+        {/* ================================================== */}
+
         <div className="detail-header">
-          <h2>Detail Data Infrastruktur</h2>
+          <h2>
+            Detail Data Infrastruktur
+          </h2>
 
           <button
             type="button"
@@ -108,126 +315,222 @@ function DetailInfrastruktur({ data, onClose, onEdit, onDelete }) {
           </button>
         </div>
 
+        {/* ================================================== */}
         {/* INFORMASI UTAMA */}
+        {/* ================================================== */}
+
         <div className="detail-main-card">
           <div className="detail-main-top">
-            <h3>{resolvedData.jenis}</h3>
+            <h3>
+              {resolvedData.jenis || "-"}
+            </h3>
 
             <span className={kondisiClass}>
-              • {resolvedData.kondisi}
+              • {kondisi || "-"}
             </span>
           </div>
 
           <button
             type="button"
             className="location-button"
-            onClick={() => {
-              if (resolvedData.latitude && resolvedData.longitude) {
-                window.open(
-                  `https://www.google.com/maps?q=${resolvedData.latitude},${resolvedData.longitude}`,
-                  "_blank"
-                );
-              }
-            }}
+            onClick={handleOpenMaps}
           >
-            <img className="location-icon" src={mapsIcon} alt="" />
+            <img
+              className="location-icon"
+              src={mapsIcon}
+              alt=""
+            />
 
             <span>
-              <strong>Lihat Lokasi</strong>
+              <strong>
+                Lihat Lokasi
+              </strong>
+
               <small>
-                {resolvedData.latitude || "-"}, {resolvedData.longitude || "-"}
+                {latitude ?? "-"},{" "}
+                {longitude ?? "-"}
               </small>
             </span>
           </button>
         </div>
 
+        {/* ================================================== */}
         {/* FOTO */}
+        {/* ================================================== */}
+
         <div className="detail-card detail-photo-card">
           <h3>Foto</h3>
 
           <div className="detail-photo">
-            {photoSource ? (
-              <img
-                src={photoSource}
-                alt={`Foto ${resolvedData.jenis}`}
-              />
-            ) : (
-              <div className="photo-placeholder">
-                <div className="photo-icon">
-                  <span className="photo-sun"></span>
-                  <span className="photo-mountain"></span>
-                </div>
-              </div>
-            )}
+            <img
+              src={photoSource}
+              alt={`Foto ${
+                resolvedData.jenis || "infrastruktur"
+              }`}
+            />
           </div>
         </div>
 
+        {/* ================================================== */}
         {/* DATA INFRASTRUKTUR */}
+        {/* ================================================== */}
+
         <div className="detail-card detail-data-card">
           <h3>Data Infrastruktur</h3>
 
           <div className="detail-data-list">
+
+            {/* JENIS */}
+
             <div className="detail-row">
               <span>Jenis</span>
-              <strong>{resolvedData.jenis || "-"}</strong>
+
+              <strong>
+                {resolvedData.jenis || "-"}
+              </strong>
             </div>
+
+            {/* KONDISI */}
 
             <div className="detail-row">
               <span>Kondisi</span>
-              <strong>{resolvedData.kondisi || "-"}</strong>
+
+              <strong>
+                {resolvedData.kondisi_status ||
+                  "-"}
+              </strong>
             </div>
+
+            {/* PIC */}
 
             <div className="detail-row">
               <span>PIC</span>
-              <strong>{resolvedData.pic || "-"}</strong>
+
+              <strong>
+                {resolvedData.penanggung_jawab ||
+                  "-"}
+              </strong>
             </div>
 
-            <div className="detail-row">
-              <span>Nomor Telepon</span>
-              <strong>{resolvedData.telepon || "-"}</strong>
-            </div>
+            {/* NOMOR TELEPON */}
 
             <div className="detail-row">
-              <span>Tanggal Pengadaan</span>
-              <strong>{resolvedData.tanggalPengadaan || "-"}</strong>
+              <span>
+                Nomor Telepon
+              </span>
+
+              <strong>
+                {resolvedData.no_telp || "-"}
+              </strong>
             </div>
+
+            {/* TANGGAL PENGADAAN */}
+
+            <div className="detail-row">
+              <span>
+                Tanggal Pengadaan
+              </span>
+
+              <strong>
+                {formatTanggal(
+                  resolvedData.tanggal_pengadaan
+                )}
+              </strong>
+            </div>
+
+            {/* PANJANG */}
+
+            <div className="detail-row">
+              <span>Panjang</span>
+
+              <strong>
+                {resolvedData.panjang ?? "-"}
+              </strong>
+            </div>
+
+            {/* LEBAR */}
+
+            <div className="detail-row">
+              <span>Lebar</span>
+
+              <strong>
+                {resolvedData.lebar ?? "-"}
+              </strong>
+            </div>
+
+            {/* RW */}
 
             <div className="detail-row">
               <span>RW</span>
-              <strong>{resolvedData.rw || "-"}</strong>
+
+              <strong>
+                {resolvedData.rw || "-"}
+              </strong>
             </div>
+
+            {/* RT */}
 
             <div className="detail-row">
               <span>RT</span>
-              <strong>{resolvedData.rt || "-"}</strong>
+
+              <strong>
+                {resolvedData.rt || "-"}
+              </strong>
             </div>
+
+            {/* ALAMAT */}
 
             <div className="detail-row detail-address-row">
               <span>Alamat</span>
-              <strong>{resolvedData.alamat || "-"}</strong>
+
+              <strong>
+                {resolvedData.alamat || "-"}
+              </strong>
             </div>
+
           </div>
         </div>
 
+        {/* ================================================== */}
         {/* AKSI */}
+        {/* ================================================== */}
+
         <div className="detail-actions">
+
+          {/* EDIT */}
+
           <button
             type="button"
             className="edit-data-button"
-            onClick={() => navigate(`/infrastruktur/${resolvedData.no}/edit`)}
-            >
-            <img className="action-icon-img" src={editDataIcon} alt="" />
+            onClick={handleEdit}
+          >
+            <img
+              className="action-icon-img"
+              src={editDataIcon}
+              alt=""
+            />
+
             Edit Data
-            </button>
+          </button>
+
+          {/* DELETE */}
 
           <button
             type="button"
             className="delete-data-button"
-            onClick={() => onDelete?.(resolvedData)}
+            onClick={() =>
+              onDelete?.(resolvedData)
+            }
           >
-            <img className="action-icon-img" src={hapusDataIcon} alt="" />
+            <img
+              className="action-icon-img"
+              src={hapusDataIcon}
+              alt=""
+            />
+
             Hapus Data
           </button>
+
         </div>
       </aside>
     </div>
