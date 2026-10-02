@@ -24,10 +24,6 @@
       "model": "DokumenPegawai",
       "namespace": "public"
     },
-    "historiPenduduk": {
-      "model": "HistoriPenduduk",
-      "namespace": "public"
-    },
     "infrastruktur": {
       "model": "Infrastruktur",
       "namespace": "public"
@@ -564,120 +560,6 @@
               "table": "dokumenPegawai"
             }
           },
-          "HistoriPenduduk": {
-            "fields": {
-              "id_histori": {
-                "nullable": false,
-                "type": {
-                  "codecId": "pg/int4@1",
-                  "kind": "scalar"
-                }
-              },
-              "id_penduduk": {
-                "nullable": false,
-                "type": {
-                  "codecId": "pg/int4@1",
-                  "kind": "scalar"
-                }
-              },
-              "id_user": {
-                "nullable": false,
-                "type": {
-                  "codecId": "pg/int4@1",
-                  "kind": "scalar"
-                }
-              },
-              "keterangan": {
-                "nullable": false,
-                "type": {
-                  "codecId": "pg/text@1",
-                  "kind": "scalar"
-                }
-              },
-              "status_baru": {
-                "nullable": false,
-                "type": {
-                  "codecId": "pg/text@1",
-                  "kind": "scalar"
-                }
-              },
-              "status_lama": {
-                "nullable": false,
-                "type": {
-                  "codecId": "pg/text@1",
-                  "kind": "scalar"
-                }
-              },
-              "waktu_perubahan": {
-                "nullable": false,
-                "type": {
-                  "codecId": "pg/timestamptz-temporal@1",
-                  "kind": "scalar"
-                }
-              }
-            },
-            "relations": {
-              "penduduk": {
-                "cardinality": "N:1",
-                "nullable": false,
-                "on": {
-                  "localFields": [
-                    "id_penduduk"
-                  ],
-                  "targetFields": [
-                    "id_penduduk"
-                  ]
-                },
-                "to": {
-                  "model": "Penduduk",
-                  "namespace": "public"
-                }
-              },
-              "user": {
-                "cardinality": "N:1",
-                "nullable": false,
-                "on": {
-                  "localFields": [
-                    "id_user"
-                  ],
-                  "targetFields": [
-                    "id_user"
-                  ]
-                },
-                "to": {
-                  "model": "User",
-                  "namespace": "public"
-                }
-              }
-            },
-            "storage": {
-              "fields": {
-                "id_histori": {
-                  "column": "id_histori"
-                },
-                "id_penduduk": {
-                  "column": "id_penduduk"
-                },
-                "id_user": {
-                  "column": "id_user"
-                },
-                "keterangan": {
-                  "column": "keterangan"
-                },
-                "status_baru": {
-                  "column": "status_baru"
-                },
-                "status_lama": {
-                  "column": "status_lama"
-                },
-                "waktu_perubahan": {
-                  "column": "waktu_perubahan"
-                }
-              },
-              "namespaceId": "public",
-              "table": "historiPenduduk"
-            }
-          },
           "Infrastruktur": {
             "fields": {
               "alamat": {
@@ -1125,21 +1007,6 @@
                 },
                 "to": {
                   "model": "AhliWaris",
-                  "namespace": "public"
-                }
-              },
-              "historiPenduduk": {
-                "cardinality": "1:N",
-                "on": {
-                  "localFields": [
-                    "id_penduduk"
-                  ],
-                  "targetFields": [
-                    "id_penduduk"
-                  ]
-                },
-                "to": {
-                  "model": "HistoriPenduduk",
                   "namespace": "public"
                 }
               },
@@ -1655,23 +1522,7 @@
                 }
               }
             },
-            "relations": {
-              "historiPenduduk": {
-                "cardinality": "1:N",
-                "on": {
-                  "localFields": [
-                    "id_user"
-                  ],
-                  "targetFields": [
-                    "id_user"
-                  ]
-                },
-                "to": {
-                  "model": "HistoriPenduduk",
-                  "namespace": "public"
-                }
-              }
-            },
+            "relations": {},
             "storage": {
               "fields": {
                 "email": {
@@ -2104,107 +1955,6 @@
               "primaryKey": {
                 "columns": [
                   "id_dokumen_pegawai"
-                ]
-              },
-              "uniques": []
-            },
-            "historiPenduduk": {
-              "columns": {
-                "id_histori": {
-                  "codecId": "pg/int4@1",
-                  "default": {
-                    "expression": "autoincrement()",
-                    "kind": "function"
-                  },
-                  "nativeType": "int4",
-                  "nullable": false
-                },
-                "id_penduduk": {
-                  "codecId": "pg/int4@1",
-                  "nativeType": "int4",
-                  "nullable": false
-                },
-                "id_user": {
-                  "codecId": "pg/int4@1",
-                  "nativeType": "int4",
-                  "nullable": false
-                },
-                "keterangan": {
-                  "codecId": "pg/text@1",
-                  "nativeType": "text",
-                  "nullable": false
-                },
-                "status_baru": {
-                  "codecId": "pg/text@1",
-                  "nativeType": "text",
-                  "nullable": false
-                },
-                "status_lama": {
-                  "codecId": "pg/text@1",
-                  "nativeType": "text",
-                  "nullable": false
-                },
-                "waktu_perubahan": {
-                  "codecId": "pg/timestamptz-temporal@1",
-                  "nativeType": "timestamptz",
-                  "nullable": false
-                }
-              },
-              "foreignKeys": [
-                {
-                  "source": {
-                    "columns": [
-                      "id_penduduk"
-                    ],
-                    "namespaceId": "public",
-                    "tableName": "historiPenduduk"
-                  },
-                  "target": {
-                    "columns": [
-                      "id_penduduk"
-                    ],
-                    "namespaceId": "public",
-                    "tableName": "penduduk"
-                  }
-                },
-                {
-                  "source": {
-                    "columns": [
-                      "id_user"
-                    ],
-                    "namespaceId": "public",
-                    "tableName": "historiPenduduk"
-                  },
-                  "target": {
-                    "columns": [
-                      "id_user"
-                    ],
-                    "namespaceId": "public",
-                    "tableName": "user"
-                  }
-                }
-              ],
-              "indexes": [
-                {
-                  "columns": [
-                    "id_penduduk"
-                  ],
-                  "name": "historiPenduduk_id_penduduk_idx_8c1f84dd",
-                  "prefix": "historiPenduduk_id_penduduk_idx",
-                  "unique": false
-                },
-                {
-                  "columns": [
-                    "id_user"
-                  ],
-                  "name": "historiPenduduk_id_user_idx_52684e74",
-                  "prefix": "historiPenduduk_id_user_idx",
-                  "unique": false
-                }
-              ],
-              "primaryKey": {
-                "columns": [
-                  "id_histori"
                 ]
               },
               "uniques": []
@@ -2804,7 +2554,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "2fe4b38fc898c7876fea04c2db4bf5ecf4c414878f072486f979c94ef0dbe46e"
+    "storageHash": "cd24cd5f79ed7018c1e79042ffc98369b01aedae76e3834c5d7a3f544a8e334a"
   },
   "capabilities": {
     "postgres": {

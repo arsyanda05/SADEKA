@@ -7,8 +7,6 @@ model User {
   password     String
   nama         String
   no_telepon   String
-
-  historiPenduduk HistoriPenduduk[]
 }
 
 model Pegawai {
@@ -67,7 +65,6 @@ model Penduduk {
   status_penduduk String
 
   kesejahteraan   Kesejahteraan[]
-  historiPenduduk HistoriPenduduk[]
   suratAhliWaris  SuratAhliWaris[]
   ahliWaris       AhliWaris[]
 }
@@ -82,26 +79,6 @@ model Kesejahteraan {
   penduduk Penduduk @relation(
     fields: [id_penduduk],
     references: [id_penduduk]
-  )
-}
-
-model HistoriPenduduk {
-  id_histori      Int    @id @default(autoincrement())
-  id_penduduk     Int
-  id_user         Int
-  status_lama     String
-  status_baru     String
-  waktu_perubahan DateTime
-  keterangan      String
-
-  penduduk Penduduk @relation(
-    fields: [id_penduduk],
-    references: [id_penduduk]
-  )
-
-  user User @relation(
-    fields: [id_user],
-    references: [id_user]
   )
 }
 

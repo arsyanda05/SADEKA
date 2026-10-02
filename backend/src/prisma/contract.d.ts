@@ -34,7 +34,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'2fe4b38fc898c7876fea04c2db4bf5ecf4c414878f072486f979c94ef0dbe46e'>;
+  StorageHashBase<'cd24cd5f79ed7018c1e79042ffc98369b01aedae76e3834c5d7a3f544a8e334a'>;
 export type ExecutionHash = ExecutionHashBase<string>;
 export type ProfileHash =
   ProfileHashBase<'3916f444a8a17ad749191acf9e08dad97d1a327b88c2f1d45d12f240296aa8b2'>;
@@ -285,15 +285,6 @@ export type FieldOutputTypes = {
       readonly path_file: CodecTypes['pg/text@1']['output'];
       readonly tanggal_upload: CodecTypes['pg/timestamptz-temporal@1']['output'];
     };
-    readonly HistoriPenduduk: {
-      readonly id_histori: CodecTypes['pg/int4@1']['output'];
-      readonly id_penduduk: CodecTypes['pg/int4@1']['output'];
-      readonly id_user: CodecTypes['pg/int4@1']['output'];
-      readonly status_lama: CodecTypes['pg/text@1']['output'];
-      readonly status_baru: CodecTypes['pg/text@1']['output'];
-      readonly waktu_perubahan: CodecTypes['pg/timestamptz-temporal@1']['output'];
-      readonly keterangan: CodecTypes['pg/text@1']['output'];
-    };
     readonly Infrastruktur: {
       readonly id_infrastruktur: CodecTypes['pg/int4@1']['output'];
       readonly jenis: CodecTypes['pg/text@1']['output'];
@@ -429,15 +420,6 @@ export type FieldInputTypes = {
       readonly nama_file: CodecTypes['pg/text@1']['input'];
       readonly path_file: CodecTypes['pg/text@1']['input'];
       readonly tanggal_upload: CodecTypes['pg/timestamptz-temporal@1']['input'];
-    };
-    readonly HistoriPenduduk: {
-      readonly id_histori: CodecTypes['pg/int4@1']['input'];
-      readonly id_penduduk: CodecTypes['pg/int4@1']['input'];
-      readonly id_user: CodecTypes['pg/int4@1']['input'];
-      readonly status_lama: CodecTypes['pg/text@1']['input'];
-      readonly status_baru: CodecTypes['pg/text@1']['input'];
-      readonly waktu_perubahan: CodecTypes['pg/timestamptz-temporal@1']['input'];
-      readonly keterangan: CodecTypes['pg/text@1']['input'];
     };
     readonly Infrastruktur: {
       readonly id_infrastruktur: CodecTypes['pg/int4@1']['input'];
@@ -575,15 +557,6 @@ export type StorageColumnTypes = {
       readonly path_file: CodecTypes['pg/text@1']['output'];
       readonly tanggal_upload: CodecTypes['pg/timestamptz-temporal@1']['output'];
     };
-    readonly historiPenduduk: {
-      readonly id_histori: CodecTypes['pg/int4@1']['output'];
-      readonly id_penduduk: CodecTypes['pg/int4@1']['output'];
-      readonly id_user: CodecTypes['pg/int4@1']['output'];
-      readonly keterangan: CodecTypes['pg/text@1']['output'];
-      readonly status_baru: CodecTypes['pg/text@1']['output'];
-      readonly status_lama: CodecTypes['pg/text@1']['output'];
-      readonly waktu_perubahan: CodecTypes['pg/timestamptz-temporal@1']['output'];
-    };
     readonly infrastruktur: {
       readonly alamat: CodecTypes['pg/text@1']['output'];
       readonly foto: CodecTypes['pg/text@1']['output'];
@@ -720,15 +693,6 @@ export type StorageColumnInputTypes = {
       readonly path_file: CodecTypes['pg/text@1']['input'];
       readonly tanggal_upload: CodecTypes['pg/timestamptz-temporal@1']['input'];
     };
-    readonly historiPenduduk: {
-      readonly id_histori: CodecTypes['pg/int4@1']['input'];
-      readonly id_penduduk: CodecTypes['pg/int4@1']['input'];
-      readonly id_user: CodecTypes['pg/int4@1']['input'];
-      readonly keterangan: CodecTypes['pg/text@1']['input'];
-      readonly status_baru: CodecTypes['pg/text@1']['input'];
-      readonly status_lama: CodecTypes['pg/text@1']['input'];
-      readonly waktu_perubahan: CodecTypes['pg/timestamptz-temporal@1']['input'];
-    };
     readonly infrastruktur: {
       readonly alamat: CodecTypes['pg/text@1']['input'];
       readonly foto: CodecTypes['pg/text@1']['input'];
@@ -828,8 +792,7 @@ export namespace Models {
     password: CodecTypes['pg/text@1']['output'];
     nama: CodecTypes['pg/text@1']['output'];
     no_telepon: CodecTypes['pg/text@1']['output'];
-    historiPenduduk: public_HistoriPenduduk[];
-    readonly [RelationKeys]?: 'historiPenduduk';
+    readonly [RelationKeys]?: never;
   };
   export type public_Pegawai = {
     id_pegawai: CodecTypes['pg/int4@1']['output'];
@@ -877,10 +840,9 @@ export namespace Models {
     rw: CodecTypes['pg/text@1']['output'];
     status_penduduk: CodecTypes['pg/text@1']['output'];
     ahliWaris: public_AhliWaris[];
-    historiPenduduk: public_HistoriPenduduk[];
     kesejahteraan: public_Kesejahteraan[];
     suratAhliWaris: public_SuratAhliWaris[];
-    readonly [RelationKeys]?: 'ahliWaris' | 'historiPenduduk' | 'kesejahteraan' | 'suratAhliWaris';
+    readonly [RelationKeys]?: 'ahliWaris' | 'kesejahteraan' | 'suratAhliWaris';
   };
   export type public_Kesejahteraan = {
     id_kesejahteraan: CodecTypes['pg/int4@1']['output'];
@@ -890,18 +852,6 @@ export namespace Models {
     keterangan: CodecTypes['pg/text@1']['output'];
     penduduk: public_Penduduk;
     readonly [RelationKeys]?: 'penduduk';
-  };
-  export type public_HistoriPenduduk = {
-    id_histori: CodecTypes['pg/int4@1']['output'];
-    id_penduduk: CodecTypes['pg/int4@1']['output'];
-    id_user: CodecTypes['pg/int4@1']['output'];
-    status_lama: CodecTypes['pg/text@1']['output'];
-    status_baru: CodecTypes['pg/text@1']['output'];
-    waktu_perubahan: CodecTypes['pg/timestamptz-temporal@1']['output'];
-    keterangan: CodecTypes['pg/text@1']['output'];
-    penduduk: public_Penduduk;
-    user: public_User;
-    readonly [RelationKeys]?: 'penduduk' | 'user';
   };
   export type public_UMKM = {
     id_umkm: CodecTypes['pg/int4@1']['output'];
@@ -1009,7 +959,6 @@ export declare const models: {
     Diklat: Models.public_Diklat;
     Penduduk: Models.public_Penduduk;
     Kesejahteraan: Models.public_Kesejahteraan;
-    HistoriPenduduk: Models.public_HistoriPenduduk;
     UMKM: Models.public_UMKM;
     Infrastruktur: Models.public_Infrastruktur;
     Agenda: Models.public_Agenda;
@@ -1381,91 +1330,6 @@ type ContractBase = Omit<
                     readonly namespaceId: 'public' & NamespaceId;
                     readonly tableName: 'pegawai';
                     readonly columns: readonly ['id_pegawai'];
-                  };
-                },
-              ];
-            };
-            readonly historiPenduduk: {
-              columns: {
-                readonly id_histori: {
-                  readonly nativeType: 'int4';
-                  readonly codecId: 'pg/int4@1';
-                  readonly nullable: false;
-                  readonly default: {
-                    readonly kind: 'function';
-                    readonly expression: 'autoincrement()';
-                  };
-                };
-                readonly id_penduduk: {
-                  readonly nativeType: 'int4';
-                  readonly codecId: 'pg/int4@1';
-                  readonly nullable: false;
-                };
-                readonly id_user: {
-                  readonly nativeType: 'int4';
-                  readonly codecId: 'pg/int4@1';
-                  readonly nullable: false;
-                };
-                readonly status_lama: {
-                  readonly nativeType: 'text';
-                  readonly codecId: 'pg/text@1';
-                  readonly nullable: false;
-                };
-                readonly status_baru: {
-                  readonly nativeType: 'text';
-                  readonly codecId: 'pg/text@1';
-                  readonly nullable: false;
-                };
-                readonly waktu_perubahan: {
-                  readonly nativeType: 'timestamptz';
-                  readonly codecId: 'pg/timestamptz-temporal@1';
-                  readonly nullable: false;
-                };
-                readonly keterangan: {
-                  readonly nativeType: 'text';
-                  readonly codecId: 'pg/text@1';
-                  readonly nullable: false;
-                };
-              };
-              primaryKey: { readonly columns: readonly ['id_histori'] };
-              uniques: readonly [];
-              indexes: readonly [
-                {
-                  readonly name: 'historiPenduduk_id_penduduk_idx_8c1f84dd';
-                  readonly prefix: 'historiPenduduk_id_penduduk_idx';
-                  readonly columns: readonly ['id_penduduk'];
-                  readonly unique: false;
-                },
-                {
-                  readonly name: 'historiPenduduk_id_user_idx_52684e74';
-                  readonly prefix: 'historiPenduduk_id_user_idx';
-                  readonly columns: readonly ['id_user'];
-                  readonly unique: false;
-                },
-              ];
-              foreignKeys: readonly [
-                {
-                  readonly source: {
-                    readonly namespaceId: 'public' & NamespaceId;
-                    readonly tableName: 'historiPenduduk';
-                    readonly columns: readonly ['id_penduduk'];
-                  };
-                  readonly target: {
-                    readonly namespaceId: 'public' & NamespaceId;
-                    readonly tableName: 'penduduk';
-                    readonly columns: readonly ['id_penduduk'];
-                  };
-                },
-                {
-                  readonly source: {
-                    readonly namespaceId: 'public' & NamespaceId;
-                    readonly tableName: 'historiPenduduk';
-                    readonly columns: readonly ['id_user'];
-                  };
-                  readonly target: {
-                    readonly namespaceId: 'public' & NamespaceId;
-                    readonly tableName: 'user';
-                    readonly columns: readonly ['id_user'];
                   };
                 },
               ];
@@ -2014,10 +1878,6 @@ type ContractBase = Omit<
       readonly namespace: 'public' & NamespaceId;
       readonly model: 'Kesejahteraan';
     };
-    readonly historiPenduduk: {
-      readonly namespace: 'public' & NamespaceId;
-      readonly model: 'HistoriPenduduk';
-    };
     readonly uMKM: { readonly namespace: 'public' & NamespaceId; readonly model: 'UMKM' };
     readonly infrastruktur: {
       readonly namespace: 'public' & NamespaceId;
@@ -2361,77 +2221,6 @@ type ContractBase = Omit<
               };
             };
           };
-          readonly HistoriPenduduk: {
-            readonly fields: {
-              readonly id_histori: {
-                readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
-              };
-              readonly id_penduduk: {
-                readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
-              };
-              readonly id_user: {
-                readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
-              };
-              readonly status_lama: {
-                readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
-              };
-              readonly status_baru: {
-                readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
-              };
-              readonly waktu_perubahan: {
-                readonly nullable: false;
-                readonly type: {
-                  readonly kind: 'scalar';
-                  readonly codecId: 'pg/timestamptz-temporal@1';
-                };
-              };
-              readonly keterangan: {
-                readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
-              };
-            };
-            readonly relations: {
-              readonly penduduk: {
-                readonly to: {
-                  readonly namespace: 'public' & NamespaceId;
-                  readonly model: 'Penduduk';
-                };
-                readonly cardinality: 'N:1';
-                readonly nullable: false;
-                readonly on: {
-                  readonly localFields: readonly ['id_penduduk'];
-                  readonly targetFields: readonly ['id_penduduk'];
-                };
-              };
-              readonly user: {
-                readonly to: { readonly namespace: 'public' & NamespaceId; readonly model: 'User' };
-                readonly cardinality: 'N:1';
-                readonly nullable: false;
-                readonly on: {
-                  readonly localFields: readonly ['id_user'];
-                  readonly targetFields: readonly ['id_user'];
-                };
-              };
-            };
-            readonly storage: {
-              readonly table: 'historiPenduduk';
-              readonly namespaceId: 'public';
-              readonly fields: {
-                readonly id_histori: { readonly column: 'id_histori' };
-                readonly id_penduduk: { readonly column: 'id_penduduk' };
-                readonly id_user: { readonly column: 'id_user' };
-                readonly status_lama: { readonly column: 'status_lama' };
-                readonly status_baru: { readonly column: 'status_baru' };
-                readonly waktu_perubahan: { readonly column: 'waktu_perubahan' };
-                readonly keterangan: { readonly column: 'keterangan' };
-              };
-            };
-          };
           readonly Infrastruktur: {
             readonly fields: {
               readonly id_infrastruktur: {
@@ -2695,17 +2484,6 @@ type ContractBase = Omit<
                 readonly to: {
                   readonly namespace: 'public' & NamespaceId;
                   readonly model: 'AhliWaris';
-                };
-                readonly cardinality: '1:N';
-                readonly on: {
-                  readonly localFields: readonly ['id_penduduk'];
-                  readonly targetFields: readonly ['id_penduduk'];
-                };
-              };
-              readonly historiPenduduk: {
-                readonly to: {
-                  readonly namespace: 'public' & NamespaceId;
-                  readonly model: 'HistoriPenduduk';
                 };
                 readonly cardinality: '1:N';
                 readonly on: {
@@ -3037,19 +2815,7 @@ type ContractBase = Omit<
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
             };
-            readonly relations: {
-              readonly historiPenduduk: {
-                readonly to: {
-                  readonly namespace: 'public' & NamespaceId;
-                  readonly model: 'HistoriPenduduk';
-                };
-                readonly cardinality: '1:N';
-                readonly on: {
-                  readonly localFields: readonly ['id_user'];
-                  readonly targetFields: readonly ['id_user'];
-                };
-              };
-            };
+            readonly relations: Record<string, never>;
             readonly storage: {
               readonly table: 'user';
               readonly namespaceId: 'public';
