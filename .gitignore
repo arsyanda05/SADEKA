@@ -12,3 +12,7 @@ dist-ssr/
 Thumbs.db
 
 /backend/src/uploads/
+
+# Python
+__pycache__/
+*.py[cod]

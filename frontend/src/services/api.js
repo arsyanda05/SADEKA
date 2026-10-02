@@ -1,9 +1,5 @@
 const API_URL = "http://localhost:5000/api";
 
-// ============================================================
-// PENDUDUK
-// ============================================================
-
 export const getPenduduk = async () => {
   const response = await fetch(`${API_URL}/penduduk`);
 
@@ -57,10 +53,6 @@ export const deletePenduduk = async (id) => {
 
   return response.json();
 };
-
-// ============================================================
-// PEGAWAI
-// ============================================================
 
 export const getPegawai = async () => {
   const response = await fetch(`${API_URL}/pegawai`);
@@ -158,10 +150,6 @@ export const deletePegawai = async (id) => {
   return result;
 };
 
-// ============================================================
-// DOKUMEN PEGAWAI
-// ============================================================
-
 export const getDokumenPegawai = async () => {
   const response = await fetch(
     `${API_URL}/dokumen-pegawai`
@@ -243,10 +231,6 @@ export const deleteDokumenPegawai = async (
   return result;
 };
 
-// ============================================================
-// DIKLAT PEGAWAI
-// ============================================================
-
 export const getDiklat = async () => {
   const response = await fetch(
     `${API_URL}/diklat`
@@ -325,10 +309,6 @@ export const deleteDiklat = async (id) => {
 
   return result;
 };
-
-// ============================================================
-// SURAT
-// ============================================================
 
 export const getSurat = async () => {
   const response = await fetch(
@@ -456,10 +436,6 @@ export const deleteSurat = async (id) => {
   return response.json();
 };
 
-// ============================================================
-// AUTH
-// ============================================================
-
 export const registerUser = async (
   data
 ) => {
@@ -540,10 +516,6 @@ export const resetPassword = async (
 
   return result;
 };
-
-// ============================================================
-// AGENDA
-// ============================================================
 
 export const getAgenda = async () => {
   const response = await fetch(
@@ -685,10 +657,6 @@ export const confirmAgendaReminder =
     return result;
   };
 
-// ============================================================
-// KESEJAHTERAAN
-// ============================================================
-
 export const getKesejahteraan =
   async () => {
     const response = await fetch(
@@ -803,10 +771,6 @@ export const deleteKesejahteraan =
     return result;
   };
 
-// ============================================================
-// UMKM
-// ============================================================
-
 export const getUMKM = async () => {
   const response = await fetch(
     `${API_URL}/umkm`
@@ -919,10 +883,6 @@ export const deleteUMKM =
 
     return result;
   };
-
-// ============================================================
-// INFRASTRUKTUR
-// ============================================================
 
 export const getInfrastruktur =
   async () => {
@@ -1037,3 +997,29 @@ export const deleteInfrastruktur =
 
     return result;
   };
+
+export const askAsistenData = async (question) => {
+  const response = await fetch(
+    `${API_URL}/asisten-data`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        question,
+      }),
+    }
+  );
+
+  const result = await response.json();
+
+  if (!response.ok) {
+    throw new Error(
+      result.message ||
+        "Gagal menghubungi Asisten Data"
+    );
+  }
+
+  return result;
+};

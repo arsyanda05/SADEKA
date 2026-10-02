@@ -15,6 +15,7 @@ import infrastrukturRouter from "./routes/infrastruktur.js";
 import suratAhliWarisRouter from "./routes/suratahliwaris.js";
 import trackingSuratRouter from "./routes/trackingsurat.js";
 import dokumenRouter from "./routes/dokumen.js";
+import asistendataRouter from "./routes/asistendata.js";
 import authRouter from "./routes/auth.js";
 
 const app = express();
@@ -115,6 +116,11 @@ app.use(
 );
 
 app.use("/api/dokumen", dokumenRouter);
+
+app.use(
+  "/api/asisten-data",
+  asistendataRouter
+);
 
 app.use(
   "/api/auth",

@@ -1,0 +1,142 @@
+pertanyaan,intent
+Berapa luas wilayah kelurahan?,out_of_scope
+Mohon tampilkan data penduduk perempuan di wilayah RW 03.,data_penduduk
+Cari daftar ahli waris.,data_ahli_waris
+Lihat data kesejahteraan warga,data_kesejahteraan
+Berapa jumlah RW di kelurahan?,jumlah_rw
+Lihat semua surat yang ada.,data_surat
+Berikan daftar data kesejahteraan,data_kesejahteraan
+Tampilkan data infrastruktur,data_infrastruktur
+Cari warga perempuan di RW 08,data_penduduk
+Bisa tampilkan data rutilahu di RT 05.,data_kesejahteraan
+Cari data umkm di RW 06.,data_umkm
+Cek data daftar usaha di wilayah RW 10.,data_umkm
+Ada berapa RT yang terdaftar?,jumlah_rt
+Tampilkan saluran yang rusak di RT 03.,data_infrastruktur
+Tampilkan data umkm di RT 01.,data_umkm
+Berapa jumlah wilayah RT?,jumlah_rt
+Tampilkan semua UMKM yang ada.,data_umkm
+Tolong perlihatkan status pelacakan surat.,data_tracking_surat
+Bisa tampilkan data putus sekolah di RT 05.,data_kesejahteraan
+Tolong terjemahkan kata ini ke bahasa Inggris.,out_of_scope
+Tampilkan ahli waris atas nama Andi.,data_ahli_waris
+Cari data umkm di RT 08.,data_umkm
+Tampilkan jumlah RT,jumlah_rt
+Kapan jadwal musyawarah berikutnya?,data_agenda
+Apa itu inflasi?,out_of_scope
+Bisa tampilkan jumlah total penduduk di wilayah RW 04?,jumlah_penduduk
+Lihat seluruh infrastruktur,data_infrastruktur
+Berapa banyak warga yang tercatat di wilayah RW 01?,jumlah_penduduk
+Lihat daftar warga di wilayah RW 10.,data_penduduk
+Saya ingin melihat jumlah RW,jumlah_rw
+Apa itu bitcoin?,out_of_scope
+Tampilkan data tracking surat,data_tracking_surat
+Ada berapa warga di kelurahan?,jumlah_penduduk
+Data pegawai ASN,data_pegawai
+Tampilkan warga perempuan di RW 06,data_penduduk
+Berapa total RW di kelurahan?,jumlah_rw
+Tampilkan riwayat tracking surat,data_tracking_surat
+Jam berapa sekarang?,out_of_scope
+Riwayat pindah penduduk bernama Budi.,data_histori_penduduk
+Cari warga yang mengalami stunting,data_kesejahteraan
+Apa perbedaan kucing dan anjing?,out_of_scope
+Siapa saja penerima stunting di RW 09?,data_kesejahteraan
+Tolong perlihatkan agenda kegiatan kelurahan.,data_agenda
+Berapa banyak warga di kelurahan?,jumlah_penduduk
+Apa saja infrastruktur yang tersedia?,data_infrastruktur
+Cari data penduduk dengan nama Budi,data_penduduk
+Berapa pegawai ASN,data_pegawai
+Bisa diketahui jumlah RW di kelurahan?,jumlah_rw
+Lihat warga yang menerima bantuan.,data_kesejahteraan
+Ada agenda rapat minggu ini?,data_agenda
+Tampilkan histori data warga.,data_histori_penduduk
+Tolong perlihatkan log perubahan data penduduk.,data_histori_penduduk
+Bisa tampilkan data dokumen.,data_dokumen
+Tampilkan warga berstatus pindah di RT 07.,data_penduduk
+1 tambah 1 berapa?,out_of_scope
+Ceritakan lelucon dong.,out_of_scope
+Mohon tampilkan daftar usaha di RT 06.,data_umkm
+Saya ingin mengetahui data surat,data_surat
+Tolong perlihatkan data pegawai kelurahan.,data_pegawai
+Tampilkan pegawai dengan jabatan staff.,data_pegawai
+Mohon tampilkan daftar warga.,data_penduduk
+Cek data histori tracking surat.,data_tracking_surat
+Lihat daftar ahli waris.,data_ahli_waris
+Riwayat pindah penduduk bernama Bambang.,data_histori_penduduk
+Tampilkan surat yang tersimpan,data_surat
+Cari data pju di RT 02.,data_infrastruktur
+Berapa pju yang kondisinya baik di RW 09?,data_infrastruktur
+Siapa ahli waris dari almarhum Andi?,data_ahli_waris
+Cek data data surat.,data_surat
+Ada berapa umkm di wilayah RW 07?,data_umkm
+Cari data beasiswa di RW 01.,data_kesejahteraan
+Daftar semua dokumen,data_dokumen
+Bisa tampilkan agenda kegiatan kelurahan.,data_agenda
+Saya ingin melihat daftar dokumen,data_dokumen
+Lihat data penduduk perempuan di RW 02.,data_penduduk
+Tampilkan dokumen terbaru yang diupload.,data_dokumen
+Tolong perlihatkan daftar pegawai.,data_pegawai
+Tampilkan penerangan jalan yang sedang di RT 03.,data_infrastruktur
+Tampilkan surat masuk minggu ini.,data_surat
+Berapa banyak RW yang dimiliki kelurahan?,jumlah_rw
+Siapa saja penerima beasiswa di RW 02?,data_kesejahteraan
+Tampilkan semua histori penduduk,data_histori_penduduk
+Bisa tampilkan jumlah warga yang tercatat di RT 01?,jumlah_penduduk
+Tampilkan warga perempuan di RW 04,data_penduduk
+Bisa tampilkan dokumen yang diunggah.,data_dokumen
+Saya ingin melihat daftar surat,data_surat
+Tampilkan seluruh data sarana infrastruktur,data_infrastruktur
+Tolong perlihatkan data putus sekolah di RT 05.,data_kesejahteraan
+Tampilkan jadwal kegiatan minggu ini.,data_agenda
+Tolong perlihatkan riwayat perubahan status penduduk.,data_histori_penduduk
+Berapa RT yang ada?,jumlah_rt
+Lihat daftar agenda,data_agenda
+Cari status pelacakan surat.,data_tracking_surat
+Mohon tampilkan daftar ahli waris.,data_ahli_waris
+Bisa tampilkan surat yang ada?,data_surat
+Kamu bisa membantu PR matematika?,out_of_scope
+Cek data data umkm di RW 10.,data_umkm
+Ada berapa agenda PKK,data_agenda
+Tolong perlihatkan data dokumen.,data_dokumen
+Tampilkan pegawai dengan jabatan kasi pelayanan.,data_pegawai
+Bisa tampilkan data saluran di wilayah RW 03.,data_infrastruktur
+Tampilkan agenda kelurahan,data_agenda
+Mohon tampilkan agenda kegiatan kelurahan.,data_agenda
+Tolong tampilkan jumlah RT,jumlah_rt
+Siapa saja penerima putus sekolah di RW 02?,data_kesejahteraan
+Lihat riwayat perubahan status penduduk.,data_histori_penduduk
+Tampilkan log perubahan data penduduk.,data_histori_penduduk
+Mohon tampilkan daftar usaha di wilayah RW 01.,data_umkm
+Tampilkan ahli waris dengan hubungan suami.,data_ahli_waris
+Ada berapa penduduk yang terdaftar di RT 01?,jumlah_penduduk
+Cek data data dokumen.,data_dokumen
+Riwayat pindah penduduk bernama Rudi.,data_histori_penduduk
+Berapa warga yang tercatat di wilayah RW 02?,jumlah_penduduk
+Bisa tampilkan daftar warga di RW 04.,data_penduduk
+Tampilkan jadwal kerja bakti.,data_agenda
+Siapa saja penduduk laki-laki di wilayah RW 04?,data_penduduk
+Cari data cctv di RT 09.,data_infrastruktur
+Tampilkan data ibu hamil di RW 01.,data_kesejahteraan
+Lihat riwayat pelacakan surat,data_tracking_surat
+Tampilkan ahli waris atas nama Bambang.,data_ahli_waris
+Tampilkan daftar penduduk yang tersimpan.,data_penduduk
+Apa itu kecerdasan buatan?,out_of_scope
+Lihat riwayat penduduk,data_histori_penduduk
+Ada berapa total penduduk di wilayah RW 01?,jumlah_penduduk
+Tampilkan pegawai PPPK,data_pegawai
+Siapa ahli waris dari almarhum Rudi?,data_ahli_waris
+Lihat data umkm di RT 01.,data_umkm
+Berapa pju yang kondisinya sedang di RW 09?,data_infrastruktur
+Tolong hitung penduduk perempuan?,jumlah_penduduk
+Cari log perubahan data penduduk.,data_histori_penduduk
+Siapa warga bernama Dewi?,data_penduduk
+Ada berapa surat keterangan hari ini?,data_surat
+Tampilkan seluruh data tracking surat,data_tracking_surat
+Riwayat pindah penduduk bernama Dewi.,data_histori_penduduk
+Tampilkan agenda kelurahan,data_agenda
+Tampilkan surat keterangan minggu ini.,data_surat
+Lihat status pengajuan surat.,data_tracking_surat
+Cari data beasiswa di RW 09.,data_kesejahteraan
+Ada berapa PPPK,data_pegawai
+Ada berapa kasus stunting di RW 02?,data_kesejahteraan
+Tampilkan daftar pegawai.,data_pegawai
