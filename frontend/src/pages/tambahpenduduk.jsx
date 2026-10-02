@@ -5,7 +5,6 @@ import { createPenduduk } from "../services/api";
 
 import Header from "./header";
 import simpanDataIcon from "../assets/simpandata.png";
-import simpanIcon from "../assets/simpan.png";
 import backIcon from "../assets/back.png";
 
 function TambahPenduduk() {
@@ -70,15 +69,6 @@ function TambahPenduduk() {
 
       alert("Gagal menyimpan data penduduk.");
     }
-  };
-
-  // ==============================
-  // SIMPAN DRAFT
-  // ==============================
-  const handleDraft = () => {
-    console.log("Draft Penduduk:", formData);
-
-    alert("Draft data penduduk berhasil disimpan!");
   };
 
   return (
@@ -335,20 +325,6 @@ function TambahPenduduk() {
             <b>
               Terisi 100%
             </b>
-
-            {/* SIMPAN DRAFT */}
-            <button
-              type="button"
-              className="tambah-penduduk-draft-button"
-              onClick={handleDraft}
-            >
-              <img
-                src={simpanIcon}
-                alt=""
-              />
-
-              Simpan Draft
-            </button>
 
             {/* SIMPAN DATA */}
             <button

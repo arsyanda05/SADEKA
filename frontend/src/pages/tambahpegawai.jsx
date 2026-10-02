@@ -10,7 +10,6 @@ import {
 import Header from "./header";
 
 import backIcon from "../assets/back.png";
-import simpanIcon from "../assets/simpan.png";
 import simpanDataIcon from "../assets/simpandata.png";
 
 // =====================================================
@@ -79,21 +78,6 @@ function TambahPegawai() {
         ? files[0]
         : value,
     }));
-  };
-
-  // =====================================================
-  // SIMPAN DRAFT
-  // =====================================================
-
-  const handleDraft = () => {
-    console.log(
-      "Draft Pegawai:",
-      formData
-    );
-
-    alert(
-      "Draft data pegawai berhasil disimpan!"
-    );
   };
 
   // =====================================================
@@ -736,24 +720,6 @@ function TambahPegawai() {
             <span>
               Terisi 100%
             </span>
-
-            {/* DRAFT */}
-
-            <button
-              type="button"
-              className="tambah-pegawai-draft-button"
-              onClick={handleDraft}
-              disabled={isSaving}
-            >
-
-              <img
-                src={simpanIcon}
-                alt=""
-              />
-
-              Simpan Draft
-
-            </button>
 
             {/* SIMPAN */}
 

@@ -116,13 +116,14 @@ function Agenda() {
     const pengingatMenit =
       agenda.pengingat_menit ?? 1440;
 
-    let pengingat =
-      "Notifikasi Pop up (H-1)";
+    let pengingat = "Notifikasi Pop up (H-1)";
 
-    let pengingatStatus =
-      "Notifikasi akan muncul";
+    let pengingatStatus = "Notifikasi akan muncul";
 
-    if (status === "Selesai") {
+    if (pengingatMenit === 0) {
+      pengingat = "Tidak Aktif";
+      pengingatStatus = "Notifikasi dinonaktifkan";
+    } else if (status === "Selesai") {
       pengingat = "Sudah Berbunyi";
 
       const tanggal = new Date(
@@ -195,6 +196,8 @@ function Agenda() {
       waktu_pengingat:
         agenda.waktu_pengingat ||
         null,
+
+      pengingat_menit: pengingatMenit,
     };
   };
 
@@ -344,6 +347,10 @@ function Agenda() {
   // ================================
   const reminderAgenda = dataAgenda.find(
     (item) => {
+      if ((item.pengingat_menit ?? 1440) <= 0) {
+        return false;
+      }
+
       // Kalau sudah dikonfirmasi,
       // jangan pernah tampilkan lagi.
       if (

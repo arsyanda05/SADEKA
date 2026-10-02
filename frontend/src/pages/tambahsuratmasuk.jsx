@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "./header";
 import backIcon from "../assets/back.png";
-import simpanIcon from "../assets/simpan.png";
 import simpanDataIcon from "../assets/simpandata.png";
 import { createSuratWithDocument } from "../services/api";
 
@@ -56,10 +55,6 @@ function TambahSuratMasuk() {
 		} finally {
 			setLoading(false);
 		}
-	};
-
-	const handleDraft = () => {
-		alert("Draft surat masuk berhasil disimpan!");
 	};
 
 	return (
@@ -246,15 +241,6 @@ function TambahSuratMasuk() {
 						</div>
 
 						<span>Terisi 100%</span>
-
-						<button
-							type="button"
-							className="tambah-surat-masuk-draft-button"
-							onClick={handleDraft}
-						>
-							<img src={simpanIcon} alt="" />
-							Simpan Draft
-						</button>
 
 						<button
 							type="submit"

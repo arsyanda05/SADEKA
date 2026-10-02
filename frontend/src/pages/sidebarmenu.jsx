@@ -109,9 +109,10 @@ function SideBar({ isOpen, onClose }) {
               Administrasi &amp; Arsip
             </span>
 
-            <span className="chevron">
-              {administrasiOpen ? "^" : "⌄"}
-            </span>
+            <span
+              className={`chevron ${administrasiOpen ? "chevron-open" : ""}`}
+              aria-hidden="true"
+            />
 
           </button>
 
@@ -156,9 +157,10 @@ function SideBar({ isOpen, onClose }) {
               Data Kelurahan
             </span>
 
-            <span className="chevron">
-              {dataKelurahanOpen ? "^" : "⌄"}
-            </span>
+            <span
+              className={`chevron ${dataKelurahanOpen ? "chevron-open" : ""}`}
+              aria-hidden="true"
+            />
 
           </button>
 

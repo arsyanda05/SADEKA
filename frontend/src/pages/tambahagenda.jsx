@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Header from "./header";
 import backIcon from "../assets/back.png";
-import simpanIcon from "../assets/simpan.png";
 import simpanDataIcon from "../assets/simpandata.png";
 
 import {
@@ -31,6 +30,12 @@ function TambahAgenda() {
           kegiatan: editingAgenda.kegiatan,
 
           kategori: editingAgenda.kategori,
+
+          notifikasi:
+            editingAgenda.pengingat_menit !== 0,
+
+          popup:
+            editingAgenda.pengingat_menit !== 0,
 
           tanggal: editingAgenda.tanggal
             .split("/")
@@ -135,8 +140,10 @@ function TambahAgenda() {
 
         kategori: formData.kategori,
 
-        // H-1 = 1440 menit
-        pengingat_menit: 1440,
+        pengingat_menit:
+          formData.notifikasi && formData.popup
+            ? 1440
+            : 0,
       };
 
       // =========================
@@ -184,16 +191,6 @@ function TambahAgenda() {
     } finally {
       setSaving(false);
     }
-  };
-
-  // =========================
-  // SIMPAN DRAFT
-  // =========================
-
-  const handleDraft = () => {
-    alert(
-      "Fitur Simpan Draft belum terhubung ke database."
-    );
   };
 
   return (
@@ -523,24 +520,6 @@ function TambahAgenda() {
             <span>
               Terisi 100%
             </span>
-
-            <button
-              type="button"
-              className="tambah-agenda-draft-button"
-              onClick={
-                handleDraft
-              }
-              disabled={saving}
-            >
-
-              <img
-                src={simpanIcon}
-                alt=""
-              />
-
-              Simpan Draft
-
-            </button>
 
             <button
               type="submit"

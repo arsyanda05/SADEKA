@@ -280,11 +280,20 @@ body {
 
 /* CHEVRON */
 .chevron {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  flex: 0 0 7px;
   margin-left: auto;
   color: #ffffff;
-  font-size: 16px;
-  line-height: 1;
-  font-weight: 600;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform 0.18s ease;
+}
+
+.chevron-open {
+  transform: rotate(225deg);
 }
 
 /* SUBMENU */
