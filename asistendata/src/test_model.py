@@ -1,9 +1,12 @@
+from pathlib import Path
+
 import joblib
 
 from preprocess import preprocess_text
 
 
-MODEL_PATH = "models/model_intent_sadeka.pkl"
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+MODEL_PATH = PROJECT_ROOT / "models" / "model_intent_sadeka.pkl"
 
 model = joblib.load(MODEL_PATH)
 

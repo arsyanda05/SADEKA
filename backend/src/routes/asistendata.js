@@ -1,5 +1,6 @@
 import express from "express";
-import { spawn } from "child_process";
+import { spawn, spawnSync } from "child_process";
+import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -20,6 +21,54 @@ const ASSISTEN_DATA_SCRIPT = path.join(
   "assistant.py"
 );
 
+let selectedPythonExecutable;
+
+const pythonExecutable = () => {
+  if (selectedPythonExecutable) {
+    return selectedPythonExecutable;
+  }
+
+  const projectPython = path.join(
+    PROJECT_ROOT,
+    ".venv",
+    process.platform === "win32" ? "Scripts" : "bin",
+    process.platform === "win32" ? "python.exe" : "python"
+  );
+  const candidates = process.env.ASISTENDATA_PYTHON
+    ? [process.env.ASISTENDATA_PYTHON]
+    : [projectPython, "python"];
+
+  for (const candidate of candidates) {
+    if (candidate !== "python" && !fs.existsSync(candidate)) {
+      continue;
+    }
+
+    const check = spawnSync(
+      candidate,
+      [
+        "-c",
+        "import joblib, psycopg2, sklearn; from Sastrawi.Stemmer.StemmerFactory import StemmerFactory",
+      ],
+      {
+        encoding: "utf8",
+        windowsHide: true,
+        timeout: 10_000,
+      }
+    );
+
+    if (!check.error && check.status === 0) {
+      selectedPythonExecutable = candidate;
+      return selectedPythonExecutable;
+    }
+  }
+
+  throw new Error(
+    "Dependensi Asisten Data tidak ditemukan. " +
+    "Jalankan `python -m pip install -r asistendata/requirements.txt` " +
+    "menggunakan Python yang akan menjalankan backend, atau atur ASISTENDATA_PYTHON."
+  );
+};
+
 router.post("/", async (req, res) => {
   try {
     const { question } = req.body;
@@ -38,7 +87,7 @@ router.post("/", async (req, res) => {
       question.trim();
 
     const pythonProcess = spawn(
-      "python",
+      pythonExecutable(),
       [
         ASSISTEN_DATA_SCRIPT,
         "--api",
