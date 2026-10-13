@@ -17,3 +17,7 @@ Thumbs.db
 __pycache__/
 *.py[cod]
 smartdoc/.venv/
+smartdoc/runs/
+smartdoc/input/
+smartdoc/output/
+smartdoc/configs/data.yaml
