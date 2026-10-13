@@ -84,9 +84,9 @@ router.post("/", async (req, res) => {
       }
     );
 
-    /*
-     * Kirim JSON ke Python melalui stdin.
-     */
+
+
+
     const input = JSON.stringify({
       question: cleanQuestion,
     });

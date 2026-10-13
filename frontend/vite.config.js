@@ -1,7 +1,14 @@
 import react from '@vitejs/plugin-react'
+import process from 'node:process'
 import { defineConfig } from 'vite'
 
-// https://vite.dev/config/
+
 export default defineConfig({
   plugins: [react()],
+  server: {
+    proxy: {
+      "/api": process.env.VITE_BACKEND_URL || "http://127.0.0.1:5002",
+      "/uploads": process.env.VITE_BACKEND_URL || "http://127.0.0.1:5002",
+    },
+  },
 })

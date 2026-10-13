@@ -48,9 +48,9 @@ const statusOptions = [
 function Infrastruktur() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // =========================
-  // DATA
-  // =========================
+
+
+
   const [dataInfrastruktur, setDataInfrastruktur] =
     useState([]);
 
@@ -60,9 +60,9 @@ function Infrastruktur() {
   const [errorMessage, setErrorMessage] =
     useState("");
 
-  // =========================
-  // SEARCH & FILTER
-  // =========================
+
+
+
   const [search, setSearch] =
     useState("");
 
@@ -90,17 +90,17 @@ function Infrastruktur() {
   const [hoveredRW, setHoveredRW] =
     useState(null);
 
-  // =========================
-  // PAGINATION
-  // =========================
+
+
+
   const [currentPage, setCurrentPage] =
     useState(1);
 
   const itemsPerPage = 10;
 
-  // =========================
-  // DETAIL
-  // =========================
+
+
+
   const [
     selectedInfrastructure,
     setSelectedInfrastructure,
@@ -109,9 +109,9 @@ function Infrastruktur() {
   const navigate = useNavigate();
   const params = useParams();
 
-  // ============================================================
-  // AMBIL DATA INFRASTRUKTUR
-  // ============================================================
+
+
+
 
   const loadInfrastruktur = async () => {
     try {
@@ -149,9 +149,9 @@ function Infrastruktur() {
     loadInfrastruktur();
   }, []);
 
-  // ============================================================
-  // DETAIL BERDASARKAN URL
-  // ============================================================
+
+
+
 
   useEffect(() => {
     if (!params.id) {
@@ -174,21 +174,21 @@ function Infrastruktur() {
     dataInfrastruktur,
   ]);
 
-  // ============================================================
-  // SIDEBAR
-  // ============================================================
+
+
+
 
   const closeSidebar = () => {
     setSidebarOpen(false);
   };
 
-  // ============================================================
-  // DATA RW DAN RT
-  // ============================================================
 
-  // ============================================================
-  // FILTER DATA
-  // ============================================================
+
+
+
+
+
+
 
   const filteredData = useMemo(() => {
     const keyword =
@@ -298,9 +298,9 @@ function Infrastruktur() {
     status,
   ]);
 
-  // ============================================================
-  // PAGINATION
-  // ============================================================
+
+
+
 
   const totalPages = Math.max(
     1,
@@ -336,9 +336,9 @@ function Infrastruktur() {
     totalPages,
   ]);
 
-  // ============================================================
-  // STATISTIK
-  // ============================================================
+
+
+
 
   const totalInfrastruktur =
     dataInfrastruktur.length;
@@ -361,16 +361,16 @@ function Infrastruktur() {
         item.jenis === "CCTV"
     ).length;
 
-  // ============================================================
-  // DELETE
-  // ============================================================
+
+
+
 
   const handleDeleteInfrastruktur =
     async (data) => {
       const id =
         data?.id_infrastruktur;
 
-      // Pastikan ID tersedia
+
       if (!id) {
         alert(
           "ID infrastruktur tidak ditemukan."
@@ -378,7 +378,7 @@ function Infrastruktur() {
         return;
       }
 
-      // Konfirmasi sebelum hapus
+
       const confirmed =
         window.confirm(
           `Apakah Anda yakin ingin menghapus data ${data.jenis || "infrastruktur"}?`
@@ -392,20 +392,20 @@ function Infrastruktur() {
         setLoading(true);
         setErrorMessage("");
 
-        // Hapus dari database
+
         await deleteInfrastruktur(id);
 
-        // Tutup detail
+
         setSelectedInfrastructure(
           null
         );
 
-        // Reload data
+
         await loadInfrastruktur();
 
-        // Jika data yang dihapus membuat
-        // halaman sekarang kosong,
-        // kembali ke halaman pertama
+
+
+
         setCurrentPage(1);
 
         alert(
@@ -431,9 +431,9 @@ function Infrastruktur() {
       }
     };
 
-  // ============================================================
-  // FORMAT NOMOR URUT
-  // ============================================================
+
+
+
 
   const getNomorUrut =
     (index) => {
@@ -445,9 +445,9 @@ function Infrastruktur() {
       );
     };
 
-  // ============================================================
-  // RENDER
-  // ============================================================
+
+
+
 
   return (
     <div className="infrastruktur-page">
@@ -457,7 +457,7 @@ function Infrastruktur() {
         onClose={closeSidebar}
       />
 
-      {/* MAIN */}
+
 
       <main className="infrastruktur-main">
 
@@ -480,9 +480,9 @@ function Infrastruktur() {
 
         <section className="infrastruktur-content">
 
-          {/* ================================================== */}
-          {/* TOMBOL TAMBAH */}
-          {/* ================================================== */}
+
+
+
 
           <div className="top-action">
 
@@ -501,9 +501,9 @@ function Infrastruktur() {
 
           </div>
 
-          {/* ================================================== */}
-          {/* STATISTICS */}
-          {/* ================================================== */}
+
+
+
 
           <div className="infrastructure-stats">
 
@@ -559,9 +559,9 @@ function Infrastruktur() {
 
           </div>
 
-          {/* ================================================== */}
-          {/* TABLE CARD */}
-          {/* ================================================== */}
+
+
+
 
           <div className="infrastructure-table-card">
 
@@ -577,9 +577,9 @@ function Infrastruktur() {
                   Filter
                 </span>
 
-                {/* ================================================== */}
-                {/* WILAYAH */}
-                {/* ================================================== */}
+
+
+
 
                 <div className="wilayah-dropdown">
 
@@ -720,9 +720,9 @@ function Infrastruktur() {
 
                 </div>
 
-                {/* ================================================== */}
-                {/* STATUS */}
-                {/* ================================================== */}
+
+
+
 
                 <div className="simple-dropdown">
 
@@ -809,9 +809,9 @@ function Infrastruktur() {
 
                 </div>
 
-                {/* ================================================== */}
-                {/* KATEGORI */}
-                {/* ================================================== */}
+
+
+
 
                 <div className="simple-dropdown">
 
@@ -901,9 +901,9 @@ function Infrastruktur() {
               </div>
             </div>
 
-            {/* ================================================== */}
-            {/* TABLE */}
-            {/* ================================================== */}
+
+
+
 
             <div className="table-scroll">
 
@@ -1066,9 +1066,9 @@ function Infrastruktur() {
 
             </div>
 
-            {/* ================================================== */}
-            {/* FOOTER */}
-            {/* ================================================== */}
+
+
+
 
             <div className="table-footer">
 
@@ -1185,9 +1185,9 @@ function Infrastruktur() {
         </section>
       </main>
 
-      {/* ================================================== */}
-      {/* DETAIL INFRASTRUKTUR */}
-      {/* ================================================== */}
+
+
+
 
       {selectedInfrastructure && (
         <DetailInfrastruktur
@@ -1209,9 +1209,9 @@ function Infrastruktur() {
   );
 }
 
-// ============================================================
-// STAT CARD
-// ============================================================
+
+
+
 
 function StatCard({
   icon,

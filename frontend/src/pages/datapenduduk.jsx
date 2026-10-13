@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SideBar from "./sidebarmenu";
 import Header from "./header";
+import DetailPenduduk from "./detailpenduduk";
 import {
   getPenduduk,
   deletePenduduk
@@ -22,7 +23,7 @@ function DataPenduduk() {
   const [rwOpen, setRwOpen] = useState(false);
   const [statusOpen, setStatusOpen] = useState(false);
 
-  const [openAction, setOpenAction] = useState(null);
+  const [selectedPenduduk, setSelectedPenduduk] = useState(null);
 
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -32,9 +33,9 @@ function DataPenduduk() {
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState("");
 
-  // =========================================================
-  // MENGAMBIL DATA PENDUDUK DARI BACKEND
-  // =========================================================
+
+
+
 
   useEffect(() => {
     const loadPenduduk = async () => {
@@ -92,9 +93,9 @@ function DataPenduduk() {
     loadPenduduk();
   }, []);
 
-  // =========================================================
-  // OPTIONS FILTER
-  // =========================================================
+
+
+
 
   const rtOptions = Array.from(
     { length: 124 },
@@ -115,9 +116,9 @@ function DataPenduduk() {
     "Pindah"
   ];
 
-  // =========================================================
-  // FILTER DATA
-  // =========================================================
+
+
+
 
   const filteredData = dataPenduduk.filter((item) => {
     const keyword = search.toLowerCase().trim();
@@ -156,9 +157,9 @@ function DataPenduduk() {
     );
   });
 
-  // =========================================================
-  // PAGINATION
-  // =========================================================
+
+
+
 
   const totalPages = Math.max(
     1,
@@ -188,17 +189,17 @@ function DataPenduduk() {
           filteredData.length
         );
 
-  // =========================================================
-  // SIDEBAR
-  // =========================================================
+
+
+
 
   const closeSidebar = () => {
     setSidebarOpen(false);
   };
 
-  // =========================================================
-  // DROPDOWN
-  // =========================================================
+
+
+
 
   const closeAllDropdown = () => {
     setRtOpen(false);
@@ -206,12 +207,12 @@ function DataPenduduk() {
     setStatusOpen(false);
   };
 
-  // =========================================================
-  // EDIT DATA
-  // =========================================================
+
+
+
 
   const handleEdit = (item) => {
-    setOpenAction(null);
+    setSelectedPenduduk(null);
 
     navigate(
       `/data-penduduk/${item.id}/edit`,
@@ -223,9 +224,9 @@ function DataPenduduk() {
     );
   };
 
-  // =========================================================
-  // HAPUS DATA
-  // =========================================================
+
+
+
 
   const handleDelete = async (item) => {
     const jenisKelamin =
@@ -243,29 +244,30 @@ function DataPenduduk() {
         `RT/RW: ${item.rt}/${item.rw}\n` +
         `Jenis Kelamin: ${jenisKelamin}\n` +
         `Status: ${item.status}\n\n` +
+        `Data Kesejahteraan, surat Ahli Waris, dokumen, tracking, dan relasi ahli waris yang terkait juga akan dihapus.\n\n` +
         `Data yang dihapus tidak dapat dikembalikan.`
     );
 
-    // Jika user memilih Cancel
+
     if (!confirmed) {
       return;
     }
 
     try {
-      // Hapus data dari database
+
       await deletePenduduk(item.id);
 
-      // Hapus juga dari state frontend
+
       setDataPenduduk((prev) =>
         prev.filter(
           (data) => data.id !== item.id
         )
       );
 
-      setOpenAction(null);
+      setSelectedPenduduk(null);
 
-      // Jika item terakhir pada halaman dihapus,
-      // kembali ke halaman sebelumnya
+
+
       if (
         currentData.length === 1 &&
         currentPage > 1
@@ -286,14 +288,14 @@ function DataPenduduk() {
       );
 
       alert(
-        "Gagal menghapus data penduduk."
+        error.message || "Gagal menghapus data penduduk."
       );
     }
   };
 
-  // =========================================================
-  // PAGINATION
-  // =========================================================
+
+
+
 
   const goToPage = (page) => {
     if (
@@ -304,12 +306,12 @@ function DataPenduduk() {
     }
 
     setCurrentPage(page);
-    setOpenAction(null);
+    setSelectedPenduduk(null);
   };
 
-  // =========================================================
-  // TAMPILAN
-  // =========================================================
+
+
+
 
   return (
     <div className="penduduk-page">
@@ -328,7 +330,7 @@ function DataPenduduk() {
           onSearchChange={(e) => {
             setSearch(e.target.value);
             setCurrentPage(1);
-            setOpenAction(null);
+            setSelectedPenduduk(null);
           }}
           onMenuClick={() =>
             setSidebarOpen(
@@ -339,9 +341,9 @@ function DataPenduduk() {
 
         <section className="penduduk-content">
 
-          {/* =================================================
-              TOMBOL TAMBAH
-          ================================================= */}
+
+
+
 
           <div className="penduduk-top-action">
 
@@ -365,13 +367,13 @@ function DataPenduduk() {
 
           </div>
 
-          {/* =================================================
-              CARD TABEL
-          ================================================= */}
+
+
+
 
           <div className="penduduk-table-card">
 
-            {/* HEADER TABEL + FILTER */}
+
 
             <div className="penduduk-table-top">
 
@@ -385,7 +387,7 @@ function DataPenduduk() {
                   Filter
                 </span>
 
-                {/* ================= RT ================= */}
+
 
                 <div className="penduduk-filter-dropdown">
 
@@ -449,7 +451,7 @@ function DataPenduduk() {
 
                 </div>
 
-                {/* ================= RW ================= */}
+
 
                 <div className="penduduk-filter-dropdown">
 
@@ -513,7 +515,7 @@ function DataPenduduk() {
 
                 </div>
 
-                {/* ================= STATUS ================= */}
+
 
                 <div className="penduduk-filter-dropdown">
 
@@ -579,9 +581,9 @@ function DataPenduduk() {
 
             </div>
 
-            {/* =================================================
-                TABEL
-            ================================================= */}
+
+
+
 
             <div className="penduduk-table-scroll">
 
@@ -741,9 +743,9 @@ function DataPenduduk() {
 
                           </td>
 
-                          {/* =================================================
-                              AKSI TITIK TIGA
-                          ================================================= */}
+
+
+
 
                           <td className="penduduk-col-aksi">
 
@@ -752,16 +754,9 @@ function DataPenduduk() {
                               <button
                                 type="button"
                                 className="penduduk-action-button"
-                                onClick={() =>
-                                  setOpenAction(
-                                    openAction ===
-                                      item.id
-                                      ? null
-                                      : item.id
-                                  )
-                                }
+                                onClick={() => setSelectedPenduduk(item)}
                                 aria-label={`Aksi untuk ${item.nama}`}
-                                title="Aksi"
+                                title="Lihat detail penduduk"
                               >
                                 <span className="penduduk-action-dots" aria-hidden="true">
                                   <span />
@@ -769,43 +764,6 @@ function DataPenduduk() {
                                   <span />
                                 </span>
                               </button>
-
-                              {openAction ===
-                                item.id && (
-
-                                <div className="penduduk-action-menu">
-
-                                  {/* EDIT */}
-
-                                  <button
-                                    type="button"
-                                    className="penduduk-edit-action"
-                                    onClick={() =>
-                                      handleEdit(
-                                        item
-                                      )
-                                    }
-                                  >
-                                    Edit
-                                  </button>
-
-                                  {/* HAPUS */}
-
-                                  <button
-                                    type="button"
-                                    className="delete-action"
-                                    onClick={() =>
-                                      handleDelete(
-                                        item
-                                      )
-                                    }
-                                  >
-                                    Hapus
-                                  </button>
-
-                                </div>
-
-                              )}
 
                             </div>
 
@@ -838,9 +796,9 @@ function DataPenduduk() {
 
             </div>
 
-            {/* =================================================
-                FOOTER + PAGINATION
-            ================================================= */}
+
+
+
 
             <div className="penduduk-table-footer">
 
@@ -930,7 +888,7 @@ function DataPenduduk() {
 
       </main>
 
-      {/* OVERLAY FILTER */}
+
 
       {(rtOpen ||
         rwOpen ||
@@ -941,6 +899,15 @@ function DataPenduduk() {
           onClick={closeAllDropdown}
         />
 
+      )}
+
+      {selectedPenduduk && (
+        <DetailPenduduk
+          data={selectedPenduduk}
+          onClose={() => setSelectedPenduduk(null)}
+          onEdit={() => handleEdit(selectedPenduduk)}
+          onDelete={handleDelete}
+        />
       )}
 
     </div>

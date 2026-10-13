@@ -29,9 +29,9 @@ function TambahKesejahteraan() {
 
   const [error, setError] = useState("");
 
-  /* =======================================================
-     AMBIL DATA PENDUDUK
-     ======================================================= */
+
+
+
 
   useEffect(() => {
     const loadPenduduk = async () => {
@@ -61,9 +61,9 @@ function TambahKesejahteraan() {
     loadPenduduk();
   }, []);
 
-  /* =======================================================
-     HANDLE CHANGE
-     ======================================================= */
+
+
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -76,18 +76,18 @@ function TambahKesejahteraan() {
     setError("");
   };
 
-  /* =======================================================
-     SUBMIT
-     ======================================================= */
+
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     setError("");
 
-    /* =====================================================
-       VALIDASI FORM
-       ===================================================== */
+
+
+
 
     if (!formData.penduduk.trim()) {
       setError(
@@ -117,10 +117,10 @@ function TambahKesejahteraan() {
       return;
     }
 
-    /* =====================================================
-       CARI PENDUDUK
-       BERDASARKAN NAMA ATAU NIK
-       ===================================================== */
+
+
+
+
 
     const inputPenduduk =
       formData.penduduk
@@ -147,9 +147,9 @@ function TambahKesejahteraan() {
         );
       });
 
-    /* =====================================================
-       JIKA PENDUDUK TIDAK DITEMUKAN
-       ===================================================== */
+
+
+
 
     if (!pendudukDipilih) {
       setError(
@@ -158,9 +158,9 @@ function TambahKesejahteraan() {
       return;
     }
 
-    /* =====================================================
-       SIMPAN KE DATABASE
-       ===================================================== */
+
+
+
 
     try {
       setLoading(true);
@@ -179,10 +179,10 @@ function TambahKesejahteraan() {
           formData.keterangan.trim(),
       });
 
-      /* ===================================================
-         JIKA BERHASIL
-         KEMBALI KE HALAMAN KESEJAHTERAAN
-         =================================================== */
+
+
+
+
 
       navigate("/kesejahteraan");
 
@@ -201,31 +201,31 @@ function TambahKesejahteraan() {
     }
   };
 
-  /* =======================================================
-     RETURN
-     ======================================================= */
+
+
+
 
   return (
     <div className="tambah-kesejahteraan-page">
 
-      {/* ===================================================
-          HEADER
-          =================================================== */}
+
+
+
 
       <Header
         title="Kesejahteraan"
         showSearch={false}
       />
 
-      {/* ===================================================
-          CONTENT
-          =================================================== */}
+
+
+
 
       <main className="tambah-kesejahteraan-content">
 
-        {/* =================================================
-            TOMBOL KEMBALI
-            ================================================= */}
+
+
+
 
         <div className="tambah-kesejahteraan-top-action">
 
@@ -241,9 +241,9 @@ function TambahKesejahteraan() {
 
         </div>
 
-        {/* =================================================
-            FORM CARD
-            ================================================= */}
+
+
+
 
         <section className="tambah-kesejahteraan-card">
 
@@ -259,9 +259,9 @@ function TambahKesejahteraan() {
             onSubmit={handleSubmit}
           >
 
-            {/* =================================================
-                ERROR
-                ================================================= */}
+
+
+
 
             {error && (
               <div
@@ -281,15 +281,15 @@ function TambahKesejahteraan() {
 
             <div className="tambah-kesejahteraan-form-grid">
 
-              {/* =================================================
-                  KOLOM KIRI
-                  ================================================= */}
+
+
+
 
               <div className="tambah-kesejahteraan-form-column">
 
-                {/* =================================================
-                    PENDUDUK
-                    ================================================= */}
+
+
+
 
                 <div className="kesejahteraan-form-group">
 
@@ -324,9 +324,9 @@ function TambahKesejahteraan() {
 
                   </div>
 
-                  {/* =================================================
-                      INFORMASI PENCARIAN
-                      ================================================= */}
+
+
+
 
                   {formData.penduduk &&
                     !loadingPenduduk && (
@@ -346,15 +346,15 @@ function TambahKesejahteraan() {
 
               </div>
 
-              {/* =================================================
-                  KOLOM KANAN
-                  ================================================= */}
+
+
+
 
               <div className="tambah-kesejahteraan-form-column">
 
-                {/* =================================================
-                    KATEGORI
-                    ================================================= */}
+
+
+
 
                 <div className="kesejahteraan-form-group">
 
@@ -402,9 +402,9 @@ function TambahKesejahteraan() {
 
                 </div>
 
-                {/* =================================================
-                    STATUS
-                    ================================================= */}
+
+
+
 
                 <div className="kesejahteraan-form-group">
 
@@ -448,9 +448,9 @@ function TambahKesejahteraan() {
 
                 </div>
 
-                {/* =================================================
-                    KETERANGAN
-                    ================================================= */}
+
+
+
 
                 <div className="kesejahteraan-form-group">
 
@@ -475,9 +475,9 @@ function TambahKesejahteraan() {
 
             </div>
 
-            {/* =================================================
-                SIMPAN
-                ================================================= */}
+
+
+
 
             <div className="tambah-kesejahteraan-submit">
 

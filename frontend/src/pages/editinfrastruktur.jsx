@@ -13,9 +13,9 @@ function EditInfrastruktur() {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  // ============================================================
-  // STATE
-  // ============================================================
+
+
+
 
   const [formData, setFormData] = useState({
     jenis: "",
@@ -36,9 +36,9 @@ function EditInfrastruktur() {
   const [saving, setSaving] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  // ============================================================
-  // AMBIL DATA DARI DATABASE
-  // ============================================================
+
+
+
 
   useEffect(() => {
     const loadData = async () => {
@@ -55,9 +55,9 @@ function EditInfrastruktur() {
         const data =
           await getDetailInfrastruktur(id);
 
-        // ------------------------------------------------------
-        // KOORDINAT
-        // ------------------------------------------------------
+
+
+
 
         const latitude =
           data.latitude ?? "";
@@ -71,9 +71,9 @@ function EditInfrastruktur() {
             ? `${latitude}, ${longitude}`
             : "";
 
-        // ------------------------------------------------------
-        // TANGGAL
-        // ------------------------------------------------------
+
+
+
 
         let tanggalPengadaan = "";
 
@@ -91,9 +91,9 @@ function EditInfrastruktur() {
           }
         }
 
-        // ------------------------------------------------------
-        // MASUKKAN DATA DATABASE KE FORM
-        // ------------------------------------------------------
+
+
+
 
         setFormData({
           jenis: data.jenis || "",
@@ -126,10 +126,10 @@ function EditInfrastruktur() {
 
           koordinat,
 
-          // Foto lama tidak dimasukkan
-          // ke input file karena browser
-          // tidak mengizinkan input file
-          // diisi secara otomatis.
+
+
+
+
           foto: null,
         });
       } catch (error) {
@@ -150,9 +150,9 @@ function EditInfrastruktur() {
     loadData();
   }, [id]);
 
-  // ============================================================
-  // HANDLE CHANGE
-  // ============================================================
+
+
+
 
   const handleChange = (e) => {
     const {
@@ -169,9 +169,9 @@ function EditInfrastruktur() {
     }));
   };
 
-  // ============================================================
-  // SUBMIT
-  // ============================================================
+
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -180,9 +180,9 @@ function EditInfrastruktur() {
       setSaving(true);
       setErrorMessage("");
 
-      // --------------------------------------------------------
-      // VALIDASI ID
-      // --------------------------------------------------------
+
+
+
 
       if (!id) {
         throw new Error(
@@ -190,9 +190,9 @@ function EditInfrastruktur() {
         );
       }
 
-      // --------------------------------------------------------
-      // VALIDASI KOORDINAT
-      // --------------------------------------------------------
+
+
+
 
       const koordinatParts =
         formData.koordinat
@@ -242,9 +242,9 @@ function EditInfrastruktur() {
         );
       }
 
-      // --------------------------------------------------------
-      // VALIDASI FOTO
-      // --------------------------------------------------------
+
+
+
 
       if (formData.foto) {
         const allowedTypes = [
@@ -272,9 +272,9 @@ function EditInfrastruktur() {
         }
       }
 
-      // --------------------------------------------------------
-      // DATA YANG DIKIRIM KE BACKEND
-      // --------------------------------------------------------
+
+
+
 
       const data = {
         jenis:
@@ -319,17 +319,17 @@ function EditInfrastruktur() {
 
         longitude,
 
-        // Untuk sekarang masih menyimpan
-        // nama file saja.
+
+
         foto:
           formData.foto
             ? formData.foto.name
             : "",
       };
 
-      // --------------------------------------------------------
-      // UPDATE DATABASE
-      // --------------------------------------------------------
+
+
+
 
       await updateInfrastruktur(
         id,
@@ -340,7 +340,7 @@ function EditInfrastruktur() {
         "Data infrastruktur berhasil diperbarui!"
       );
 
-      // Kembali ke detail
+
       navigate(
         `/infrastruktur/${id}`
       );
@@ -359,9 +359,9 @@ function EditInfrastruktur() {
     }
   };
 
-  // ============================================================
-  // LOADING
-  // ============================================================
+
+
+
 
   if (loading) {
     return (
@@ -385,9 +385,9 @@ function EditInfrastruktur() {
     );
   }
 
-  // ============================================================
-  // ERROR SAAT LOAD DATA
-  // ============================================================
+
+
+
 
   if (errorMessage && !formData.jenis) {
     return (
@@ -423,25 +423,25 @@ function EditInfrastruktur() {
     );
   }
 
-  // ============================================================
-  // RENDER
-  // ============================================================
+
+
+
 
   return (
     <div className="tambah-infrastruktur-page">
 
-      {/* HEADER */}
+
 
       <Header
         title="Infrastruktur"
         showSearch={false}
       />
 
-      {/* CONTENT */}
+
 
       <main className="tambah-infrastruktur-content">
 
-        {/* KEMBALI */}
+
 
         <div className="tambah-top-action">
           <button
@@ -457,7 +457,7 @@ function EditInfrastruktur() {
           </button>
         </div>
 
-        {/* FORM CARD */}
+
 
         <section className="tambah-infrastruktur-card">
 
@@ -467,7 +467,7 @@ function EditInfrastruktur() {
             </h2>
           </div>
 
-          {/* ERROR */}
+
 
           {errorMessage && (
             <div
@@ -490,13 +490,13 @@ function EditInfrastruktur() {
 
             <div className="tambah-form-grid">
 
-              {/* ================================================== */}
-              {/* KOLOM KIRI */}
-              {/* ================================================== */}
+
+
+
 
               <div className="tambah-form-column">
 
-                {/* JENIS */}
+
 
                 <div className="form-group">
                   <label htmlFor="jenis">
@@ -533,7 +533,7 @@ function EditInfrastruktur() {
                   </select>
                 </div>
 
-                {/* KONDISI */}
+
 
                 <div className="form-group">
                   <label htmlFor="kondisi">
@@ -570,7 +570,7 @@ function EditInfrastruktur() {
                   </select>
                 </div>
 
-                {/* PENANGGUNG JAWAB */}
+
 
                 <div className="form-group">
                   <label htmlFor="pic">
@@ -593,7 +593,7 @@ function EditInfrastruktur() {
                   />
                 </div>
 
-                {/* NOMOR TELEPON */}
+
 
                 <div className="form-group">
                   <label htmlFor="telepon">
@@ -616,7 +616,7 @@ function EditInfrastruktur() {
                   />
                 </div>
 
-                {/* TANGGAL */}
+
 
                 <div className="form-group">
                   <label htmlFor="tanggalPengadaan">
@@ -638,7 +638,7 @@ function EditInfrastruktur() {
                   />
                 </div>
 
-                {/* PANJANG */}
+
 
                 <div className="form-group">
                   <label htmlFor="panjang">
@@ -659,7 +659,7 @@ function EditInfrastruktur() {
                   />
                 </div>
 
-                {/* LEBAR */}
+
 
                 <div className="form-group">
                   <label htmlFor="lebar">
@@ -682,13 +682,13 @@ function EditInfrastruktur() {
 
               </div>
 
-              {/* ================================================== */}
-              {/* KOLOM KANAN */}
-              {/* ================================================== */}
+
+
+
 
               <div className="tambah-form-column">
 
-                {/* ALAMAT */}
+
 
                 <div className="form-group">
                   <label htmlFor="alamat">
@@ -711,7 +711,7 @@ function EditInfrastruktur() {
                   />
                 </div>
 
-                {/* RT */}
+
 
                 <div className="form-group">
                   <label htmlFor="rt">
@@ -734,7 +734,7 @@ function EditInfrastruktur() {
                   />
                 </div>
 
-                {/* RW */}
+
 
                 <div className="form-group">
                   <label htmlFor="rw">
@@ -757,7 +757,7 @@ function EditInfrastruktur() {
                   />
                 </div>
 
-                {/* KOORDINAT */}
+
 
                 <div className="form-group">
                   <label htmlFor="koordinat">
@@ -780,7 +780,7 @@ function EditInfrastruktur() {
                   />
                 </div>
 
-                {/* FOTO */}
+
 
                 <div className="form-group foto-group">
 
@@ -827,9 +827,9 @@ function EditInfrastruktur() {
               </div>
             </div>
 
-            {/* ================================================== */}
-            {/* SIMPAN */}
-            {/* ================================================== */}
+
+
+
 
             <div className="form-submit">
               <button

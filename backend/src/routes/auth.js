@@ -31,9 +31,9 @@ const verifyPassword = (password, storedPassword) => {
   );
 };
 
-// =========================
-// REGISTER
-// =========================
+
+
+
 router.post("/register", async (req, res) => {
   try {
     const {
@@ -55,7 +55,7 @@ router.post("/register", async (req, res) => {
       });
     }
 
-    // Cek username
+
     const existingUsername = await db.orm.public.User
       .where({ username })
       .all();
@@ -66,7 +66,7 @@ router.post("/register", async (req, res) => {
       });
     }
 
-    // Cek email
+
     const existingEmail = await db.orm.public.User
       .where({ email })
       .all();
@@ -107,9 +107,9 @@ router.post("/register", async (req, res) => {
   }
 });
 
-// =========================
-// LOGIN
-// =========================
+
+
+
 router.post("/login", async (req, res) => {
   try {
     const {
@@ -166,9 +166,9 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// =========================
-// LUPA PASSWORD
-// =========================
+
+
+
 router.post("/forgot-password", async (req, res) => {
   try {
     const {

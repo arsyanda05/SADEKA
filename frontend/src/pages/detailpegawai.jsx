@@ -5,6 +5,7 @@ import {
   getDiklatByPegawai,
   createDokumenPegawai,
   createDiklat,
+  getBackendFileUrl,
 } from "../services/api";
 
 function DetailPegawai({
@@ -13,9 +14,9 @@ function DetailPegawai({
   onEdit,
   onDelete,
 }) {
-  // ============================================================
-  // DATA
-  // ============================================================
+
+
+
 
   const [dokumen, setDokumen] =
     useState([]);
@@ -26,9 +27,9 @@ function DetailPegawai({
   const [loading, setLoading] =
     useState(true);
 
-  // ============================================================
-  // MODAL
-  // ============================================================
+
+
+
 
   const [showDokumenForm, setShowDokumenForm] =
     useState(false);
@@ -36,9 +37,9 @@ function DetailPegawai({
   const [showDiklatForm, setShowDiklatForm] =
     useState(false);
 
-  // ============================================================
-  // STATUS SIMPAN
-  // ============================================================
+
+
+
 
   const [savingDokumen, setSavingDokumen] =
     useState(false);
@@ -46,9 +47,9 @@ function DetailPegawai({
   const [savingDiklat, setSavingDiklat] =
     useState(false);
 
-  // ============================================================
-  // FORM DOKUMEN
-  // ============================================================
+
+
+
 
   const [dokumenForm, setDokumenForm] =
     useState({
@@ -57,9 +58,9 @@ function DetailPegawai({
       dokumen: null,
     });
 
-  // ============================================================
-  // FORM DIKLAT
-  // ============================================================
+
+
+
 
   const [diklatForm, setDiklatForm] =
     useState({
@@ -69,9 +70,9 @@ function DetailPegawai({
       sertifikat: null,
     });
 
-  // ============================================================
-  // AMBIL DATA DOKUMEN DAN DIKLAT
-  // ============================================================
+
+
+
 
   const loadDetail = async () => {
     if (!data?.id_pegawai) {
@@ -131,9 +132,9 @@ function DetailPegawai({
     loadDetail();
   }, [data]);
 
-  // ============================================================
-  // FORMAT TANGGAL
-  // ============================================================
+
+
+
 
   const formatTanggal = (tanggal) => {
     if (!tanggal) {
@@ -156,9 +157,9 @@ function DetailPegawai({
     }
   };
 
-  // ============================================================
-  // BUKA FILE
-  // ============================================================
+
+
+
 
   const handleOpenFile = (
     path,
@@ -183,8 +184,9 @@ function DetailPegawai({
       return;
     }
 
-    const url =
-      `http://localhost:5000/uploads/${folder}/${filename}`;
+    const url = getBackendFileUrl(
+      `/uploads/${folder}/${encodeURIComponent(filename)}`
+    );
 
     console.log(
       "Membuka file:",
@@ -198,9 +200,9 @@ function DetailPegawai({
     );
   };
 
-  // ============================================================
-  // FORM DOKUMEN - HANDLE CHANGE
-  // ============================================================
+
+
+
 
   const handleDokumenChange = (
     event
@@ -221,9 +223,9 @@ function DetailPegawai({
     );
   };
 
-  // ============================================================
-  // FORM DIKLAT - HANDLE CHANGE
-  // ============================================================
+
+
+
 
   const handleDiklatChange = (
     event
@@ -244,9 +246,9 @@ function DetailPegawai({
     );
   };
 
-  // ============================================================
-  // RESET FORM DOKUMEN
-  // ============================================================
+
+
+
 
   const resetDokumenForm = () => {
     setDokumenForm({
@@ -256,9 +258,9 @@ function DetailPegawai({
     });
   };
 
-  // ============================================================
-  // RESET FORM DIKLAT
-  // ============================================================
+
+
+
 
   const resetDiklatForm = () => {
     setDiklatForm({
@@ -269,9 +271,9 @@ function DetailPegawai({
     });
   };
 
-  // ============================================================
-  // TUTUP FORM DOKUMEN
-  // ============================================================
+
+
+
 
   const handleCloseDokumenForm = () => {
     if (savingDokumen) {
@@ -282,9 +284,9 @@ function DetailPegawai({
     resetDokumenForm();
   };
 
-  // ============================================================
-  // TUTUP FORM DIKLAT
-  // ============================================================
+
+
+
 
   const handleCloseDiklatForm = () => {
     if (savingDiklat) {
@@ -295,9 +297,9 @@ function DetailPegawai({
     resetDiklatForm();
   };
 
-  // ============================================================
-  // SIMPAN DOKUMEN BARU
-  // ============================================================
+
+
+
 
   const handleSubmitDokumen = async (
     event
@@ -392,9 +394,9 @@ function DetailPegawai({
     }
   };
 
-  // ============================================================
-  // SIMPAN DIKLAT BARU
-  // ============================================================
+
+
+
 
   const handleSubmitDiklat = async (
     event
@@ -494,9 +496,9 @@ function DetailPegawai({
     }
   };
 
-  // ============================================================
-  // RENDER
-  // ============================================================
+
+
+
 
   if (!data) {
     return null;
@@ -507,9 +509,9 @@ function DetailPegawai({
 
       <div className="detail-panel">
 
-        {/* ================================================== */}
-        {/* HEADER */}
-        {/* ================================================== */}
+
+
+
 
         <div className="detail-header">
 
@@ -536,15 +538,15 @@ function DetailPegawai({
 
         </div>
 
-        {/* ================================================== */}
-        {/* CONTENT */}
-        {/* ================================================== */}
+
+
+
 
         <div className="detail-content">
 
-          {/* ================================================== */}
-          {/* BIODATA */}
-          {/* ================================================== */}
+
+
+
 
           <section className="detail-section">
 
@@ -670,9 +672,9 @@ function DetailPegawai({
 
           </section>
 
-          {/* ================================================== */}
-          {/* DOKUMEN */}
-          {/* ================================================== */}
+
+
+
 
           <section className="detail-section">
 
@@ -793,9 +795,9 @@ function DetailPegawai({
 
           </section>
 
-          {/* ================================================== */}
-          {/* DIKLAT */}
-          {/* ================================================== */}
+
+
+
 
           <section className="detail-section">
 
@@ -925,9 +927,9 @@ function DetailPegawai({
 
         </div>
 
-        {/* ================================================== */}
-        {/* FOOTER */}
-        {/* ================================================== */}
+
+
+
 
         <div className="detail-footer">
 
@@ -953,9 +955,9 @@ function DetailPegawai({
 
       </div>
 
-      {/* ================================================== */}
-      {/* MODAL UPLOAD DOKUMEN */}
-      {/* ================================================== */}
+
+
+
 
       {showDokumenForm && (
 
@@ -1118,9 +1120,9 @@ function DetailPegawai({
 
       )}
 
-      {/* ================================================== */}
-      {/* MODAL TAMBAH DIKLAT */}
-      {/* ================================================== */}
+
+
+
 
       {showDiklatForm && (
 

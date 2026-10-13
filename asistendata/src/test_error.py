@@ -2,25 +2,25 @@ from assistant import process_question
 
 
 TEST_CASES = [
-    # 1. Pertanyaan kosong
+
     "",
 
-    # 2. Input hanya spasi
+
     "   ",
 
-    # 3. Pertanyaan tidak jelas
+
     "asdfghjkl",
 
-    # 4. Pertanyaan valid tetapi data tidak ada
+
     "Tampilkan ibu hamil di RW 03",
 
-    # 5. Pertanyaan dengan data yang kemungkinan tidak ditemukan
+
     "Tampilkan penduduk bernama ZZZZZ",
 
-    # 6. Pertanyaan dengan RW yang tidak ada di dummy database
+
     "Tampilkan penduduk di RW 99",
 
-    # 7. Pertanyaan out-of-scope
+
     "Berapa harga mobil hari ini?",
 ]
 

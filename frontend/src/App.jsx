@@ -21,6 +21,7 @@ import TambahAgenda from "./pages/tambahagenda";
 import SuratMasuk from "./pages/suratmasuk";
 import TambahSuratMasuk from "./pages/tambahsuratmasuk";
 import EditSuratMasuk from "./pages/editsuratmasuk";
+import DetailSurat from "./pages/detailsurat";
 
 import SuratKeluar from "./pages/suratkeluar";
 import TambahSuratKeluar from "./pages/tambahsuratkeluar";
@@ -78,18 +79,18 @@ function App() {
 
         <Route element={<ProtectedRoute />}>
 
-          {/* =========================
-              DASHBOARD
-          ========================= */}
+
+
+
 
           <Route
             path="/dashboard"
             element={<Dashboard />}
           />
 
-          {/* =========================
-              PEGAWAI
-          ========================= */}
+
+
+
 
           <Route
             path="/data-pegawai"
@@ -106,9 +107,9 @@ function App() {
             element={<EditPegawai />}
           />
 
-          {/* =========================
-              PENDUDUK
-          ========================= */}
+
+
+
 
           <Route
             path="/data-penduduk"
@@ -125,9 +126,9 @@ function App() {
             element={<EditPenduduk />}
           />
 
-          {/* =========================
-              AGENDA
-          ========================= */}
+
+
+
 
           <Route
             path="/agenda"
@@ -144,9 +145,9 @@ function App() {
             element={<TambahAgenda />}
           />
 
-          {/* =========================
-              SURAT MASUK
-          ========================= */}
+
+
+
 
           <Route
             path="/surat-masuk"
@@ -159,13 +160,18 @@ function App() {
           />
 
           <Route
+            path="/surat-masuk/:id"
+            element={<DetailSurat />}
+          />
+
+          <Route
             path="/surat-masuk/:id/edit"
             element={<EditSuratMasuk />}
           />
 
-          {/* =========================
-              SURAT KELUAR
-          ========================= */}
+
+
+
 
           <Route
             path="/surat-keluar"
@@ -178,22 +184,27 @@ function App() {
           />
 
           <Route
+            path="/surat-keluar/:id"
+            element={<DetailSurat />}
+          />
+
+          <Route
             path="/surat-keluar/:id/edit"
             element={<EditSuratKeluar />}
           />
 
-          {/* =========================
-              SMART DOCUMENT
-          ========================= */}
+
+
+
 
           <Route
             path="/smart-document"
             element={<SmartDocument />}
           />
 
-          {/* =========================
-              INFRASTRUKTUR
-          ========================= */}
+
+
+
 
           <Route
             path="/infrastruktur"
@@ -215,9 +226,9 @@ function App() {
             element={<EditInfrastruktur />}
           />
 
-          {/* =========================
-              SURAT AHLI WARIS
-          ========================= */}
+
+
+
 
           <Route
             path="/surat-ahli-waris"
@@ -229,7 +240,7 @@ function App() {
             element={<TambahSuratAhliWaris />}
           />
 
-          {/* EDIT SURAT AHLI WARIS */}
+
           <Route
             path="/surat-ahli-waris/:id/edit"
             element={<EditSuratAhliWaris />}
@@ -240,9 +251,9 @@ function App() {
             element={<DetailSuratAhliWaris />}
           />
 
-          {/* =========================
-              UMKM
-          ========================= */}
+
+
+
 
           <Route
             path="/umkm"
@@ -264,9 +275,9 @@ function App() {
             element={<DetailUMKM />}
           />
 
-          {/* =========================
-              KESEJAHTERAAN
-          ========================= */}
+
+
+
 
           <Route
             path="/kesejahteraan"
@@ -288,18 +299,18 @@ function App() {
             element={<DetailKesejahteraan />}
           />
 
-          {/* =========================
-              ASISTEN DATA
-          ========================= */}
+
+
+
 
           <Route
             path="/asisten-data"
             element={<AsistenData />}
           />
 
-          {/* =========================
-              PENGATURAN
-          ========================= */}
+
+
+
 
           <Route
             path="/pengaturan"

@@ -16,13 +16,13 @@ function Daftar() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Cek password
+
     if (password !== konfirmasiPassword) {
       alert("Password dan konfirmasi password tidak sama.");
       return;
     }
 
-    // Cek panjang password
+
     if (password.length < 6) {
       alert("Password minimal 6 karakter.");
       return;
@@ -72,7 +72,7 @@ function Daftar() {
         <h2>Daftar</h2>
 
         <form onSubmit={handleSubmit}>
-          {/* USERNAME */}
+
           <div className="form-group">
             <input
               type="text"
@@ -83,7 +83,7 @@ function Daftar() {
             />
           </div>
 
-          {/* EMAIL */}
+
           <div className="form-group">
             <input
               type="email"
@@ -94,7 +94,7 @@ function Daftar() {
             />
           </div>
 
-          {/* PASSWORD */}
+
           <div className="form-group">
             <input
               type="password"
@@ -105,7 +105,7 @@ function Daftar() {
             />
           </div>
 
-          {/* KONFIRMASI PASSWORD */}
+
           <div className="form-group">
             <input
               type="password"
@@ -118,7 +118,7 @@ function Daftar() {
             />
           </div>
 
-          {/* NOMOR TELEPON */}
+
           <div className="form-group">
             <input
               type="text"
@@ -129,7 +129,7 @@ function Daftar() {
             />
           </div>
 
-          {/* BUTTON */}
+
           <button
             type="submit"
             className="btn-login"

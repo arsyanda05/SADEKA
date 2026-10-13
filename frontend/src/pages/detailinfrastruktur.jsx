@@ -29,14 +29,14 @@ function DetailInfrastruktur({
   const [errorMessage, setErrorMessage] =
     useState("");
 
-  // ============================================================
-  // AMBIL DETAIL DARI DATABASE
-  // ============================================================
+
+
+
 
   useEffect(() => {
     const loadDetail = async () => {
-      // Kalau data sudah dikirim dari halaman Infrastruktur,
-      // tidak perlu request lagi.
+
+
       if (data) {
         setDetailData(data);
         setLoading(false);
@@ -77,9 +77,9 @@ function DetailInfrastruktur({
     loadDetail();
   }, [data, id]);
 
-  // ============================================================
-  // TUTUP DETAIL
-  // ============================================================
+
+
+
 
   const handleClose = () => {
     if (onClose) {
@@ -90,9 +90,9 @@ function DetailInfrastruktur({
     navigate("/infrastruktur");
   };
 
-  // ============================================================
-  // LOADING
-  // ============================================================
+
+
+
 
   if (loading) {
     return (
@@ -134,9 +134,9 @@ function DetailInfrastruktur({
     );
   }
 
-  // ============================================================
-  // ERROR
-  // ============================================================
+
+
+
 
   if (errorMessage || !detailData) {
     return (
@@ -181,14 +181,14 @@ function DetailInfrastruktur({
     );
   }
 
-  // ============================================================
-  // DATA DARI DATABASE
-  // ============================================================
+
+
+
 
   const resolvedData = detailData;
 
-  // Database:
-  // kondisi_status
+
+
   const kondisi =
     resolvedData.kondisi_status || "";
 
@@ -199,15 +199,15 @@ function DetailInfrastruktur({
       ? "detail-condition ringan"
       : "detail-condition berat";
 
-  // ============================================================
-  // FOTO
-  // ============================================================
 
-  // Saat ini database masih menyimpan nama file foto,
-  // bukan file gambar sebenarnya.
-  //
-  // Jadi kalau foto belum berupa URL/path gambar,
-  // gunakan gambar default pju.jpg.
+
+
+
+
+
+
+
+
 
   const photoSource =
     resolvedData.foto &&
@@ -219,9 +219,9 @@ function DetailInfrastruktur({
       ? resolvedData.foto
       : pjuImage;
 
-  // ============================================================
-  // FORMAT TANGGAL
-  // ============================================================
+
+
+
 
   const formatTanggal = (tanggal) => {
     if (!tanggal) {
@@ -241,9 +241,9 @@ function DetailInfrastruktur({
     }
   };
 
-  // ============================================================
-  // FORMAT KOORDINAT
-  // ============================================================
+
+
+
 
   const latitude =
     resolvedData.latitude;
@@ -251,9 +251,9 @@ function DetailInfrastruktur({
   const longitude =
     resolvedData.longitude;
 
-  // ============================================================
-  // LIHAT LOKASI
-  // ============================================================
+
+
+
 
   const handleOpenMaps = () => {
     if (
@@ -271,9 +271,9 @@ function DetailInfrastruktur({
     );
   };
 
-  // ============================================================
-  // EDIT
-  // ============================================================
+
+
+
 
   const handleEdit = () => {
     navigate(
@@ -281,9 +281,9 @@ function DetailInfrastruktur({
     );
   };
 
-  // ============================================================
-  // RENDER
-  // ============================================================
+
+
+
 
   return (
     <div
@@ -296,9 +296,9 @@ function DetailInfrastruktur({
           e.stopPropagation()
         }
       >
-        {/* ================================================== */}
-        {/* HEADER */}
-        {/* ================================================== */}
+
+
+
 
         <div className="detail-header">
           <h2>
@@ -315,9 +315,9 @@ function DetailInfrastruktur({
           </button>
         </div>
 
-        {/* ================================================== */}
-        {/* INFORMASI UTAMA */}
-        {/* ================================================== */}
+
+
+
 
         <div className="detail-main-card">
           <div className="detail-main-top">
@@ -354,9 +354,9 @@ function DetailInfrastruktur({
           </button>
         </div>
 
-        {/* ================================================== */}
-        {/* FOTO */}
-        {/* ================================================== */}
+
+
+
 
         <div className="detail-card detail-photo-card">
           <h3>Foto</h3>
@@ -371,16 +371,16 @@ function DetailInfrastruktur({
           </div>
         </div>
 
-        {/* ================================================== */}
-        {/* DATA INFRASTRUKTUR */}
-        {/* ================================================== */}
+
+
+
 
         <div className="detail-card detail-data-card">
           <h3>Data Infrastruktur</h3>
 
           <div className="detail-data-list">
 
-            {/* JENIS */}
+
 
             <div className="detail-row">
               <span>Jenis</span>
@@ -390,7 +390,7 @@ function DetailInfrastruktur({
               </strong>
             </div>
 
-            {/* KONDISI */}
+
 
             <div className="detail-row">
               <span>Kondisi</span>
@@ -401,7 +401,7 @@ function DetailInfrastruktur({
               </strong>
             </div>
 
-            {/* PIC */}
+
 
             <div className="detail-row">
               <span>PIC</span>
@@ -412,7 +412,7 @@ function DetailInfrastruktur({
               </strong>
             </div>
 
-            {/* NOMOR TELEPON */}
+
 
             <div className="detail-row">
               <span>
@@ -424,7 +424,7 @@ function DetailInfrastruktur({
               </strong>
             </div>
 
-            {/* TANGGAL PENGADAAN */}
+
 
             <div className="detail-row">
               <span>
@@ -438,7 +438,7 @@ function DetailInfrastruktur({
               </strong>
             </div>
 
-            {/* PANJANG */}
+
 
             <div className="detail-row">
               <span>Panjang</span>
@@ -448,7 +448,7 @@ function DetailInfrastruktur({
               </strong>
             </div>
 
-            {/* LEBAR */}
+
 
             <div className="detail-row">
               <span>Lebar</span>
@@ -458,7 +458,7 @@ function DetailInfrastruktur({
               </strong>
             </div>
 
-            {/* RW */}
+
 
             <div className="detail-row">
               <span>RW</span>
@@ -468,7 +468,7 @@ function DetailInfrastruktur({
               </strong>
             </div>
 
-            {/* RT */}
+
 
             <div className="detail-row">
               <span>RT</span>
@@ -478,7 +478,7 @@ function DetailInfrastruktur({
               </strong>
             </div>
 
-            {/* ALAMAT */}
+
 
             <div className="detail-row detail-address-row">
               <span>Alamat</span>
@@ -491,13 +491,13 @@ function DetailInfrastruktur({
           </div>
         </div>
 
-        {/* ================================================== */}
-        {/* AKSI */}
-        {/* ================================================== */}
+
+
+
 
         <div className="detail-actions">
 
-          {/* EDIT */}
+
 
           <button
             type="button"
@@ -513,7 +513,7 @@ function DetailInfrastruktur({
             Edit Data
           </button>
 
-          {/* DELETE */}
+
 
           <button
             type="button"

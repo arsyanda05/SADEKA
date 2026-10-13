@@ -271,7 +271,7 @@ function Pengaturan() {
   const handleSaveProfile = (e) => {
     e.preventDefault();
 
-    // Validasi password
+
     if (
       profile.passwordBaru &&
       profile.passwordBaru !==
@@ -285,7 +285,7 @@ function Pengaturan() {
     }
 
     try {
-      // Ambil user lama dari localStorage
+
       let existingUser = {};
 
       const savedUser =
@@ -295,14 +295,14 @@ function Pengaturan() {
         existingUser = JSON.parse(savedUser);
       }
 
-      // Gabungkan data lama dengan data profil terbaru
+
       const updatedUser = {
         ...existingUser,
 
         nama: profile.nama,
 
-        // Jika sistem lama menggunakan name,
-        // kita tetap update agar Header kompatibel.
+
+
         name: profile.nama,
 
         nip: profile.nip,
@@ -332,13 +332,13 @@ function Pengaturan() {
         })
       );
 
-      // Simpan user
+
       localStorage.setItem(
         "sadeka_user",
         JSON.stringify(updatedUser)
       );
 
-      // Simpan foto jika sudah diubah
+
       if (
         profilePhoto &&
         profilePhoto !== profileImage
@@ -349,7 +349,7 @@ function Pengaturan() {
         );
       }
 
-      // Beri tahu Header bahwa profil berubah
+
       window.dispatchEvent(
         new Event("profileUpdated")
       );
@@ -443,7 +443,7 @@ function Pengaturan() {
 
               </div>
 
-              {/* FOTO PROFIL */}
+
 
               <div className="pengaturan-photo-section">
 
@@ -483,7 +483,7 @@ function Pengaturan() {
 
               </div>
 
-              {/* FORM PROFILE */}
+
 
               <form
                 className="pengaturan-profile-form"
@@ -536,7 +536,7 @@ function Pengaturan() {
 
                 </div>
 
-                {/* JABATAN */}
+
 
                 <div className="pengaturan-form-group full">
 
@@ -558,7 +558,7 @@ function Pengaturan() {
 
                 </div>
 
-                {/* EMAIL DINAS */}
+
 
                 <div className="pengaturan-form-group full">
 
@@ -580,7 +580,7 @@ function Pengaturan() {
 
                 </div>
 
-                {/* EMAIL PRIBADI */}
+
 
                 <div className="pengaturan-form-group full">
 
@@ -602,7 +602,7 @@ function Pengaturan() {
 
                 </div>
 
-                {/* BUTTON PROFILE */}
+
 
                 <div className="pengaturan-profile-actions">
 
@@ -658,7 +658,7 @@ function Pengaturan() {
                 }
               >
 
-                {/* NOTIFIKASI */}
+
 
                 <div className="pengaturan-system-section">
 
@@ -713,7 +713,7 @@ function Pengaturan() {
 
                 </div>
 
-                {/* LOKASI */}
+
 
                 <div className="pengaturan-location-section">
 

@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "./header";
 import simpanDataIcon from "../assets/simpandata.png";
-
-const API_URL = "http://localhost:5000/api";
+import { API_URL } from "../services/api";
 
 function TambahSuratAhliWaris() {
   const navigate = useNavigate();
@@ -28,9 +27,9 @@ function TambahSuratAhliWaris() {
   const [errorMessage, setErrorMessage] =
     useState("");
 
-  // ==========================================
-  // LOAD DATA PENDUDUK
-  // ==========================================
+
+
+
   useEffect(() => {
     const loadPenduduk = async () => {
       try {
@@ -77,9 +76,9 @@ function TambahSuratAhliWaris() {
     loadPenduduk();
   }, []);
 
-  // ==========================================
-  // HANDLE INPUT
-  // ==========================================
+
+
+
   const handleChange = (e) => {
     const {
       name,
@@ -99,9 +98,9 @@ function TambahSuratAhliWaris() {
     }
   };
 
-  // ==========================================
-  // CARI DATA PENDUDUK BERDASARKAN NAMA
-  // ==========================================
+
+
+
   const cariPenduduk = (nama) => {
     const namaDicari =
       nama.trim().toLowerCase();
@@ -116,9 +115,9 @@ function TambahSuratAhliWaris() {
     );
   };
 
-  // ==========================================
-  // SUBMIT FORM
-  // ==========================================
+
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -126,9 +125,9 @@ function TambahSuratAhliWaris() {
       return;
     }
 
-    // ========================================
-    // PASTIKAN DATA PENDUDUK SUDAH TERSEDIA
-    // ========================================
+
+
+
     if (loadingPenduduk) {
       alert(
         "Data penduduk masih dimuat. Silakan tunggu sebentar."
@@ -136,9 +135,9 @@ function TambahSuratAhliWaris() {
       return;
     }
 
-    // ========================================
-    // VALIDASI PEWARIS
-    // ========================================
+
+
+
     const pendudukPewaris =
       cariPenduduk(
         formData.pewaris
@@ -151,9 +150,9 @@ function TambahSuratAhliWaris() {
       return;
     }
 
-    // ========================================
-    // VALIDASI AHLI WARIS
-    // ========================================
+
+
+
     const pendudukAhliWaris =
       cariPenduduk(
         formData.ahliWaris
@@ -166,9 +165,9 @@ function TambahSuratAhliWaris() {
       return;
     }
 
-    // ========================================
-    // VALIDASI PEWARIS DAN AHLI WARIS
-    // ========================================
+
+
+
     if (
       Number(
         pendudukPewaris.id_penduduk
@@ -183,9 +182,9 @@ function TambahSuratAhliWaris() {
       return;
     }
 
-    // ========================================
-    // VALIDASI TANGGAL
-    // ========================================
+
+
+
     if (
       formData.tanggalPengajuan &&
       formData.tanggalSelesai &&
@@ -198,9 +197,9 @@ function TambahSuratAhliWaris() {
       return;
     }
 
-    // ========================================
-    // VALIDASI DOKUMEN
-    // ========================================
+
+
+
     if (!formData.dokumen) {
       alert(
         "Dokumen surat ahli waris wajib diunggah."
@@ -208,7 +207,7 @@ function TambahSuratAhliWaris() {
       return;
     }
 
-    // Pastikan file PDF
+
     if (
       formData.dokumen.type !==
         "application/pdf" &&
@@ -225,9 +224,9 @@ function TambahSuratAhliWaris() {
     try {
       setSaving(true);
 
-      // ======================================
-      // DATA SURAT AHLI WARIS
-      // ======================================
+
+
+
       const dataSurat = {
         id_penduduk:
           Number(
@@ -262,9 +261,9 @@ function TambahSuratAhliWaris() {
         dataSurat
       );
 
-      // ======================================
-      // 1. SIMPAN SURAT AHLI WARIS
-      // ======================================
+
+
+
       const response =
         await fetch(
           `${API_URL}/surat-ahli-waris`,
@@ -297,9 +296,9 @@ function TambahSuratAhliWaris() {
         result
       );
 
-      // ======================================
-      // AMBIL ID SURAT YANG BARU DIBUAT
-      // ======================================
+
+
+
       const suratData =
         result?.data || result;
 
@@ -322,9 +321,9 @@ function TambahSuratAhliWaris() {
         idSuratAhliWaris
       );
 
-      // ======================================
-      // 2. UPLOAD DOKUMEN
-      // ======================================
+
+
+
       const dokumenFormData =
         new FormData();
 
@@ -378,9 +377,9 @@ function TambahSuratAhliWaris() {
         dokumenResult
       );
 
-      // ======================================
-      // BERHASIL
-      // ======================================
+
+
+
       alert(
         "Data surat ahli waris dan dokumen berhasil ditambahkan!"
       );
@@ -406,18 +405,18 @@ function TambahSuratAhliWaris() {
   return (
     <div className="tambah-saw-page">
 
-      {/* ================= HEADER ================= */}
+
 
       <Header
         title="Surat Ahli Waris"
         showSearch={false}
       />
 
-      {/* ================= CONTENT ================= */}
+
 
       <main className="tambah-saw-content">
 
-        {/* ================= KEMBALI ================= */}
+
 
         <div className="tambah-saw-top-action">
 
@@ -435,7 +434,7 @@ function TambahSuratAhliWaris() {
 
         </div>
 
-        {/* ================= FORM ================= */}
+
 
         <section className="tambah-saw-card">
 
@@ -468,11 +467,11 @@ function TambahSuratAhliWaris() {
 
             <div className="tambah-saw-form-grid">
 
-              {/* ================= KOLOM KIRI ================= */}
+
 
               <div className="tambah-saw-column">
 
-                {/* PEWARIS */}
+
 
                 <div className="saw-form-group">
 
@@ -531,7 +530,7 @@ function TambahSuratAhliWaris() {
 
                 </div>
 
-                {/* AHLI WARIS */}
+
 
                 <div className="saw-form-group">
 
@@ -590,7 +589,7 @@ function TambahSuratAhliWaris() {
 
                 </div>
 
-                {/* HUBUNGAN */}
+
 
                 <div className="saw-form-group">
 
@@ -616,7 +615,7 @@ function TambahSuratAhliWaris() {
 
                 </div>
 
-                {/* UPLOAD */}
+
 
                 <div className="saw-form-group saw-upload-group">
 
@@ -669,11 +668,11 @@ function TambahSuratAhliWaris() {
 
               </div>
 
-              {/* ================= KOLOM KANAN ================= */}
+
 
               <div className="tambah-saw-column">
 
-                {/* NOMOR SURAT */}
+
 
                 <div className="saw-form-group">
 
@@ -699,7 +698,7 @@ function TambahSuratAhliWaris() {
 
                 </div>
 
-                {/* TANGGAL PENGAJUAN */}
+
 
                 <div className="saw-form-group">
 
@@ -728,7 +727,7 @@ function TambahSuratAhliWaris() {
 
                 </div>
 
-                {/* TANGGAL SELESAI */}
+
 
                 <div className="saw-form-group">
 
@@ -755,7 +754,7 @@ function TambahSuratAhliWaris() {
 
                 </div>
 
-                {/* TAHAP */}
+
 
                 <div className="saw-form-group">
 
@@ -809,7 +808,7 @@ function TambahSuratAhliWaris() {
 
             </div>
 
-            {/* ================= SIMPAN ================= */}
+
 
             <div className="tambah-saw-submit">
 

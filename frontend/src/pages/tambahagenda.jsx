@@ -65,9 +65,9 @@ function TambahAgenda() {
 
   const [error, setError] = useState("");
 
-  // =========================
-  // HANDLE INPUT
-  // =========================
+
+
+
 
   const handleChange = (event) => {
     const {
@@ -89,9 +89,9 @@ function TambahAgenda() {
     setError("");
   };
 
-  // =========================
-  // SUBMIT AGENDA
-  // =========================
+
+
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -102,7 +102,7 @@ function TambahAgenda() {
 
     setError("");
 
-    // Validasi waktu
+
     if (
       formData.waktuMulai &&
       formData.waktuSelesai &&
@@ -119,12 +119,12 @@ function TambahAgenda() {
     try {
       setSaving(true);
 
-      // Gabungkan waktu mulai dan selesai
-      //
-      // Contoh:
-      // 07:00 + 09:00
-      // menjadi:
-      // 07:00-09:00
+
+
+
+
+
+
 
       const jam =
         `${formData.waktuMulai}-${formData.waktuSelesai}`;
@@ -146,9 +146,9 @@ function TambahAgenda() {
             : 0,
       };
 
-      // =========================
-      // MODE EDIT
-      // =========================
+
+
+
 
       if (editingAgenda) {
         await updateAgenda(
@@ -161,9 +161,9 @@ function TambahAgenda() {
         );
       }
 
-      // =========================
-      // MODE TAMBAH
-      // =========================
+
+
+
 
       else {
         await createAgenda(
@@ -175,7 +175,7 @@ function TambahAgenda() {
         );
       }
 
-      // Kembali ke halaman Agenda
+
       navigate("/agenda");
 
     } catch (error) {
@@ -248,9 +248,9 @@ function TambahAgenda() {
 
           <div className="tambah-agenda-layout">
 
-            {/* =========================
-                INFORMASI AGENDA
-            ========================= */}
+
+
+
 
             <section className="tambah-agenda-card agenda-information-card">
 
@@ -268,7 +268,7 @@ function TambahAgenda() {
 
               <div className="tambah-agenda-fields">
 
-                {/* KEGIATAN */}
+
 
                 <div className="tambah-agenda-field kegiatan-field">
 
@@ -291,7 +291,7 @@ function TambahAgenda() {
 
                 </div>
 
-                {/* KATEGORI */}
+
 
                 <div className="tambah-agenda-field kategori-field">
 
@@ -331,7 +331,7 @@ function TambahAgenda() {
 
                 </div>
 
-                {/* TANGGAL */}
+
 
                 <div className="tambah-agenda-field tanggal-field">
 
@@ -354,7 +354,7 @@ function TambahAgenda() {
 
                 </div>
 
-                {/* WAKTU MULAI */}
+
 
                 <div className="tambah-agenda-field waktu-field">
 
@@ -377,7 +377,7 @@ function TambahAgenda() {
 
                 </div>
 
-                {/* WAKTU SELESAI */}
+
 
                 <div className="tambah-agenda-field waktu-field">
 
@@ -400,7 +400,7 @@ function TambahAgenda() {
 
                 </div>
 
-                {/* PIC */}
+
 
                 <div className="tambah-agenda-field pic-field">
 
@@ -427,9 +427,9 @@ function TambahAgenda() {
 
             </section>
 
-            {/* =========================
-                PENGINGAT AGENDA
-            ========================= */}
+
+
+
 
             <section className="tambah-agenda-card agenda-reminder-card">
 
@@ -496,9 +496,9 @@ function TambahAgenda() {
 
           </div>
 
-          {/* =========================
-              STATUS BAR
-          ========================= */}
+
+
+
 
           <section className="tambah-agenda-status-bar">
 

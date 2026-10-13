@@ -25,7 +25,7 @@ function Login() {
       const profileKey = `sadeka_profile_${user.username || user.id_user}`;
       const savedProfile = localStorage.getItem(profileKey);
 
-      // Simpan data user yang berhasil login
+
       localStorage.setItem(
         "sadeka_user",
         JSON.stringify(

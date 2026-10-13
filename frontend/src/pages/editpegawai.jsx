@@ -68,9 +68,9 @@ function EditPegawai() {
     }));
   };
 
-  // =========================
-  // SIMPAN PERUBAHAN
-  // =========================
+
+
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -117,9 +117,9 @@ function EditPegawai() {
     }
   };
 
-  // =========================
-  // HAPUS DATA
-  // =========================
+
+
+
 
   const handleDelete = async () => {
     const pegawaiId =
@@ -163,9 +163,9 @@ function EditPegawai() {
     }
   };
 
-  // =========================
-  // JIKA DATA TIDAK DITEMUKAN
-  // =========================
+
+
+
 
   if (!pegawai) {
     return (
@@ -212,9 +212,9 @@ function EditPegawai() {
 
       <main className="tambah-pegawai-content">
 
-        {/* ========================= */}
-        {/* KEMBALI */}
-        {/* ========================= */}
+
+
+
 
         <div className="tambah-pegawai-back-wrapper">
           <button
@@ -234,16 +234,16 @@ function EditPegawai() {
           onSubmit={handleSubmit}
         >
 
-          {/* ========================= */}
-          {/* INFORMASI PEGAWAI */}
-          {/* ========================= */}
+
+
+
 
           <section className="tambah-pegawai-card">
             <h2>Informasi Data Pegawai</h2>
 
             <div className="tambah-pegawai-fields">
 
-              {/* NIP */}
+
               <div className="pegawai-field">
                 <label htmlFor="nip">
                   NIP (Nomor Induk Pegawai)
@@ -258,7 +258,7 @@ function EditPegawai() {
                 />
               </div>
 
-              {/* NAMA */}
+
               <div className="pegawai-field">
                 <label htmlFor="nama">
                   Nama Lengkap &amp; Gelar Akademik
@@ -273,7 +273,7 @@ function EditPegawai() {
                 />
               </div>
 
-              {/* STATUS */}
+
               <div className="pegawai-field">
                 <label htmlFor="status">
                   Status
@@ -303,7 +303,7 @@ function EditPegawai() {
                 </select>
               </div>
 
-              {/* JABATAN */}
+
               <div className="pegawai-field">
                 <label htmlFor="jabatan">
                   Jabatan
@@ -318,7 +318,7 @@ function EditPegawai() {
                 />
               </div>
 
-              {/* EMAIL */}
+
               <div className="pegawai-field">
                 <label htmlFor="email">
                   Email Dinas
@@ -334,7 +334,7 @@ function EditPegawai() {
                 />
               </div>
 
-              {/* TELEPON */}
+
               <div className="pegawai-field">
                 <label htmlFor="telepon">
                   Nomor Telepon/WA Aktif
@@ -350,7 +350,7 @@ function EditPegawai() {
                 />
               </div>
 
-              {/* ALAMAT */}
+
               <div className="pegawai-field full-field">
                 <label htmlFor="domisili">
                   Alamat Domisili
@@ -368,9 +368,9 @@ function EditPegawai() {
             </div>
           </section>
 
-          {/* ========================= */}
-          {/* STATUS DAN BUTTON */}
-          {/* ========================= */}
+
+
+
 
           <section className="edit-penduduk-form-status edit-pegawai-form-status">
 
@@ -389,7 +389,7 @@ function EditPegawai() {
 
             <b>Terisi 100%</b>
 
-            {/* HAPUS */}
+
             <button
               type="button"
               className="edit-penduduk-delete-button"
@@ -408,7 +408,7 @@ function EditPegawai() {
                 : "Hapus Data Pegawai"}
             </button>
 
-            {/* SIMPAN */}
+
             <button
               type="submit"
               className="edit-penduduk-save-button"

@@ -1,6 +1,6 @@
-/* =========================================================
-   GLOBAL
-========================================================= */
+
+
+
 
 * {
   box-sizing: border-box;
@@ -19,9 +19,9 @@ body {
 }
 
 
-/* =========================================================
-   LOGIN
-========================================================= */
+
+
+
 
 .login-page {
   min-height: 100vh;
@@ -62,9 +62,9 @@ body {
 }
 
 
-/* =========================================================
-   LOGIN CARD
-========================================================= */
+
+
+
 
 .login-card {
   width: 590px;
@@ -147,9 +147,9 @@ body {
 }
 
 
-/* =========================================================
-   DASHBOARD
-========================================================= */
+
+
+
 
 .dashboard-page {
   min-height: 100vh;
@@ -158,9 +158,9 @@ body {
 }
 
 
-/* =========================================================
-   SIDEBAR
-========================================================= */
+
+
+
 
 .sidebar {
   position: fixed;
@@ -179,12 +179,12 @@ body {
   overflow-y: auto;
 }
 
-/* SIDEBAR MUNCUL */
+
 .sidebar.sidebar-open {
   transform: translateX(0);
 }
 
-/* LOGO SIDEBAR */
+
 .sidebar-logo {
   display: flex;
   align-items: center;
@@ -213,14 +213,14 @@ body {
   color: #ffffff;
 }
 
-/* MENU SIDEBAR */
+
 .sidebar-menu {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
-/* MENU ITEM (tanpa ikon) */
+
 .menu-item {
   display: flex;
   align-items: center;
@@ -247,13 +247,13 @@ body {
   color: #ffffff;
 }
 
-/* MENU AKTIF */
+
 .menu-item.active {
   background-color: #0A5ECE;
   color: #ffffff;
 }
 
-/* JUDUL MENU / ACCORDION */
+
 .menu-title {
   display: flex;
   align-items: center;
@@ -278,7 +278,7 @@ body {
   color: #ffffff;
 }
 
-/* CHEVRON */
+
 .chevron {
   display: inline-block;
   width: 7px;
@@ -296,7 +296,7 @@ body {
   transform: rotate(225deg);
 }
 
-/* SUBMENU */
+
 .menu-group {
   display: flex;
   flex-direction: column;
@@ -333,14 +333,14 @@ body {
   color: #ffffff;
 }
 
-/* SIDEBAR BAWAH */
+
 .sidebar-bottom {
   margin-top: auto;
   padding-top: 15px;
   border-top: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-/* OVERLAY */
+
 .sidebar-overlay {
   position: fixed;
   inset: 0;
@@ -349,9 +349,9 @@ body {
 }
 
 
-/* =========================================================
-   MAIN DASHBOARD
-========================================================= */
+
+
+
 
 .dashboard-main {
   width: 100%;
@@ -359,9 +359,9 @@ body {
 }
 
 
-/* =========================================================
-   HEADER
-========================================================= */
+
+
+
 
 .dashboard-header {
   height: 83px;
@@ -385,7 +385,7 @@ body {
   color: #000000;
 }
 
-/* HAMBURGER */
+
 .hamburger {
   width: 45px;
   height: 45px;
@@ -406,9 +406,9 @@ body {
 }
 
 
-/* =========================================================
-   USER 
-========================================================= */
+
+
+
 
 .user-info {
   display: flex;
@@ -439,7 +439,7 @@ body {
   font-size: 14px;
 }
 
-/* AVATAR */
+
 .user-avatar {
   width: 50px;
   height: 50px;
@@ -454,9 +454,9 @@ body {
 }
 
 
-/* =========================================================
-   NOTIFIKASI 
-========================================================= */
+
+
+
 
 .notification-button {
   border: none;
@@ -467,18 +467,18 @@ body {
 }
 
 
-/* =========================================================
-   DASHBOARD CONTENT
-========================================================= */
+
+
+
 
 .dashboard-content {
   padding: 36px 30px;
 }
 
 
-/* =========================================================
-   STATISTIK
-========================================================= */
+
+
+
 
 .stats-grid {
   display: grid;
@@ -498,7 +498,7 @@ body {
   gap: 18px;
 }
 
-/* ICON STATISTIK (dipakai bersama) */
+
 .stat-icon {
   width: 48px;
   min-width: 48px;
@@ -536,9 +536,9 @@ body {
 }
 
 
-/* =========================================================
-   KOLOM BAWAH
-========================================================= */
+
+
+
 
 .dashboard-columns {
   display: grid;
@@ -560,9 +560,9 @@ body {
 }
 
 
-/* =========================================================
-   DASHBOARD CARD
-========================================================= */
+
+
+
 
 .dashboard-card {
   min-width: 0;
@@ -670,9 +670,9 @@ body {
 }
 
 
-/* =========================================================
-   TABLE
-========================================================= */
+
+
+
 
 .table-wrapper {
   width: 100%;
@@ -705,7 +705,7 @@ td {
   text-align: center;
 }
 
-/* STATUS */
+
 .status-process {
   color: #1769d1;
 }
@@ -719,9 +719,9 @@ td {
 }
 
 
-/* =========================================================
-   AGENDA
-========================================================= */
+
+
+
 
 .agenda-card {
   min-height: 300px;
@@ -792,9 +792,9 @@ td {
 }
 
 
-/* =========================================================
-   DOKUMEN
-========================================================= */
+
+
+
 
 .document-card {
   min-height: 100%;
@@ -876,9 +876,9 @@ td {
 }
 
 
-/* =========================================================
-   RESPONSIVE (LOGIN + DASHBOARD)
-========================================================= */
+
+
+
 
 @media (max-width: 1100px) {
   .stats-grid {
@@ -946,9 +946,9 @@ td {
 }
 
 
-/* =========================================================
-   LUPA PASSWORD
-========================================================= */
+
+
+
 
 .lupa-password-page {
   min-height: 100vh;
@@ -973,7 +973,7 @@ td {
   box-sizing: border-box;
 }
 
-/* BAGIAN KIRI */
+
 .lupa-password-brand {
   display: flex;
   flex-direction: column;
@@ -1004,7 +1004,7 @@ td {
   color: #000;
 }
 
-/* CARD KANAN */
+
 .lupa-password-card {
   width: 100%;
   max-width: 590px;
@@ -1034,7 +1034,7 @@ td {
   color: #000;
 }
 
-/* FORM */
+
 .lupa-password-card form {
   width: 100%;
 }
@@ -1066,7 +1066,7 @@ td {
   border-color: #2169d5;
 }
 
-/* BUTTON */
+
 .lupa-password-submit {
   display: block;
   margin: 190px auto 0;
@@ -1110,7 +1110,7 @@ td {
   text-align: center;
 }
 
-/* RESPONSIVE */
+
 @media (max-width: 900px) {
   .lupa-password-container {
     grid-template-columns: 1fr;
@@ -1159,9 +1159,9 @@ td {
   }
 }
 
-/* =========================================================
-   HEADER BERSAMA - LAYOUT DASAR
-========================================================= */
+
+
+
 
 .dashboard-header,
 .infrastruktur-header,
@@ -1249,9 +1249,9 @@ td {
 }
 
 
-/* =========================================================
-   INFRASTRUKTUR
-========================================================= */
+
+
+
 
 .infrastruktur-page {
   min-height: 100vh;
@@ -1287,7 +1287,7 @@ td {
   background-color: #ffffff;
 }
 
-/* ICON PENCARIAN*/
+
 .search-icon {
   width: 50px;
   flex-shrink: 0;
@@ -1424,7 +1424,7 @@ td {
   overflow: visible;
 }
 
-/* LABEL FILTER (dipakai bersama: infrastruktur & UMKM) */
+
 .filter-label {
   margin-left: 2px;
   color: #7e8da5;
@@ -1551,9 +1551,9 @@ td {
 }
 
 
-/* =========================================================
-   PAGINATION (dipakai bersama: infrastruktur & kesejahteraan)
-========================================================= */
+
+
+
 
 .pagination {
   display: flex;
@@ -1603,7 +1603,7 @@ td {
 }
 
 
-/* RESPONSIVE INFRASTRUKTUR */
+
 
 @media (max-width: 1100px) {
   .infrastructure-stats {
@@ -1654,9 +1654,9 @@ td {
 }
 
 
-/* =========================================================
-   DROPDOWN SEDERHANA
-========================================================= */
+
+
+
 
 .simple-dropdown {
   position: relative;
@@ -1692,9 +1692,9 @@ td {
 }
 
 
-/* =========================================================
-   DROPDOWN WILAYAH + RT
-========================================================= */
+
+
+
 
 .wilayah-dropdown {
   position: relative;
@@ -1766,7 +1766,7 @@ td {
   color: #2169d5;
 }
 
-/* SUBMENU RT */
+
 
 .rt-menu {
   position: absolute;
@@ -1803,9 +1803,9 @@ td {
 }
 
 
-/* =========================================================
-   DETAIL INFRASTRUKTUR SIDEBAR
-========================================================= */
+
+
+
 
 .detail-overlay {
   position: fixed;
@@ -1837,7 +1837,7 @@ td {
   }
 }
 
-/* HEADER */
+
 
 .detail-header {
   display: flex;
@@ -1864,7 +1864,7 @@ td {
   cursor: pointer;
 }
 
-/* MAIN INFO CARD */
+
 
 .detail-main-card {
   padding: 12px 20px 13px;
@@ -1905,7 +1905,7 @@ td {
   color: #d52f2f;
 }
 
-/* LOKASI */
+
 
 .location-button {
   display: flex;
@@ -1941,7 +1941,7 @@ td {
   font-size: 14px;
 }
 
-/* CARD UMUM */
+
 
 .detail-card {
   background-color: #ffffff;
@@ -1957,7 +1957,7 @@ td {
   font-weight: 700;
 }
 
-/* FOTO */
+
 
 .detail-photo-card {
   padding: 14px 20px 12px;
@@ -2020,7 +2020,7 @@ td {
   background-color: #ffffff;
 }
 
-/* DATA */
+
 
 .detail-data-card {
   padding: 11px 20px 12px;
@@ -2062,7 +2062,7 @@ td {
   line-height: 1.35;
 }
 
-/* BUTTON AKSI */
+
 
 .detail-actions {
   display: flex;
@@ -2121,9 +2121,9 @@ td {
 }
 
 
-/* =========================================================
-   TAMBAH INFRASTRUKTUR
-========================================================= */
+
+
+
 
 .tambah-infrastruktur-page {
   min-height: 100vh;
@@ -2131,7 +2131,7 @@ td {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* HEADER */
+
 
 .tambah-header {
   height: 82px;
@@ -2215,13 +2215,13 @@ td {
   color: #111111;
 }
 
-/* CONTENT */
+
 
 .tambah-infrastruktur-content {
   padding: 40px 34px 70px;
 }
 
-/* BUTTON KEMBALI */
+
 
 .tambah-top-action {
   display: flex;
@@ -2245,7 +2245,7 @@ td {
   background-color: #185ab9;
 }
 
-/* CARD FORM */
+
 
 .tambah-infrastruktur-card {
   width: 100%;
@@ -2267,7 +2267,7 @@ td {
   color: #111111;
 }
 
-/* FORM GRID */
+
 
 .tambah-form-grid {
   display: grid;
@@ -2281,9 +2281,9 @@ td {
   flex-direction: column;
 }
 
-/* =========================
-   FORM GROUP
-========================= */
+
+
+
 
 .form-group {
   width: 100%;
@@ -2345,7 +2345,7 @@ td {
   box-shadow: 0 0 0 2px rgba(33, 105, 213, 0.12);
 }
 
-/* DATE */
+
 
 .form-group input[type="date"] {
   color: #8292a9;
@@ -2355,9 +2355,9 @@ td {
   color: #111111;
 }
 
-/* =========================
-   FOTO UPLOAD
-========================= */
+
+
+
 
 .foto-group,
 .saw-foto-group {
@@ -2416,7 +2416,7 @@ td {
   font-size: 13px;
 }
 
-/* SIMPAN */
+
 
 .form-submit {
   display: flex;
@@ -2448,7 +2448,7 @@ td {
   font-size: 21px;
 }
 
-/* RESPONSIVE */
+
 
 @media (max-width: 900px) {
   .tambah-form-grid {
@@ -2513,9 +2513,9 @@ td {
   }
 }
 
-/* =========================================================
-   SURAT AHLI WARIS
-========================================================= */
+
+
+
 
 .surat-ahli-waris-page {
   min-height: 100vh;
@@ -2524,7 +2524,7 @@ td {
   color: #111111;
 }
 
-/* HEADER */
+
 
 .saw-header {
   height: 82px;
@@ -2645,14 +2645,14 @@ td {
   font-weight: 600;
 }
 
-/* CONTENT */
+
 
 .saw-content {
   padding: 40px 48px 20px;
   box-sizing: border-box;
 }
 
-/* TOP BUTTON */
+
 
 .saw-top-actions {
   display: flex;
@@ -2704,7 +2704,7 @@ td {
   flex-shrink: 0;
 }
 
-/* STATISTICS */
+
 
 .saw-statistics {
   display: grid;
@@ -2770,7 +2770,7 @@ td {
   line-height: 1.25;
 }
 
-/* TABLE CARD */
+
 
 .saw-table-card {
   background-color: #ffffff;
@@ -2795,7 +2795,7 @@ td {
   font-weight: 700;
 }
 
-/* FILTER */
+
 
 .saw-filter-wrapper {
   height: 56px;
@@ -2870,7 +2870,7 @@ td {
   color: #2169d5;
 }
 
-/* TABLE */
+
 
 .saw-table-scroll {
   width: 100%;
@@ -2920,7 +2920,7 @@ td {
   background-color: #f5f9ff;
 }
 
-/* lebar kolom */
+
 
 .saw-table th:nth-child(1),
 .saw-table td:nth-child(1) {
@@ -3066,7 +3066,7 @@ td {
   text-align: left !important;
 }
 
-/* BERKAS */
+
 
 .saw-file-button {
   min-width: 92px;
@@ -3112,7 +3112,7 @@ td {
   object-fit: contain;
 }
 
-/* EMPTY */
+
 
 .saw-empty {
   height: 150px !important;
@@ -3120,7 +3120,7 @@ td {
   text-align: center !important;
 }
 
-/* FOOTER */
+
 
 .saw-table-footer {
   min-height: 60px;
@@ -3172,7 +3172,7 @@ td {
   color: #8290a5;
 }
 
-/* RESPONSIVE */
+
 
 @media (max-width: 1100px) {
   .saw-header-left {
@@ -3273,9 +3273,9 @@ td {
 }
 
 
-/* =========================================================
-   TAMBAH SURAT AHLI WARIS
-========================================================= */
+
+
+
 
 .tambah-saw-page {
   min-height: 100vh;
@@ -3284,7 +3284,7 @@ td {
   color: #111111;
 }
 
-/* HEADER */
+
 
 .tambah-saw-header {
   height: 83px;
@@ -3363,7 +3363,7 @@ td {
   font-weight: 600;
 }
 
-/* CONTENT */
+
 
 .tambah-saw-content {
   min-height: calc(100vh - 83px);
@@ -3371,7 +3371,7 @@ td {
   box-sizing: border-box;
 }
 
-/* BUTTON KEMBALI */
+
 
 .tambah-saw-top-action {
   display: flex;
@@ -3395,7 +3395,7 @@ td {
   background-color: #195bbd;
 }
 
-/* CARD FORM */
+
 
 .tambah-saw-card {
   width: 100%;
@@ -3406,7 +3406,7 @@ td {
   overflow: hidden;
 }
 
-/* TITLE */
+
 
 .tambah-saw-title {
   height: 74px;
@@ -3423,7 +3423,7 @@ td {
   font-weight: 700;
 }
 
-/* FORM GRID */
+
 
 .tambah-saw-form-grid {
   display: grid;
@@ -3437,7 +3437,7 @@ td {
   min-width: 0;
 }
 
-/* FORM GROUP */
+
 
 .saw-form-group {
   margin-bottom: 25px;
@@ -3477,7 +3477,7 @@ td {
   border-color: #2169d5;
 }
 
-/* SEARCH INPUT */
+
 
 .saw-search-input {
   position: relative;
@@ -3497,13 +3497,13 @@ td {
   color: #111111;
 }
 
-/* DATE */
+
 
 .saw-date-input {
   position: relative;
 }
 
-/* SELECT */
+
 
 .saw-select-wrapper {
   position: relative;
@@ -3530,12 +3530,12 @@ td {
   pointer-events: none;
 }
 
-/* UPLOAD
-   (.saw-upload-box, .saw-upload-icon, .saw-selected-file, .saw-foto-group
-   dipakai bersama dengan form tambah infrastruktur -> lihat bagian
-   "FOTO UPLOAD" di atas) */
 
-/* SIMPAN */
+
+
+
+
+
 
 .tambah-saw-submit {
   display: flex;
@@ -3569,7 +3569,7 @@ td {
   font-size: 21px;
 }
 
-/* RESPONSIVE */
+
 
 @media (max-width: 900px) {
   .tambah-saw-form-grid {
@@ -3631,9 +3631,9 @@ td {
 }
 
 
-/* =========================================================
-   DETAIL / TRACKING SURAT AHLI WARIS
-========================================================= */
+
+
+
 
 .detail-saw-page {
   min-height: 100vh;
@@ -3642,7 +3642,7 @@ td {
   color: #111111;
 }
 
-/* HEADER */
+
 
 .detail-saw-header {
   height: 83px;
@@ -3721,7 +3721,7 @@ td {
   font-weight: 600;
 }
 
-/* CONTENT */
+
 
 .detail-saw-content {
   min-height: calc(100vh - 83px);
@@ -3729,7 +3729,7 @@ td {
   box-sizing: border-box;
 }
 
-/* BUTTON KEMBALI */
+
 
 .detail-saw-back-wrapper {
   display: flex;
@@ -3753,7 +3753,7 @@ td {
   background-color: #195bbd;
 }
 
-/* LAYOUT */
+
 
 .detail-saw-layout {
   display: grid;
@@ -3762,7 +3762,7 @@ td {
   align-items: start;
 }
 
-/* CARD KIRI */
+
 
 .detail-saw-left {
   display: flex;
@@ -3785,7 +3785,7 @@ td {
   font-weight: 700;
 }
 
-/* DATA */
+
 
 .detail-saw-data {
   display: flex;
@@ -3820,7 +3820,7 @@ td {
   line-height: 1.25;
 }
 
-/* BERKAS */
+
 
 .detail-saw-file {
   width: fit-content;
@@ -3835,6 +3835,22 @@ td {
   cursor: pointer;
 }
 
+.detail-surat-layout {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.detail-surat-message {
+  padding: 36px;
+  border: 1px solid #111111;
+  border-radius: 15px;
+  background: #ffffff;
+  text-align: center;
+}
+
+.detail-surat-message p {
+  margin: 0 0 18px;
+}
+
 .detail-saw-file span {
   color: #0a4285;
   font-size: 22px;
@@ -3847,7 +3863,7 @@ td {
   flex-shrink: 0;
 }
 
-/* TRACKING */
+
 
 .detail-saw-tracking {
   min-height: 570px;
@@ -3863,7 +3879,7 @@ td {
   font-size: 26px;
 }
 
-/* TRACKING LIST */
+
 
 .tracking-list {
   position: relative;
@@ -3883,7 +3899,7 @@ td {
   min-height: 80px;
 }
 
-/* GARIS */
+
 
 .tracking-line {
   position: absolute;
@@ -3899,7 +3915,7 @@ td {
   display: none;
 }
 
-/* LINGKARAN */
+
 
 .tracking-circle {
   position: relative;
@@ -3930,7 +3946,7 @@ td {
   color: #ffffff;
 }
 
-/* CONTENT */
+
 
 .tracking-content {
   padding-bottom: 18px;
@@ -3957,7 +3973,7 @@ td {
   line-height: 1.25;
 }
 
-/* RESPONSIVE */
+
 
 @media (max-width: 1000px) {
   .detail-saw-content {
@@ -4018,9 +4034,9 @@ td {
   }
 }
 
-/* =========================================================
-   DETAIL UMKM
-========================================================= */
+
+
+
 
 .detail-umkm-overlay {
   position: fixed;
@@ -4244,9 +4260,9 @@ td {
 }
 
 
-/* =========================================================
-   UMKM PAGE
-========================================================= */
+
+
+
 
 .umkm-page {
   min-height: 100vh;
@@ -4255,7 +4271,7 @@ td {
   color: #111;
 }
 
-/* HEADER */
+
 
 .umkm-header {
   height: 83px;
@@ -4372,14 +4388,14 @@ td {
   font-weight: 600;
 }
 
-/* MAIN */
+
 
 .umkm-main {
   padding: 15px 32px 40px;
   box-sizing: border-box;
 }
 
-/* TAMBAH */
+
 
 .umkm-add-wrapper {
   height: 60px;
@@ -4413,7 +4429,7 @@ td {
   background: #195dbf;
 }
 
-/* STATISTICS */
+
 
 .umkm-statistics {
   display: grid;
@@ -4477,7 +4493,7 @@ td {
   line-height: 1.25;
 }
 
-/* REKAP */
+
 
 .umkm-rekap {
   background: #fff;
@@ -4521,7 +4537,7 @@ td {
   font-weight: 700;
 }
 
-/* DONUT */
+
 
 .umkm-donut-wrapper {
   margin-top: 5px;
@@ -4623,7 +4639,7 @@ td {
   background: #88a5cc;
 }
 
-/* BAR CHART */
+
 
 .wilayah-chart {
   width: min(560px, 100%);
@@ -4723,7 +4739,7 @@ td {
   background: #396ba5;
 }
 
-/* DAFTAR UMKM */
+
 
 .umkm-list-card {
   background: #fff;
@@ -4747,8 +4763,8 @@ td {
   font-weight: 700;
 }
 
-/* FILTER
-   (.filter-label dipakai bersama -> lihat bagian INFRASTRUKTUR) */
+
+
 
 .umkm-filter-box {
   height: 45px;
@@ -4822,7 +4838,7 @@ td {
   background: #eef4fc;
 }
 
-/* TABLE */
+
 
 .umkm-table-wrapper {
   width: 100%;
@@ -4920,7 +4936,7 @@ td {
   line-height: 1.25;
 }
 
-/* FOOTER */
+
 
 .umkm-table-footer {
   min-height: 39px;
@@ -4967,7 +4983,7 @@ td {
   border-color: #2169d5 !important;
 }
 
-/* RESPONSIVE */
+
 
 @media (max-width: 1100px) {
   .umkm-search {
@@ -5016,10 +5032,10 @@ td {
   }
 }
 
-/* =========================================
-   TAMBAH UMKM & EDIT UMKM
-   (kedua halaman memakai class .tambah-umkm-*)
-========================================= */
+
+
+
+
 
 .tambah-umkm-page {
   min-height: 100vh;
@@ -5028,7 +5044,7 @@ td {
   color: #000;
 }
 
-/* HEADER */
+
 
 .tambah-umkm-header {
   height: 83px;
@@ -5116,7 +5132,7 @@ td {
   font-weight: 700;
 }
 
-/* CONTENT */
+
 
 .tambah-umkm-content {
   min-height: calc(100vh - 82px);
@@ -5124,7 +5140,7 @@ td {
   box-sizing: border-box;
 }
 
-/* TOMBOL KEMBALI (halaman tambah) */
+
 
 .tambah-umkm-back-wrapper {
   display: flex;
@@ -5155,7 +5171,7 @@ td {
   white-space: nowrap;
 }
 
-/* CARD FORM */
+
 
 .tambah-umkm-card {
   width: 100%;
@@ -5182,7 +5198,7 @@ td {
   font-weight: 700;
 }
 
-/* FORM */
+
 
 .tambah-umkm-form {
   padding: 24px 46px 0;
@@ -5252,13 +5268,13 @@ td {
   border-color: #2169d5;
 }
 
-/* POSISI ALAMAT */
+
 
 .tambah-umkm-alamat-group {
   margin-top: 0;
 }
 
-/* TOMBOL SIMPAN */
+
 
 .tambah-umkm-submit {
   display: flex;
@@ -5290,7 +5306,7 @@ td {
   font-size: 22px;
 }
 
-/* RESPONSIVE TAMBAH / EDIT UMKM */
+
 
 @media (max-width: 1000px) {
   .tambah-umkm-form-grid {
@@ -5341,9 +5357,9 @@ td {
 }
 
 
-/* =========================================
-   EDIT UMKM (class khusus halaman edit)
-========================================= */
+
+
+
 
 .hamburger-button {
   border: none;
@@ -5432,9 +5448,9 @@ td {
   cursor: pointer;
 }
 
-/*=========================================
-   KESEJAHTERAAN
-========================================= */
+
+
+
 
 .kesejahteraan-page {
   min-height: 100vh;
@@ -5443,7 +5459,7 @@ td {
   color: #000;
 }
 
-/* HEADER */
+
 
 .kesejahteraan-header {
   height: 83px;
@@ -5556,13 +5572,13 @@ td {
   font-weight: 600;
 }
 
-/* MAIN */
+
 
 .kesejahteraan-main {
   padding: 35px 39px 60px;
 }
 
-/* TAMBAH */
+
 
 .kesejahteraan-add-wrapper {
   display: flex;
@@ -5581,7 +5597,7 @@ td {
   cursor: pointer;
 }
 
-/* STATISTIK (.stat-icon dipakai bersama -> lihat bagian DASHBOARD) */
+
 
 .kesejahteraan-stats {
   display: grid;
@@ -5629,7 +5645,7 @@ td {
   font-size: 11px;
 }
 
-/* REKAP */
+
 
 .kesejahteraan-rekap {
   background: #fff;
@@ -5710,7 +5726,7 @@ td {
   border-radius: 50%;
 }
 
-/* DAFTAR */
+
 
 .kesejahteraan-list-card {
   background: #fff;
@@ -5802,7 +5818,7 @@ td {
   background: #edf3fc;
 }
 
-/* TABLE */
+
 
 .kesejahteraan-table-wrapper {
   padding: 0 4px;
@@ -5895,7 +5911,7 @@ td {
   line-height: 1.1;
 }
 
-/* STATUS (dipakai di tabel & detail) */
+
 
 .status-selesai {
   color: #55a900;
@@ -5917,7 +5933,7 @@ td {
   cursor: pointer;
 }
 
-/* FOOTER (.pagination dipakai bersama -> lihat bagian INFRASTRUKTUR) */
+
 
 .kesejahteraan-list-footer {
   min-height: 47px;
@@ -5929,7 +5945,7 @@ td {
   font-size: 13px;
 }
 
-/* RESPONSIVE */
+
 
 @media (max-width: 1100px) {
   .kesejahteraan-stats {
@@ -5971,9 +5987,9 @@ td {
 }
 
 
-/* =========================================================
-   TAMBAH KESEJAHTERAAN
-   ========================================================= */
+
+
+
 
 .tambah-kesejahteraan-page {
   min-height: 100vh;
@@ -5981,7 +5997,7 @@ td {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* ================= HEADER ================= */
+
 
 .tambah-kesejahteraan-header {
   height: 82px;
@@ -6066,14 +6082,14 @@ td {
   color: #000;
 }
 
-/* ================= CONTENT ================= */
+
 
 .tambah-kesejahteraan-content {
   padding: 30px 44px 40px;
   box-sizing: border-box;
 }
 
-/* ================= BACK BUTTON ================= */
+
 
 .tambah-kesejahteraan-top-action {
   display: flex;
@@ -6097,7 +6113,7 @@ td {
   background-color: #155abd;
 }
 
-/* ================= CARD ================= */
+
 
 .tambah-kesejahteraan-card {
   width: 100%;
@@ -6109,7 +6125,7 @@ td {
   overflow: hidden;
 }
 
-/* ================= CARD TITLE ================= */
+
 
 .tambah-kesejahteraan-card-title {
   height: 80px;
@@ -6127,7 +6143,7 @@ td {
   color: #050505;
 }
 
-/* ================= FORM ================= */
+
 
 .tambah-kesejahteraan-form-grid {
   display: grid;
@@ -6158,7 +6174,7 @@ td {
   margin-left: 4px;
 }
 
-/* ================= INPUT PENDUDUK ================= */
+
 
 .kesejahteraan-search-input {
   width: 100%;
@@ -6186,9 +6202,9 @@ td {
   color: #7f8ea5;
 }
 
-/* (.search-icon dipakai bersama -> lihat bagian INFRASTRUKTUR) */
 
-/* ================= SELECT ================= */
+
+
 
 .kesejahteraan-select-wrapper {
   position: relative;
@@ -6228,7 +6244,7 @@ td {
   pointer-events: none;
 }
 
-/* ================= TEXTAREA ================= */
+
 
 .kesejahteraan-form-group textarea {
   width: 100%;
@@ -6248,7 +6264,7 @@ td {
   color: #7f8ea5;
 }
 
-/* ================= SAVE ================= */
+
 
 .tambah-kesejahteraan-submit {
   display: flex;
@@ -6282,7 +6298,7 @@ td {
   background-color: #155abd;
 }
 
-/* ================= RESPONSIVE ================= */
+
 
 @media (max-width: 900px) {
   .tambah-kesejahteraan-form-grid {
@@ -6334,9 +6350,9 @@ td {
 }
 
 
-/* =========================================================
-   DETAIL KESEJAHTERAAN
-   ========================================================= */
+
+
+
 
 .kesejahteraan-detail-overlay {
   position: fixed;
@@ -6358,7 +6374,7 @@ td {
   z-index: 1001;
 }
 
-/* JUDUL */
+
 
 .kesejahteraan-detail-header {
   display: flex;
@@ -6375,7 +6391,7 @@ td {
   color: #000;
 }
 
-/* CARD UTAMA */
+
 
 .kesejahteraan-detail-main-card {
   border: 1px solid #003b78;
@@ -6423,7 +6439,7 @@ td {
   flex-shrink: 0;
 }
 
-/* STATUS (warna .status-* ada di bagian KESEJAHTERAAN) */
+
 
 .kesejahteraan-detail-status {
   display: flex;
@@ -6439,7 +6455,7 @@ td {
   line-height: 1;
 }
 
-/* CARD */
+
 
 .kesejahteraan-detail-card {
   border: 1px solid #003b78;
@@ -6457,7 +6473,7 @@ td {
   color: #000;
 }
 
-/* KETERANGAN */
+
 
 .kesejahteraan-detail-description {
   margin: 0;
@@ -6466,7 +6482,7 @@ td {
   color: #000;
 }
 
-/* DATA PENDUDUK */
+
 
 .detail-penduduk-card {
   padding-bottom: 12px;
@@ -6499,7 +6515,7 @@ td {
   line-height: 1.25;
 }
 
-/* AKSI */
+
 
 .kesejahteraan-detail-actions {
   display: flex;
@@ -6556,7 +6572,7 @@ td {
   height: 17px;
 }
 
-/* SCROLLBAR */
+
 
 .kesejahteraan-detail-sidebar::-webkit-scrollbar {
   width: 7px;
@@ -6571,7 +6587,7 @@ td {
   border-radius: 10px;
 }
 
-/* RESPONSIVE */
+
 
 @media (max-width: 700px) {
   .kesejahteraan-detail-sidebar {
@@ -6589,9 +6605,9 @@ td {
 }
 
 
-/* =========================================
-   ASISTEN DATA
-========================================= */
+
+
+
 
 .asisten-page {
   min-height: 100vh;
@@ -6600,7 +6616,7 @@ td {
   color: #000;
 }
 
-/* HEADER */
+
 
 .asisten-header {
   height: 82px;
@@ -6654,9 +6670,9 @@ td {
   gap: 12px;
 }
 
-/* AVATAR
-   Huruf "N" digambar oleh .asisten-user-avatar::after dari bagian
-   "SHARED HEADER VISUALS" agar konsisten dengan header lain. */
+
+
+
 .asisten-user-avatar {
   width: 52px;
   height: 52px;
@@ -6688,7 +6704,7 @@ td {
 }
 
 
-/* CONTENT */
+
 
 .asisten-content {
   min-height: calc(100vh - 82px);
@@ -6698,7 +6714,7 @@ td {
 }
 
 
-/* INFO BUTTON */
+
 
 .asisten-info-button {
   width: 34px;
@@ -6715,7 +6731,7 @@ td {
 }
 
 
-/* CONTOH PERTANYAAN */
+
 
 .contoh-pertanyaan-card {
   position: absolute;
@@ -6776,7 +6792,7 @@ td {
 }
 
 
-/* BAGIAN TENGAH */
+
 
 .asisten-center {
   position: absolute;
@@ -6788,7 +6804,7 @@ td {
 }
 
 
-/* LOGO */
+
 
 .asisten-logo {
   width: 110px;
@@ -6882,7 +6898,7 @@ td {
 }
 
 
-/* TITLE */
+
 
 .asisten-title {
   margin: 0;
@@ -6905,7 +6921,7 @@ td {
 }
 
 
-/* INPUT */
+
 
 .asisten-question-form {
   position: fixed;
@@ -6955,7 +6971,7 @@ td {
 }
 
 
-/* RESPONSIVE */
+
 
 @media (max-width: 1000px) {
   .asisten-center {
@@ -7008,7 +7024,7 @@ td {
   }
 }
 
-/* Shared header used by pages with optional search. */
+
 .global-header {
   position: relative;
   min-height: 83px;
@@ -7185,9 +7201,9 @@ td {
   }
 }
 
-/* =========================================================
-   TENTANG ASISTEN DATA POPUP
-========================================================= */
+
+
+
 
 .tentang-overlay {
   position: fixed;
@@ -7213,7 +7229,7 @@ td {
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
 }
 
-/* BAGIAN ATAS */
+
 
 .tentang-content {
   padding: 20px 22px 18px;
@@ -7262,7 +7278,7 @@ td {
   font-weight: 400;
 }
 
-/* GARIS PEMISAH */
+
 
 .tentang-footer {
   min-height: 72px;
@@ -7284,7 +7300,7 @@ td {
   line-height: 1.2;
 }
 
-/* ICON LOCK */
+
 
 .tentang-lock-icon {
   position: relative;
@@ -7350,9 +7366,9 @@ td {
   background: #60708a;
 }
 
-/* =========================================================
-   PENGATURAN PAGE
-========================================================= */
+
+
+
 
 .pengaturan-page {
   min-height: 100vh;
@@ -7360,9 +7376,9 @@ td {
 }
 
 
-/* =========================================================
-   MAIN
-========================================================= */
+
+
+
 
 .pengaturan-main {
   min-height: 100vh;
@@ -7370,9 +7386,9 @@ td {
 }
 
 
-/* =========================================================
-   CONTENT
-========================================================= */
+
+
+
 
 .pengaturan-content {
   padding: 24px 30px 40px;
@@ -7387,9 +7403,9 @@ td {
 }
 
 
-/* =========================================================
-   PROFILE CARD
-========================================================= */
+
+
+
 
 .pengaturan-profile-card {
   background: #ffffff;
@@ -7401,9 +7417,9 @@ td {
 }
 
 
-/* =========================================================
-   PROFILE TITLE
-========================================================= */
+
+
+
 
 .pengaturan-section-title {
   display: flex;
@@ -7435,9 +7451,9 @@ td {
 }
 
 
-/* =========================================================
-   PHOTO
-========================================================= */
+
+
+
 
 .pengaturan-photo-section {
   display: flex;
@@ -7501,9 +7517,9 @@ td {
 }
 
 
-/* =========================================================
-   PROFILE FORM
-========================================================= */
+
+
+
 
 .pengaturan-profile-form {
   width: 100%;
@@ -7557,9 +7573,9 @@ td {
 }
 
 
-/* =========================================================
-   SECURITY
-========================================================= */
+
+
+
 
 .pengaturan-security {
   margin-top: 2px;
@@ -7580,9 +7596,9 @@ td {
 }
 
 
-/* =========================================================
-   PROFILE BUTTON
-========================================================= */
+
+
+
 
 .pengaturan-profile-actions {
   display: flex;
@@ -7620,9 +7636,9 @@ td {
 }
 
 
-/* =========================================================
-   SYSTEM CARD
-========================================================= */
+
+
+
 
 .pengaturan-system-card {
   background: #fff;
@@ -7634,9 +7650,9 @@ td {
 }
 
 
-/* =========================================================
-   SYSTEM HEADER
-========================================================= */
+
+
+
 
 .pengaturan-system-header {
   display: flex;
@@ -7671,9 +7687,9 @@ td {
 }
 
 
-/* =========================================================
-   SYSTEM SECTION
-========================================================= */
+
+
+
 
 .pengaturan-system-section {
   margin-bottom: 78px;
@@ -7719,9 +7735,9 @@ td {
 }
 
 
-/* =========================================================
-   SWITCH
-========================================================= */
+
+
+
 
 .pengaturan-switch {
   position: relative;
@@ -7772,9 +7788,9 @@ td {
 }
 
 
-/* =========================================================
-   LOCATION
-========================================================= */
+
+
+
 
 .pengaturan-location-section {
   margin-bottom: 60px;
@@ -7805,9 +7821,9 @@ td {
 }
 
 
-/* =========================================================
-   SELECT BOX
-========================================================= */
+
+
+
 
 .pengaturan-select-wrapper {
   position: relative;
@@ -7859,9 +7875,9 @@ td {
 }
 
 
-/* =========================================================
-   SYSTEM BUTTON
-========================================================= */
+
+
+
 
 .pengaturan-system-save {
   width: 100%;
@@ -7887,9 +7903,9 @@ td {
 }
 
 
-/* =========================================================
-   RESPONSIVE
-========================================================= */
+
+
+
 
 @media (max-width: 1100px) {
 
@@ -7943,9 +7959,9 @@ td {
 
 }
 
-/* =========================================================
-   DATA PEGAWAI
-   ========================================================= */
+
+
+
 
 .pegawai-stats {
   display: grid;
@@ -8024,9 +8040,9 @@ td {
 }
 
 
-/* =========================================================
-   TABLE PEGAWAI
-   ========================================================= */
+
+
+
 
 .pegawai-table-card {
   width: 100%;
@@ -8046,10 +8062,10 @@ td {
 }
 
 
-/* =========================================================
-   LEBAR KOLOM
-   Total = 100%
-   ========================================================= */
+
+
+
+
 
 .pegawai-table th:nth-child(1),
 .pegawai-table td:nth-child(1) {
@@ -8092,9 +8108,9 @@ td {
 }
 
 
-/* =========================================================
-   HEADER TABEL
-   ========================================================= */
+
+
+
 
 .pegawai-table thead th {
   padding: 16px 12px;
@@ -8111,9 +8127,9 @@ td {
 }
 
 
-/* =========================================================
-   BODY TABEL
-   ========================================================= */
+
+
+
 
 .pegawai-table tbody td {
   padding: 18px 12px;
@@ -8149,9 +8165,9 @@ td {
 }
 
 
-/* =========================================================
-   NO
-   ========================================================= */
+
+
+
 
 .pegawai-no-cell {
   font-size: 13px !important;
@@ -8161,9 +8177,9 @@ td {
 }
 
 
-/* =========================================================
-   PEGAWAI & NIP
-   ========================================================= */
+
+
+
 
 .pegawai-identity-cell {
   padding-left: 14px !important;
@@ -8212,9 +8228,9 @@ td {
 }
 
 
-/* =========================================================
-   JABATAN
-   ========================================================= */
+
+
+
 
 .pegawai-jabatan-cell {
   padding-left: 12px !important;
@@ -8232,9 +8248,9 @@ td {
 }
 
 
-/* =========================================================
-   STATUS
-   ========================================================= */
+
+
+
 
 .pegawai-status-cell {
   font-size: 13px !important;
@@ -8245,9 +8261,9 @@ td {
 }
 
 
-/* =========================================================
-   KONTAK & EMAIL
-   ========================================================= */
+
+
+
 
 .pegawai-contact-cell {
   padding-left: 12px !important;
@@ -8301,9 +8317,9 @@ td {
 }
 
 
-/* =========================================================
-   DOMISILI
-   ========================================================= */
+
+
+
 
 .pegawai-domisili-cell {
   padding-left: 12px !important;
@@ -8321,9 +8337,9 @@ td {
 }
 
 
-/* =========================================================
-   RELASI TERLAMPIR
-   ========================================================= */
+
+
+
 
 .pegawai-relasi-cell {
   padding-left: 12px !important;
@@ -8364,9 +8380,9 @@ td {
 }
 
 
-/* =========================================================
-   AKSI
-   ========================================================= */
+
+
+
 
 .pegawai-action-cell {
   text-align: center !important;
@@ -8493,14 +8509,14 @@ td {
 }
 
 
-/* =========================================================
-   DETAIL ROW
-   ========================================================= */
 
-/*
-   Ini yang membuat detail benar-benar berada
-   tepat di bawah nama pegawai yang dibuka.
-*/
+
+
+
+
+
+
+
 
 .pegawai-detail-row {
   background: #ffffff;
@@ -8514,9 +8530,9 @@ td {
 }
 
 
-/* =========================================================
-   DETAIL PEGAWAI
-   ========================================================= */
+
+
+
 
 .pegawai-expanded-detail {
   width: 100%;
@@ -8529,9 +8545,9 @@ td {
 }
 
 
-/* =========================================================
-   BUTTON DETAIL
-   ========================================================= */
+
+
+
 
 .pegawai-detail-actions {
   display: flex;
@@ -8569,9 +8585,9 @@ td {
 }
 
 
-/* =========================================================
-   DETAIL GRID
-   ========================================================= */
+
+
+
 
 .pegawai-detail-grid {
   display: grid;
@@ -8588,9 +8604,9 @@ td {
 }
 
 
-/* =========================================================
-   DETAIL BOX
-   ========================================================= */
+
+
+
 
 .pegawai-detail-box {
   border: 1px solid #17457d;
@@ -8614,9 +8630,9 @@ td {
 }
 
 
-/* =========================================================
-   DOKUMEN
-   ========================================================= */
+
+
+
 
 .pegawai-document {
   min-height: 68px;
@@ -8712,9 +8728,9 @@ td {
 }
 
 
-/* =========================================================
-   BUTTON DOWNLOAD
-   ========================================================= */
+
+
+
 
 .document-download {
   flex-shrink: 0;
@@ -8743,9 +8759,9 @@ td {
 }
 
 
-/* =========================================================
-   RIWAYAT DIKLAT
-   ========================================================= */
+
+
+
 
 .pegawai-training {
   min-height: 68px;
@@ -8819,9 +8835,9 @@ td {
 }
 
 
-/* =========================================================
-   EMPTY DETAIL
-   ========================================================= */
+
+
+
 
 .pegawai-empty-detail {
   min-height: 60px;
@@ -8842,17 +8858,17 @@ td {
 }
 
 
-/* =========================================================
-   ACTIVE ROW
-   ========================================================= */
+
+
+
 
 .pegawai-row-active td {
   border-bottom: none !important;
 }
 
-/* =========================================================
-   DETAIL PEGAWAI PANEL
-   ========================================================= */
+
+
+
 
 .detail-panel {
   width: 560px;
@@ -9271,9 +9287,9 @@ td {
 }
 
 
-/* =========================================================
-   RESPONSIVE
-   ========================================================= */
+
+
+
 
 @media (max-width: 1100px) {
 
@@ -9316,15 +9332,15 @@ td {
   }
 }
 
-/* =========================================================
-   DATA PENDUDUK
-   STYLE MENGIKUTI AGENDA
-========================================================= */
 
 
-/* =========================================================
-   BACKGROUND
-========================================================= */
+
+
+
+
+
+
+
 
 .penduduk-page {
   min-height: 100vh;
@@ -9351,9 +9367,9 @@ td {
 }
 
 
-/* =========================================================
-   TOP ACTION
-========================================================= */
+
+
+
 
 .penduduk-top-action {
   width: 100%;
@@ -9412,9 +9428,9 @@ td {
 }
 
 
-/* =========================================================
-   CARD
-========================================================= */
+
+
+
 
 .penduduk-table-card {
   width: 100%;
@@ -9433,9 +9449,9 @@ td {
 }
 
 
-/* =========================================================
-   JUDUL + FILTER
-========================================================= */
+
+
+
 
 .penduduk-table-top {
   min-height: 104px;
@@ -9466,9 +9482,9 @@ td {
 }
 
 
-/* =========================================================
-   FILTER WRAPPER
-========================================================= */
+
+
+
 
 .penduduk-filter-wrapper {
   position: relative;
@@ -9495,7 +9511,7 @@ td {
 }
 
 
-/* LABEL */
+
 
 .penduduk-filter-label {
   display: flex;
@@ -9516,9 +9532,9 @@ td {
 }
 
 
-/* =========================================================
-   DROPDOWN WRAPPER
-========================================================= */
+
+
+
 
 .penduduk-filter-dropdown {
   position: relative;
@@ -9529,9 +9545,9 @@ td {
 }
 
 
-/* =========================================================
-   DROPDOWN BUTTON
-========================================================= */
+
+
+
 
 .penduduk-filter-select {
   min-width: 155px;
@@ -9580,9 +9596,9 @@ td {
 }
 
 
-/* =========================================================
-   DROPDOWN MENU
-========================================================= */
+
+
+
 
 .penduduk-filter-menu {
   position: absolute;
@@ -9618,7 +9634,7 @@ td {
 }
 
 
-/* ITEM DROPDOWN */
+
 
 .penduduk-filter-item {
   width: 100% !important;
@@ -9677,9 +9693,9 @@ td {
 }
 
 
-/* =========================================================
-   OVERLAY
-========================================================= */
+
+
+
 
 .penduduk-filter-overlay {
   position: fixed;
@@ -9692,9 +9708,9 @@ td {
 }
 
 
-/* =========================================================
-   TABLE SCROLL
-========================================================= */
+
+
+
 
 .penduduk-table-scroll {
   width: 100%;
@@ -9706,9 +9722,9 @@ td {
 }
 
 
-/* =========================================================
-   TABLE
-========================================================= */
+
+
+
 
 .penduduk-table {
   width: 100%;
@@ -9725,9 +9741,9 @@ td {
 }
 
 
-/* =========================================================
-   COLUMN WIDTH
-========================================================= */
+
+
+
 
 .penduduk-table th:nth-child(1),
 .penduduk-table td:nth-child(1) {
@@ -9770,9 +9786,9 @@ td {
 }
 
 
-/* =========================================================
-   HEADER
-========================================================= */
+
+
+
 
 .penduduk-table thead th {
   height: 42px;
@@ -9801,7 +9817,7 @@ td {
 }
 
 
-/* HEADER CENTER */
+
 
 .penduduk-table thead th:nth-child(1),
 .penduduk-table thead th:nth-child(6),
@@ -9810,9 +9826,9 @@ td {
 }
 
 
-/* =========================================================
-   BODY
-========================================================= */
+
+
+
 
 .penduduk-table tbody tr {
   height: 88px;
@@ -9847,9 +9863,9 @@ td {
 }
 
 
-/* =========================================================
-   NO
-========================================================= */
+
+
+
 
 .penduduk-col-no {
   text-align: center !important;
@@ -9872,9 +9888,9 @@ td {
 }
 
 
-/* =========================================================
-   NAMA
-========================================================= */
+
+
+
 
 .penduduk-col-nama {
   text-align: left;
@@ -9899,9 +9915,9 @@ td {
 }
 
 
-/* =========================================================
-   NIK
-========================================================= */
+
+
+
 
 .penduduk-col-nik {
   text-align: left;
@@ -9922,9 +9938,9 @@ td {
 }
 
 
-/* =========================================================
-   TEMPAT / TANGGAL LAHIR
-========================================================= */
+
+
+
 
 .penduduk-col-ttl {
   text-align: left;
@@ -9967,9 +9983,9 @@ td {
 }
 
 
-/* =========================================================
-   ALAMAT
-========================================================= */
+
+
+
 
 .penduduk-col-alamat {
   text-align: left;
@@ -10012,9 +10028,9 @@ td {
 }
 
 
-/* =========================================================
-   JENIS KELAMIN
-========================================================= */
+
+
+
 
 .penduduk-col-jk {
   text-align: center !important;
@@ -10045,7 +10061,7 @@ td {
 }
 
 
-/* Laki-laki */
+
 
 .penduduk-jk.jk-laki {
   background: #e8f1ff;
@@ -10054,7 +10070,7 @@ td {
 }
 
 
-/* Perempuan */
+
 
 .penduduk-jk.jk-perempuan {
   background: #f3e8ff;
@@ -10063,9 +10079,9 @@ td {
 }
 
 
-/* =========================================================
-   STATUS
-========================================================= */
+
+
+
 
 .penduduk-col-status {
   text-align: left !important;
@@ -10096,7 +10112,7 @@ td {
 }
 
 
-/* TETAP */
+
 
 .status-tetap {
   background: #e5f5e9;
@@ -10105,7 +10121,7 @@ td {
 }
 
 
-/* SEMENTARA */
+
 
 .status-sementara {
   background: #fff2d9;
@@ -10114,7 +10130,7 @@ td {
 }
 
 
-/* MENINGGAL */
+
 
 .status-meninggal {
   background: #f0f1f3;
@@ -10123,7 +10139,7 @@ td {
 }
 
 
-/* PINDAH */
+
 
 .status-pindah {
   background: #e8f0ff;
@@ -10132,9 +10148,9 @@ td {
 }
 
 
-/* =========================================================
-   AKSI
-========================================================= */
+
+
+
 
 .penduduk-col-aksi {
   text-align: center !important;
@@ -10155,7 +10171,7 @@ td {
 }
 
 
-/* BUTTON 3 TITIK */
+
 
 .penduduk-action-button {
   width: 30px;
@@ -10220,9 +10236,9 @@ td {
 }
 
 
-/* =========================================================
-   ACTION MENU
-========================================================= */
+
+
+
 
 .penduduk-action-menu {
   position: absolute;
@@ -10311,9 +10327,9 @@ td {
 }
 
 
-/* =========================================================
-   EMPTY DATA
-========================================================= */
+
+
+
 
 .penduduk-empty {
   height: 88px;
@@ -10332,9 +10348,9 @@ td {
 }
 
 
-/* =========================================================
-   FOOTER
-========================================================= */
+
+
+
 
 .penduduk-table-footer {
   min-height: 68px;
@@ -10424,9 +10440,9 @@ button.penduduk-page-active {
 }
 
 
-/* =========================================================
-   RESPONSIVE
-========================================================= */
+
+
+
 
 @media (max-width: 1100px) {
 
@@ -10539,10 +10555,10 @@ button.penduduk-page-active {
   }
 }
 
-/* =========================================================
-   PERBAIKAN FINAL AGENDA
-   Tambahkan di paling bawah index.css
-   ========================================================= */
+
+
+
+
 
 .agenda-page {
   min-height: 100vh;
@@ -10562,9 +10578,9 @@ button.penduduk-page-active {
   box-sizing: border-box;
 }
 
-/* =========================================================
-   TOMBOL TAMBAH
-   ========================================================= */
+
+
+
 
 .agenda-top-action {
   width: 100%;
@@ -10606,9 +10622,9 @@ button.penduduk-page-active {
   line-height: 1;
 }
 
-/* =========================================================
-   CARD AGENDA
-   ========================================================= */
+
+
+
 
 .agenda-table-card {
   width: 100%;
@@ -10620,9 +10636,9 @@ button.penduduk-page-active {
   box-sizing: border-box;
 }
 
-/* =========================================================
-   BAGIAN JUDUL DAN FILTER
-   ========================================================= */
+
+
+
 
 .agenda-table-card .table-top {
   min-height: 104px;
@@ -10642,9 +10658,9 @@ button.penduduk-page-active {
   line-height: 1.2;
 }
 
-/* =========================================================
-   FILTER
-   ========================================================= */
+
+
+
 
 .agenda-table-card .filter-wrapper {
   position: relative;
@@ -10709,9 +10725,9 @@ button.penduduk-page-active {
   line-height: 1;
 }
 
-/* =========================================================
-   MENU FILTER
-   ========================================================= */
+
+
+
 
 .agenda-table-card .simple-menu {
   position: absolute;
@@ -10749,9 +10765,9 @@ button.penduduk-page-active {
   color: #1769d5;
 }
 
-/* =========================================================
-   TABLE
-   ========================================================= */
+
+
+
 
 .agenda-table-card .table-scroll {
   width: 100%;
@@ -10766,7 +10782,7 @@ button.penduduk-page-active {
   border: none;
 }
 
-/* Lebar kolom */
+
 
 .agenda-table th:nth-child(1),
 .agenda-table td:nth-child(1) {
@@ -10813,9 +10829,9 @@ button.penduduk-page-active {
   width: 7%;
 }
 
-/* =========================================================
-   HEADER TABLE
-   ========================================================= */
+
+
+
 
 .agenda-table thead th {
   height: 42px;
@@ -10840,9 +10856,9 @@ button.penduduk-page-active {
   text-align: center;
 }
 
-/* =========================================================
-   BODY TABLE
-   ========================================================= */
+
+
+
 
 .agenda-table tbody tr {
   height: 88px;
@@ -10905,9 +10921,9 @@ button.penduduk-page-active {
   white-space: nowrap;
 }
 
-/* =========================================================
-   REMINDER
-   ========================================================= */
+
+
+
 
 .reminder-badge {
   width: fit-content;
@@ -10960,9 +10976,9 @@ button.penduduk-page-active {
   line-height: 1;
 }
 
-/* =========================================================
-   STATUS
-   ========================================================= */
+
+
+
 
 .agenda-status-datang {
   color: #1769d5;
@@ -10976,9 +10992,9 @@ button.penduduk-page-active {
   font-weight: 500;
 }
 
-/* =========================================================
-   EMPTY TABLE
-   ========================================================= */
+
+
+
 
 .agenda-table .empty-table {
   padding: 35px 20px;
@@ -10987,9 +11003,9 @@ button.penduduk-page-active {
   text-align: center !important;
 }
 
-/* =========================================================
-   FOOTER
-   ========================================================= */
+
+
+
 
 .agenda-table-card .table-footer {
   min-height: 59px;
@@ -11011,9 +11027,9 @@ button.penduduk-page-active {
   font-weight: 700;
 }
 
-/* =========================================================
-   PAGINATION
-   ========================================================= */
+
+
+
 
 .agenda-table-card .pagination {
   display: flex;
@@ -11063,9 +11079,9 @@ button.penduduk-page-active {
   padding: 0 9px !important;
 }
 
-/* =========================================================
-   RESPONSIVE
-   ========================================================= */
+
+
+
 
 @media (max-width: 1100px) {
   .agenda-content {
@@ -11158,11 +11174,11 @@ button.penduduk-page-active {
   }
 }
 
-/* =========================================================
-   POPUP PENGINGAT AGENDA H-1
-   ========================================================= */
 
-/* OVERLAY */
+
+
+
+
 .agenda-reminder-overlay {
   position: fixed;
   inset: 0;
@@ -11179,7 +11195,7 @@ button.penduduk-page-active {
   box-sizing: border-box;
 }
 
-/* POPUP */
+
 .agenda-reminder-popup {
   width: min(620px, 100%);
 
@@ -11195,7 +11211,7 @@ button.penduduk-page-active {
   animation: agendaReminderShow 0.25s ease-out;
 }
 
-/* ANIMASI POPUP */
+
 @keyframes agendaReminderShow {
   from {
     opacity: 0;
@@ -11208,9 +11224,9 @@ button.penduduk-page-active {
   }
 }
 
-/* =========================================================
-   HEADER POPUP
-   ========================================================= */
+
+
+
 
 .agenda-reminder-header {
   min-height: 58px;
@@ -11265,9 +11281,9 @@ button.penduduk-page-active {
   background: rgba(255, 255, 255, 0.15);
 }
 
-/* =========================================================
-   JUDUL
-   ========================================================= */
+
+
+
 
 .agenda-reminder-title {
   padding: 22px 24px 10px;
@@ -11297,9 +11313,9 @@ button.penduduk-page-active {
   line-height: 1.3;
 }
 
-/* =========================================================
-   INFORMASI TERJADWAL
-   ========================================================= */
+
+
+
 
 .agenda-reminder-scheduled {
   padding: 0 24px 18px;
@@ -11324,9 +11340,9 @@ button.penduduk-page-active {
   line-height: 1;
 }
 
-/* =========================================================
-   DETAIL AGENDA
-   ========================================================= */
+
+
+
 
 .agenda-reminder-detail {
   margin: 0 24px;
@@ -11387,9 +11403,9 @@ button.penduduk-page-active {
   color: #111827;
 }
 
-/* =========================================================
-   INFORMASI SISTEM
-   ========================================================= */
+
+
+
 
 .agenda-reminder-info {
   margin: 18px 24px;
@@ -11424,9 +11440,9 @@ button.penduduk-page-active {
   line-height: 1.3;
 }
 
-/* =========================================================
-   TOMBOL POPUP
-   ========================================================= */
+
+
+
 
 .agenda-reminder-actions {
   padding: 0 24px 22px;
@@ -11470,7 +11486,7 @@ button.penduduk-page-active {
     transform 0.15s ease;
 }
 
-/* TUTUP & INGATKAN LAGI */
+
 .agenda-reminder-later {
   border: 1px solid #cbd5e1;
 
@@ -11487,7 +11503,7 @@ button.penduduk-page-active {
   transform: scale(0.98);
 }
 
-/* KONFIRMASI */
+
 .agenda-reminder-confirm {
   border: none;
 
@@ -11504,9 +11520,9 @@ button.penduduk-page-active {
   transform: scale(0.98);
 }
 
-/* =========================================================
-   RESPONSIVE POPUP
-   ========================================================= */
+
+
+
 
 @media (max-width: 600px) {
 
@@ -11557,9 +11573,9 @@ button.penduduk-page-active {
 
 
 
-/* =========================================================
-   SURAT KELUAR
-========================================================= */
+
+
+
 
 .surat-keluar-page {
   min-height: 100vh;
@@ -11580,10 +11596,10 @@ button.penduduk-page-active {
 }
 
 
-/* =========================================================
-   TOP ACTION
-   BAGIAN INI DIPERTAHANKAN
-========================================================= */
+
+
+
+
 
 .surat-keluar-top-action {
   width: 100%;
@@ -11664,10 +11680,10 @@ button.penduduk-page-active {
 }
 
 
-/* =========================================================
-   TABLE CARD
-   DISESUAIKAN SAMA DENGAN SURAT MASUK
-========================================================= */
+
+
+
+
 
 .surat-keluar-table-card {
   width: 100%;
@@ -11682,9 +11698,9 @@ button.penduduk-page-active {
 }
 
 
-/* =========================================================
-   TABLE TOP
-========================================================= */
+
+
+
 
 .surat-keluar-table-card .table-top {
   min-height: 104px;
@@ -11708,10 +11724,10 @@ button.penduduk-page-active {
 }
 
 
-/* =========================================================
-   FILTER WRAPPER
-   SAMA DENGAN SURAT MASUK
-========================================================= */
+
+
+
+
 
 .surat-keluar-table-card .filter-wrapper {
   position: relative;
@@ -11733,9 +11749,9 @@ button.penduduk-page-active {
 }
 
 
-/* =========================================================
-   FILTER LABEL
-========================================================= */
+
+
+
 
 .surat-keluar-table-card .filter-label {
   display: flex;
@@ -11752,9 +11768,9 @@ button.penduduk-page-active {
 }
 
 
-/* =========================================================
-   DROPDOWN
-========================================================= */
+
+
+
 
 .surat-keluar-table-card .simple-dropdown {
   position: relative;
@@ -11762,9 +11778,9 @@ button.penduduk-page-active {
 }
 
 
-/* =========================================================
-   FILTER BUTTON
-========================================================= */
+
+
+
 
 .surat-keluar-table-card .filter-button {
   min-width: 155px;
@@ -11806,9 +11822,9 @@ button.penduduk-page-active {
 }
 
 
-/* =========================================================
-   ARROW
-========================================================= */
+
+
+
 
 .surat-keluar-table-card .dropdown-arrow {
   font-size: 9px;
@@ -11816,9 +11832,9 @@ button.penduduk-page-active {
 }
 
 
-/* =========================================================
-   DROPDOWN MENU
-========================================================= */
+
+
+
 
 .surat-keluar-table-card .simple-menu {
   position: absolute;
@@ -11845,18 +11861,18 @@ button.penduduk-page-active {
 }
 
 
-/* =========================================================
-   MENU JENIS SURAT
-========================================================= */
+
+
+
 
 .surat-keluar-table-card .surat-keluar-jenis-menu {
   width: 220px;
 }
 
 
-/* =========================================================
-   DROPDOWN ITEM
-========================================================= */
+
+
+
 
 .surat-keluar-table-card .simple-item {
   width: 100%;
@@ -11891,9 +11907,9 @@ button.penduduk-page-active {
 }
 
 
-/* =========================================================
-   TABLE SCROLL
-========================================================= */
+
+
+
 
 .surat-keluar-table-card .table-scroll {
   width: 100%;
@@ -11901,9 +11917,9 @@ button.penduduk-page-active {
 }
 
 
-/* =========================================================
-   TABLE
-========================================================= */
+
+
+
 
 .surat-keluar-table {
   width: 100%;
@@ -11915,10 +11931,10 @@ button.penduduk-page-active {
 }
 
 
-/* =========================================================
-   COLUMN WIDTH
-   SAMA DENGAN SURAT MASUK
-========================================================= */
+
+
+
+
 
 .surat-keluar-table th:nth-child(1),
 .surat-keluar-table td:nth-child(1) {
@@ -11966,9 +11982,9 @@ button.penduduk-page-active {
 }
 
 
-/* =========================================================
-   TABLE HEADER
-========================================================= */
+
+
+
 
 .surat-keluar-table thead th {
   height: 42px;
@@ -11993,7 +12009,7 @@ button.penduduk-page-active {
 }
 
 
-/* CENTER HEADER */
+
 .surat-keluar-table thead th:nth-child(1),
 .surat-keluar-table thead th:nth-child(3),
 .surat-keluar-table thead th:nth-child(9) {
@@ -12001,9 +12017,9 @@ button.penduduk-page-active {
 }
 
 
-/* =========================================================
-   TABLE BODY
-========================================================= */
+
+
+
 
 .surat-keluar-table tbody tr {
   height: 88px;
@@ -12033,9 +12049,9 @@ button.penduduk-page-active {
 }
 
 
-/* =========================================================
-   NO URUT
-========================================================= */
+
+
+
 
 .surat-keluar-no {
   text-align: center !important;
@@ -12045,9 +12061,9 @@ button.penduduk-page-active {
 }
 
 
-/* =========================================================
-   NOMOR SURAT
-========================================================= */
+
+
+
 
 .surat-keluar-nomor {
   padding-right: 15px !important;
@@ -12059,9 +12075,9 @@ button.penduduk-page-active {
 }
 
 
-/* =========================================================
-   TANGGAL
-========================================================= */
+
+
+
 
 .surat-keluar-tanggal {
   text-align: center !important;
@@ -12087,9 +12103,9 @@ button.penduduk-page-active {
 }
 
 
-/* =========================================================
-   TUJUAN / ASAL
-========================================================= */
+
+
+
 
 .surat-keluar-asal {
   padding-right: 12px !important;
@@ -12125,9 +12141,9 @@ button.penduduk-page-active {
 }
 
 
-/* =========================================================
-   JENIS
-========================================================= */
+
+
+
 
 .surat-keluar-jenis {
   padding-left: 8px !important;
@@ -12148,9 +12164,9 @@ button.penduduk-page-active {
 }
 
 
-/* =========================================================
-   WARNA JENIS SURAT
-========================================================= */
+
+
+
 
 .jenis-undangan-dinas {
   color: #1769d5;
@@ -12185,9 +12201,9 @@ button.penduduk-page-active {
 }
 
 
-/* =========================================================
-   KETERANGAN
-========================================================= */
+
+
+
 
 .surat-keluar-keterangan {
   padding-right: 12px !important;
@@ -12201,9 +12217,9 @@ button.penduduk-page-active {
 }
 
 
-/* =========================================================
-   AKSI
-========================================================= */
+
+
+
 
 .surat-keluar-aksi {
   text-align: center !important;
@@ -12253,9 +12269,9 @@ button.penduduk-page-active {
 }
 
 
-/* =========================================================
-   ACTION MENU
-========================================================= */
+
+
+
 
 .surat-keluar-action-menu {
   position: fixed;
@@ -12305,7 +12321,7 @@ button.penduduk-page-active {
 }
 
 
-/* EDIT */
+
 
 .surat-keluar-edit-action {
   color: #374151;
@@ -12317,7 +12333,7 @@ button.penduduk-page-active {
 }
 
 
-/* DELETE */
+
 
 .surat-keluar-delete-action {
   color: #dc2626;
@@ -12329,9 +12345,9 @@ button.penduduk-page-active {
 }
 
 
-/* =========================================================
-   EMPTY DATA
-========================================================= */
+
+
+
 
 .surat-keluar-empty {
   height: 88px;
@@ -12345,9 +12361,9 @@ button.penduduk-page-active {
 }
 
 
-/* =========================================================
-   TABLE FOOTER
-========================================================= */
+
+
+
 
 .surat-keluar-table-card .table-footer {
   min-height: 59px;
@@ -12375,9 +12391,9 @@ button.penduduk-page-active {
 }
 
 
-/* =========================================================
-   PAGINATION
-========================================================= */
+
+
+
 
 .surat-keluar-table-card .pagination {
   display: flex;
@@ -12443,10 +12459,10 @@ button.penduduk-page-active {
 }
 
 
-/* =========================================================
-   RESPONSIVE
-   DISESUAIKAN DENGAN SURAT MASUK
-========================================================= */
+
+
+
+
 
 @media (max-width: 1100px) {
 
@@ -12477,9 +12493,9 @@ button.penduduk-page-active {
 }
 
 
-/* =========================================================
-   TABLET
-========================================================= */
+
+
+
 
 @media (max-width: 800px) {
 
@@ -12540,9 +12556,9 @@ button.penduduk-page-active {
 }
 
 
-/* =========================================================
-   MOBILE
-========================================================= */
+
+
+
 
 @media (max-width: 600px) {
 
@@ -12577,13 +12593,13 @@ button.penduduk-page-active {
   }
 }
 
-/* =========================================
-   SMART DOCUMENT
-   ========================================= */
+
+
+
 
 .smart-document-page {
   min-height: 100vh;
-  background: #dce9fb;
+  background: #dce7f8;
   box-sizing: border-box;
 }
 
@@ -12594,13 +12610,135 @@ button.penduduk-page-active {
 .smart-document-content {
   width: 100%;
   min-height: calc(100vh - 50px);
-  padding: 30px 60px 40px;
+  padding: 30px clamp(20px, 4vw, 60px) 48px;
   box-sizing: border-box;
 }
 
-/* =========================================
-   HEADER INFORMATION
-   ========================================= */
+.smart-document-routing {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto 20px;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: start;
+  gap: 16px;
+  border: 1.5px solid #173f7a;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(27, 62, 104, 0.05);
+}
+
+.smart-document-field {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.smart-document-field label {
+  color: #35445a;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.smart-document-field input,
+.smart-document-field select,
+.smart-document-field textarea {
+  width: 100%;
+  min-height: 40px;
+  padding: 9px 11px;
+  border: 1px solid #cbd5e1;
+  border-radius: 7px;
+  background: #fff;
+  color: #243247;
+  font: inherit;
+  font-size: 13px;
+}
+
+.smart-document-field textarea {
+  min-height: 82px;
+  resize: vertical;
+}
+
+.smart-document-field input:focus,
+.smart-document-field select:focus,
+.smart-document-field textarea:focus {
+  border-color: #216bd1;
+  outline: 2px solid rgba(33, 107, 209, 0.14);
+}
+
+.smart-document-field small {
+  color: #748196;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.smart-document-record-field,
+.smart-document-metadata {
+  grid-column: 1 / -1;
+}
+
+.smart-document-metadata {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.smart-document-body-field {
+  grid-column: 1 / -1;
+}
+
+.smart-document-save-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 2px;
+}
+
+.smart-document-save-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  white-space: nowrap;
+  padding: 7px 10px;
+  border: 0;
+  border-radius: 6px;
+  background: #216bd1;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.smart-document-save-button:hover:not(:disabled) {
+  background: #155bb7;
+}
+
+.smart-document-save-button:disabled {
+  cursor: not-allowed;
+}
+
+.smart-document-existing-files {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  margin-top: 8px;
+  color: #748196;
+  font-size: 12px;
+}
+
+.smart-document-existing-files a {
+  color: #1769d1;
+  overflow-wrap: anywhere;
+}
+
+
+
+
 
 .smart-document-info {
   width: 100%;
@@ -12643,9 +12781,9 @@ button.penduduk-page-active {
   color: #5d6675;
 }
 
-/* =========================================
-   RIWAYAT DOKUMEN
-   ========================================= */
+
+
+
 
 .history-document-button {
   border: 1.5px solid #173f7a;
@@ -12879,39 +13017,54 @@ button.penduduk-page-active {
   display: block;
 }
 
-/* =========================================
-   WORKSPACE
-   ========================================= */
+
+
+
 
 .smart-document-workspace {
   width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 500px));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   justify-content: center;
   align-items: stretch;
-  gap: 60px;
+  gap: 28px;
 }
 
-/* =========================================
-   UPLOAD SECTION
-   ========================================= */
+.smart-document-status {
+  max-width: 1120px;
+  margin: 0 auto 18px;
+  padding: 12px 16px;
+  border: 1px solid #cbdcf2;
+  border-radius: 8px;
+  background: #fff;
+  color: #315377;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+
+
+
 
 .smart-upload-section {
   width: 100%;
+  min-width: 0;
   display: flex;
   justify-content: center;
 }
 
 .smart-upload-box {
   width: 100%;
-  max-width: 500px;
+  max-width: none;
   min-height: 500px;
 
   box-sizing: border-box;
 
   background: #ffffff;
 
-  /* GARIS TEPI BIRU DONGKER */
+
   border: 1.5px solid #173f7a;
   border-radius: 12px;
 
@@ -12946,6 +13099,33 @@ button.penduduk-page-active {
 
 .smart-upload-box:hover .upload-document-image {
   transform: translateY(-3px);
+}
+
+.smart-document-scan-preview {
+  width: 100%;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.smart-document-scan-preview p {
+  margin: 0 0 10px;
+  color: #173f7a;
+  font-weight: 600;
+}
+
+.smart-document-scan-preview img {
+  display: block;
+  max-width: 100%;
+  max-height: 240px;
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+.ocr-empty-state {
+  margin: 0;
+  color: #7a8799;
+  font-size: 14px;
+  line-height: 1.6;
 }
 
 .smart-upload-box h2 {
@@ -13030,12 +13210,13 @@ button.penduduk-page-active {
   font-weight: 700;
 }
 
-/* =========================================
-   OCR RESULT SECTION
-   ========================================= */
+
+
+
 
 .smart-result-section {
   width: 100%;
+  min-width: 0;
 
   display: flex;
   justify-content: center;
@@ -13043,14 +13224,14 @@ button.penduduk-page-active {
 
 .smart-result-card {
   width: 100%;
-  max-width: 500px;
+  max-width: none;
   min-height: 500px;
 
   box-sizing: border-box;
 
   background: #ffffff;
 
-  /* GARIS TEPI BIRU DONGKER */
+
   border: 1.5px solid #173f7a;
   border-radius: 12px;
 
@@ -13069,9 +13250,9 @@ button.penduduk-page-active {
   border-color: #173f7a;
 }
 
-/* =========================================
-   ACTION BUTTONS
-   ========================================= */
+
+
+
 
 .smart-result-actions {
   width: 100%;
@@ -13121,9 +13302,9 @@ button.penduduk-page-active {
   background: #155bb7;
 }
 
-/* =========================================
-   OCR HEADER
-   ========================================= */
+
+
+
 
 .ocr-header {
   width: 100%;
@@ -13148,9 +13329,9 @@ button.penduduk-page-active {
   color: #202938;
 }
 
-/* =========================================
-   EDIT TEKS BUTTON
-   ========================================= */
+
+
+
 
 .edit-text-button {
   border: none;
@@ -13180,9 +13361,9 @@ button.penduduk-page-active {
   background: #155bb7;
 }
 
-/* =========================================
-   OCR CONTENT
-   ========================================= */
+
+
+
 
 .ocr-content {
   flex: 1;
@@ -13197,7 +13378,7 @@ button.penduduk-page-active {
 }
 
 .ocr-content h2 {
-  margin: 0 0 18px;
+  margin: 0;
 
   font-size: 21px;
   line-height: 1.4;
@@ -13205,6 +13386,11 @@ button.penduduk-page-active {
   font-weight: 700;
 
   color: #202938;
+  text-align: center;
+}
+
+.ocr-document-title + .ocr-document-title {
+  margin-top: 2px;
 }
 
 .ocr-text {
@@ -13218,15 +13404,23 @@ button.penduduk-page-active {
   line-height: 1.6;
 
   color: #505a6b;
+  text-align: justify;
+}
+
+.ocr-text .ocr-section-heading {
+  margin-top: 14px;
+  color: #202938;
+  font-weight: 700;
+  text-align: left;
 }
 
 .ocr-text p:last-child {
   margin-bottom: 0;
 }
 
-/* =========================================
-   EDIT TEXT AREA
-   ========================================= */
+
+
+
 
 .ocr-edit-area {
   width: 100%;
@@ -13259,29 +13453,102 @@ button.penduduk-page-active {
   border-color: #216bd1;
 }
 
-/* =========================================
-   TABLET / LAPTOP
-   ========================================= */
+
+
+
 
 @media (max-width: 1200px) {
   .smart-document-content {
     padding: 28px 40px 35px;
   }
 
-  .smart-document-workspace {
+  .smart-document-routing {
+    width: 100%;
+    max-width: 1120px;
+    margin: 0 auto 18px;
+    padding: 18px;
+    display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 35px;
+    align-items: start;
+    gap: 16px;
+    box-sizing: border-box;
+    border: 1.5px solid #173f7a;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(27, 62, 104, 0.05);
   }
 
-  .smart-upload-box,
-  .smart-result-card {
-    max-width: none;
+  .smart-document-field {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .smart-document-field label {
+    color: #35445a;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .smart-document-field input,
+  .smart-document-field select,
+  .smart-document-field textarea {
+    width: 100%;
+    min-height: 40px;
+    padding: 9px 11px;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+    background: #fff;
+    color: #243247;
+    font: inherit;
+    font-size: 13px;
+    box-sizing: border-box;
+  }
+
+  .smart-document-field textarea {
+    min-height: 82px;
+    resize: vertical;
+  }
+
+  .smart-document-field input:focus,
+  .smart-document-field select:focus,
+  .smart-document-field textarea:focus {
+    border-color: #216bd1;
+    outline: 2px solid rgba(33, 107, 209, 0.14);
+  }
+
+  .smart-document-field small {
+    color: #748196;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .smart-document-target-field,
+  .smart-document-record-field,
+  .smart-document-metadata {
+    grid-column: 1 / -1;
+  }
+
+  .smart-document-metadata {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .smart-document-body-field {
+    grid-column: 1 / -1;
+  }
+
+  .smart-document-workspace {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
   }
 }
 
-/* =========================================
-   TABLET
-   ========================================= */
+
+
+
 
 @media (max-width: 900px) {
   .smart-document-content {
@@ -13307,11 +13574,18 @@ button.penduduk-page-active {
   .smart-document-info {
     margin-bottom: 25px;
   }
+
+  .smart-document-routing {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto 18px;
+    gap: 12px;
+  }
 }
 
-/* =========================================
-   MOBILE
-   ========================================= */
+
+
+
 
 @media (max-width: 600px) {
   .smart-history-table-top {
@@ -13339,6 +13613,15 @@ button.penduduk-page-active {
 
   .smart-document-content {
     padding: 20px 16px 30px;
+  }
+
+  .smart-document-routing,
+  .smart-document-metadata {
+    grid-template-columns: 1fr;
+  }
+
+  .smart-document-routing {
+    padding: 14px;
   }
 
   .smart-document-info {
@@ -13400,6 +13683,11 @@ button.penduduk-page-active {
     padding: 7px 9px;
   }
 
+  .smart-document-save-button {
+    font-size: 9px;
+    padding: 7px 9px;
+  }
+
   .ocr-content {
     padding: 18px;
   }
@@ -13413,9 +13701,9 @@ button.penduduk-page-active {
   }
 }
 
-/* =========================================
-   SMALL MOBILE
-   ========================================= */
+
+
+
 
 @media (max-width: 400px) {
   .smart-document-content {
@@ -13457,9 +13745,9 @@ button.penduduk-page-active {
   }
 }
 
-/* =========================================================
-   SURAT MASUK - SAMAKAN DENGAN SURAT KELUAR
-========================================================= */
+
+
+
 
 .surat-masuk-page {
   min-height: 100vh;
@@ -13821,9 +14109,9 @@ button.penduduk-page-active {
   }
 }
 
-/* =========================================================
-   SURAT MASUK - PERAPIAN ISI TABEL
-========================================================= */
+
+
+
 
 .surat-masuk-table th,
 .surat-masuk-table td {
@@ -14033,9 +14321,9 @@ button.penduduk-page-active {
   font-size: 10px;
 }
 
-/* =========================================================
-   TAMBAH SURAT MASUK
-========================================================= */
+
+
+
 
 .tambah-surat-masuk-page {
   min-height: 100vh;
@@ -14406,9 +14694,9 @@ button.penduduk-page-active {
   }
 }
 
-/* =========================================================
-   EDIT SURAT MASUK & SURAT KELUAR
-========================================================= */
+
+
+
 
 .edit-surat-status-bar {
   width: min(900px, 100%);
@@ -14505,9 +14793,9 @@ button.penduduk-page-active {
   }
 }
 
-/* =========================================================
-   TAMBAH PEGAWAI
-========================================================= */
+
+
+
 
 .tambah-pegawai-page {
   min-height: 100vh;
@@ -14808,9 +15096,9 @@ button.penduduk-page-active {
   background: #155bb7;
 }
 
-/* =========================================================
-   UNGGAH DOKUMEN PEGAWAI
-========================================================= */
+
+
+
 
 .unggah-dokumen-page {
   min-height: 100vh;
@@ -15222,9 +15510,9 @@ button.penduduk-page-active {
   }
 }
 
-/* =========================================================
-   TAMBAH PENDUDUK
-========================================================= */
+
+
+
 
 .tambah-penduduk-page {
   min-height: 100vh;
@@ -15584,9 +15872,9 @@ button.penduduk-page-active {
   }
 }
 
-  /* =========================================================
-     TAMBAH AGENDA
-  ========================================================= */
+
+
+
 
   .tambah-agenda-page {
     min-height: 100vh;
@@ -15919,7 +16207,7 @@ button.penduduk-page-active {
     object-fit: contain;
   }
 
-  /* AKSI TABEL AGENDA */
+
 
   .agenda-action-cell {
     text-align: center !important;

@@ -9,6 +9,13 @@ import saw3Icon from "../assets/saw3.png";
 import saw4Icon from "../assets/saw4.png";
 import saw5Icon from "../assets/saw5.png";
 import docIcon from "../assets/doc.png";
+import {
+  deleteSuratAhliWaris,
+  getBackendFileUrl,
+  getDokumenSuratAhliWaris,
+  getPenduduk,
+  getSuratAhliWaris,
+} from "../services/api";
 
 function SuratAhliWaris() {
   const navigate = useNavigate();
@@ -32,26 +39,15 @@ function SuratAhliWaris() {
 
   const itemsPerPage = 5;
 
-  // ==============================
-  // LOAD DATA SURAT AHLI WARIS
-  // ==============================
+
+
+
   const loadSuratAhliWaris = async () => {
     try {
       setLoading(true);
       setErrorMessage("");
 
-      const response = await fetch(
-        "http://localhost:5000/api/surat-ahli-waris"
-      );
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(
-          result.message ||
-            "Gagal mengambil data surat ahli waris"
-        );
-      }
+      const result = await getSuratAhliWaris();
 
       const data = Array.isArray(result)
         ? result
@@ -70,19 +66,14 @@ function SuratAhliWaris() {
             surat.id_surat_ahli_waris
           ) {
             try {
-              const dokumenResponse = await fetch(
-                `http://localhost:5000/api/dokumen/surat-ahli-waris/${surat.id_surat_ahli_waris}`
+              const dokumenResult = await getDokumenSuratAhliWaris(
+                surat.id_surat_ahli_waris
               );
-
-              if (dokumenResponse.ok) {
-                const dokumenResult =
-                  await dokumenResponse.json();
-                dokumen = Array.isArray(dokumenResult)
-                  ? dokumenResult
-                  : Array.isArray(dokumenResult.data)
+              dokumen = Array.isArray(dokumenResult)
+                ? dokumenResult
+                : Array.isArray(dokumenResult.data)
                   ? dokumenResult.data
                   : [];
-              }
             } catch (error) {
               console.error(
                 "Gagal mengambil berkas surat ahli waris:",
@@ -116,23 +107,12 @@ function SuratAhliWaris() {
     }
   };
 
-  // ==============================
-  // LOAD DATA PENDUDUK
-  // ==============================
+
+
+
   const loadPenduduk = async () => {
     try {
-      const response = await fetch(
-        "http://localhost:5000/api/penduduk"
-      );
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(
-          result.message ||
-            "Gagal mengambil data penduduk"
-        );
-      }
+      const result = await getPenduduk();
 
       const data = Array.isArray(result)
         ? result
@@ -151,17 +131,17 @@ function SuratAhliWaris() {
     }
   };
 
-  // ==============================
-  // LOAD SAAT HALAMAN DIBUKA
-  // ==============================
+
+
+
   useEffect(() => {
     loadSuratAhliWaris();
     loadPenduduk();
   }, []);
 
-  // ==============================
-  // FORMAT TANGGAL
-  // ==============================
+
+
+
   const formatTanggal = (tanggal) => {
     if (!tanggal) {
       return "-";
@@ -180,14 +160,14 @@ function SuratAhliWaris() {
     });
   };
 
-  // ==============================
-  // NORMALISASI DATA
-  // ==============================
+
+
+
   const normalizedData = useMemo(() => {
     return dataSurat.map((item) => {
-      // ======================================
-      // PEWARIS
-      // ======================================
+
+
+
       const pewaris =
         item.penduduk ||
         dataPenduduk.find(
@@ -196,9 +176,9 @@ function SuratAhliWaris() {
             Number(item.id_penduduk)
         );
 
-      // ======================================
-      // AHLI WARIS
-      // ======================================
+
+
+
       const ahliWaris = item.ahliWaris;
 
       return {
@@ -207,21 +187,21 @@ function SuratAhliWaris() {
         nomorSurat:
           item.nomor_surat || "-",
 
-        // Nama ahli waris yang sebenarnya
+
         ahliWaris:
           ahliWaris?.nama ||
           item.nama_ahli_waris ||
           item.ahli_waris ||
           "-",
 
-        // NIK ahli waris
+
         nik:
           ahliWaris?.nik ||
           item.nik_ahli_waris ||
           "-",
 
-        // Data pewaris juga disimpan jika
-        // nanti diperlukan
+
+
         pewaris:
           pewaris?.nama ||
           "-",
@@ -261,9 +241,9 @@ function SuratAhliWaris() {
     });
   }, [dataSurat, dataPenduduk]);
 
-  // ==============================
-  // FILTER + SORTING
-  // ==============================
+
+
+
   const filteredData = useMemo(() => {
     const keyword =
       search.toLowerCase().trim();
@@ -325,9 +305,9 @@ function SuratAhliWaris() {
         );
       });
 
-    // ==============================
-    // URUTAN
-    // ==============================
+
+
+
     if (urutan === "Terbaru") {
       result = [...result].sort(
         (a, b) => {
@@ -394,9 +374,9 @@ function SuratAhliWaris() {
     urutan,
   ]);
 
-  // ==============================
-  // PAGINATION
-  // ==============================
+
+
+
   const totalPages = Math.max(
     1,
     Math.ceil(
@@ -413,9 +393,9 @@ function SuratAhliWaris() {
         itemsPerPage
     );
 
-  // ==============================
-  // STATISTIK
-  // ==============================
+
+
+
   const totalPengajuan =
     normalizedData.length;
 
@@ -447,9 +427,9 @@ function SuratAhliWaris() {
         "selesai"
     ).length;
 
-  // ==============================
-  // FILTER HANDLER
-  // ==============================
+
+
+
   const handleUrutan = (value) => {
     setUrutan(value);
     setUrutanOpen(false);
@@ -505,17 +485,7 @@ function SuratAhliWaris() {
     try {
       setDeletingId(item.id);
 
-      const response = await fetch(
-        `http://localhost:5000/api/surat-ahli-waris/${item.id}`,
-        { method: "DELETE" }
-      );
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(
-          result.message || "Gagal menghapus surat ahli waris."
-        );
-      }
+      await deleteSuratAhliWaris(item.id);
 
       setDataSurat((previous) =>
         previous.filter(
@@ -555,7 +525,7 @@ function SuratAhliWaris() {
     if (/^https?:\/\//i.test(item.pathDokumen)) {
       fileUrl = item.pathDokumen;
     } else if (item.pathDokumen.startsWith("/uploads/")) {
-      fileUrl = `http://localhost:5000${item.pathDokumen}`;
+      fileUrl = getBackendFileUrl(item.pathDokumen);
     } else {
       const filename = item.pathDokumen
         .split("\\")
@@ -568,16 +538,17 @@ function SuratAhliWaris() {
         return;
       }
 
-      fileUrl =
-        `http://localhost:5000/uploads/surat-ahli-waris/${encodeURIComponent(filename)}`;
+      fileUrl = getBackendFileUrl(
+        `/uploads/surat-ahli-waris/${encodeURIComponent(filename)}`
+      );
     }
 
     window.open(fileUrl, "_blank", "noopener,noreferrer");
   };
 
-  // ==============================
-  // HALAMAN SAAT INI
-  // ==============================
+
+
+
   const startItem =
     filteredData.length === 0
       ? 0
@@ -616,11 +587,11 @@ function SuratAhliWaris() {
           }
         />
 
-        {/* ================= CONTENT ================= */}
+
 
         <main className="saw-content">
 
-          {/* TOP BUTTON */}
+
 
           <div className="saw-top-actions">
 
@@ -658,7 +629,7 @@ function SuratAhliWaris() {
 
           </div>
 
-          {/* ================= STATISTIK ================= */}
+
 
           <section className="saw-statistics">
 
@@ -805,11 +776,11 @@ function SuratAhliWaris() {
 
           </section>
 
-          {/* ================= TABLE CARD ================= */}
+
 
           <section className="saw-table-card">
 
-            {/* TABLE HEADER */}
+
 
             <div className="saw-table-top">
 
@@ -823,7 +794,7 @@ function SuratAhliWaris() {
                   Filter
                 </span>
 
-                {/* URUTAN */}
+
 
                 <div className="saw-dropdown">
 
@@ -886,7 +857,7 @@ function SuratAhliWaris() {
 
                 </div>
 
-                {/* STATUS */}
+
 
                 <div className="saw-dropdown">
 
@@ -975,7 +946,7 @@ function SuratAhliWaris() {
 
             </div>
 
-            {/* TABLE */}
+
 
             <div className="saw-table-scroll">
 
@@ -1138,7 +1109,7 @@ function SuratAhliWaris() {
 
                           </td>
 
-                          {/* ================= ACTION ================= */}
+
 
                           <td className="saw-action-cell">
                             <button
@@ -1186,7 +1157,7 @@ function SuratAhliWaris() {
 
             </div>
 
-            {/* FOOTER */}
+
 
             <div className="saw-table-footer">
 

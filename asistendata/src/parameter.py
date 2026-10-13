@@ -15,34 +15,34 @@ def extract_parameters(text):
 
     text_lower = text.lower()
 
-    # =========================
-    # RW
-    # =========================
+
+
+
     rw_match = re.search(r"\brw\s*[-/]?\s*0*(\d{1,2})\b", text_lower)
 
     if rw_match:
         parameters["rw"] = rw_match.group(1).zfill(2)
 
-    # =========================
-    # RT
-    # =========================
+
+
+
     rt_match = re.search(r"\brt\s*[-/]?\s*0*(\d{1,3})\b", text_lower)
 
     if rt_match:
         parameters["rt"] = rt_match.group(1).zfill(2)
 
-    # =========================
-    # JENIS KELAMIN
-    # =========================
+
+
+
     if "perempuan" in text_lower or "wanita" in text_lower:
         parameters["jenis_kelamin"] = "Perempuan"
 
     elif "laki-laki" in text_lower or "laki laki" in text_lower:
         parameters["jenis_kelamin"] = "Laki-laki"
 
-    # =========================
-    # STATUS PENDUDUK
-    # =========================
+
+
+
     status_penduduk = {
         "meninggal": "Meninggal",
         "pindah": "Pindah",
@@ -54,11 +54,11 @@ def extract_parameters(text):
             parameters["status_penduduk"] = nilai
             break
 
-    # =========================
-    # NAMA
-    # =========================
-    # Hanya menangkap nama setelah kata kunci "bernama" / "nama" agar
-    # tidak menangkap kata acak lain dalam kalimat.
+
+
+
+
+
     nama_match = re.search(
         r"bernama\s+([a-zA-Z]+)|(?:^|\s)nama\s+([a-zA-Z]+)",
         text_lower
@@ -68,9 +68,9 @@ def extract_parameters(text):
         nama = nama_match.group(1) or nama_match.group(2)
         parameters["nama"] = nama.title()
 
-    # =========================
-    # INFRASTRUKTUR
-    # =========================
+
+
+
     jenis_infrastruktur = {
         "cctv": "CCTV",
         "pju": "PJU",
@@ -84,9 +84,9 @@ def extract_parameters(text):
             parameters["jenis_infrastruktur"] = nilai
             break
 
-    # =========================
-    # KONDISI INFRASTRUKTUR
-    # =========================
+
+
+
     kondisi = {
         "baik": "Baik",
         "rusak": "Rusak",
@@ -98,9 +98,9 @@ def extract_parameters(text):
             parameters["kondisi"] = nilai
             break
 
-    # =========================
-    # KESEJAHTERAAN
-    # =========================
+
+
+
     kategori_kesejahteraan = {
         "stunting": "Stunting",
         "ibu hamil": "Ibu Hamil",
@@ -113,9 +113,9 @@ def extract_parameters(text):
             parameters["kategori_kesejahteraan"] = nilai
             break
 
-    # =========================
-    # JABATAN PEGAWAI
-    # =========================
+
+
+
     jabatan_map = {
         "lurah": "Lurah",
         "sekretaris": "Sekretaris",
@@ -132,9 +132,9 @@ def extract_parameters(text):
             parameters["jabatan"] = nilai
             break
 
-    # =========================
-    # JENIS SURAT
-    # =========================
+
+
+
     jenis_surat_map = {
         "surat masuk": "Masuk",
         "surat keluar": "Keluar",
@@ -147,9 +147,9 @@ def extract_parameters(text):
             parameters["jenis_surat"] = nilai
             break
 
-    # =========================
-    # ASAL SURAT
-    # =========================
+
+
+
     asal_surat_map = {
         "kecamatan tandes": "Kecamatan Tandes",
         "dinas sosial": "Dinas Sosial",
@@ -165,9 +165,9 @@ def extract_parameters(text):
     if asal_match:
         parameters["asal_surat"] = asal_surat_map[asal_match.group(1)]
 
-    # =========================
-    # TUJUAN SURAT
-    # =========================
+
+
+
     tujuan_surat_map = {
         "kecamatan tandes": "Kecamatan Tandes",
         "dinas sosial": "Dinas Sosial",
@@ -183,9 +183,9 @@ def extract_parameters(text):
     if tujuan_match:
         parameters["tujuan_surat"] = tujuan_surat_map[tujuan_match.group(1)]
 
-    # =========================
-    # NOMOR SURAT
-    # =========================
+
+
+
     nomor_surat_match = re.search(
         r"\b\d{3}/[A-Za-z]+/[IVXLCDM]+/\d{4}\b",
         text
@@ -194,9 +194,9 @@ def extract_parameters(text):
     if nomor_surat_match:
         parameters["nomor_surat"] = nomor_surat_match.group(0).upper()
 
-    # =========================
-    # KATEGORI AGENDA
-    # =========================
+
+
+
     kategori_agenda_map = {
         "rapat": "Rapat",
         "sosialisasi": "Sosialisasi",
@@ -210,9 +210,9 @@ def extract_parameters(text):
             parameters["kategori_agenda"] = nilai
             break
 
-    # =========================
-    # HUBUNGAN (AHLI WARIS)
-    # =========================
+
+
+
     hubungan_map = {
         "anak": "Anak",
         "istri": "Istri",
@@ -226,7 +226,7 @@ def extract_parameters(text):
             parameters["hubungan"] = nilai
             break
 
-    # Status pegawai
+
     status_pegawai = {
         "asn": "ASN",
         "pppk": "PPPK"
@@ -238,7 +238,7 @@ def extract_parameters(text):
             break
 
 
-    # Kategori agenda
+
     kategori_agenda = {
         "agenda kelurahan": "Kelurahan",
         "agenda pkk": "PKK",

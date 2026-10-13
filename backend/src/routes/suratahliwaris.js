@@ -3,9 +3,9 @@ import { db } from "../prisma/db.js";
 
 const router = express.Router();
 
-/* =====================================================
-   HELPER
-===================================================== */
+
+
+
 
 const getValidId = (value) => {
   const id = Number(value);
@@ -102,9 +102,9 @@ const formatAhliWaris = async (idAhliWaris) => {
   };
 };
 
-/* =====================================================
-   GET SEMUA SURAT AHLI WARIS
-===================================================== */
+
+
+
 
 router.get("/", async (req, res) => {
   try {
@@ -142,9 +142,9 @@ router.get("/", async (req, res) => {
   }
 });
 
-/* =====================================================
-   GET DETAIL SURAT AHLI WARIS
-===================================================== */
+
+
+
 
 router.get("/:id", async (req, res) => {
   try {
@@ -194,9 +194,9 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-/* =====================================================
-   TAMBAH SURAT AHLI WARIS
-===================================================== */
+
+
+
 
 router.post("/", async (req, res) => {
   try {
@@ -305,9 +305,9 @@ router.post("/", async (req, res) => {
   }
 });
 
-/* =====================================================
-   EDIT SURAT AHLI WARIS
-===================================================== */
+
+
+
 
 router.put("/:id", async (req, res) => {
   try {
@@ -429,9 +429,9 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-/* =====================================================
-   HAPUS SURAT AHLI WARIS
-===================================================== */
+
+
+
 
 router.delete("/:id", async (req, res) => {
   try {
@@ -443,9 +443,9 @@ router.delete("/:id", async (req, res) => {
       });
     }
 
-    /* ---------------------------------------------
-       CEK SURAT
-    --------------------------------------------- */
+
+
+
 
     const suratData =
       await db.orm.public.SuratAhliWaris
@@ -463,10 +463,10 @@ router.delete("/:id", async (req, res) => {
       });
     }
 
-    /* ---------------------------------------------
-       1. HAPUS DOKUMEN
-       Dokumen memiliki FK ke SuratAhliWaris
-    --------------------------------------------- */
+
+
+
+
 
     const dokumenData =
       await db.orm.public.Dokumen
@@ -483,10 +483,10 @@ router.delete("/:id", async (req, res) => {
         .delete();
     }
 
-    /* ---------------------------------------------
-       2. HAPUS TRACKING
-       TrackingSurat memiliki FK ke SuratAhliWaris
-    --------------------------------------------- */
+
+
+
+
 
     const trackingData =
       await db.orm.public.TrackingSurat
@@ -503,9 +503,9 @@ router.delete("/:id", async (req, res) => {
         .delete();
     }
 
-    /* ---------------------------------------------
-       3. HAPUS AHLI WARIS
-    --------------------------------------------- */
+
+
+
 
     const ahliWarisData =
       await db.orm.public.AhliWaris
@@ -523,9 +523,9 @@ router.delete("/:id", async (req, res) => {
         .delete();
     }
 
-    /* ---------------------------------------------
-       4. BARU HAPUS SURAT
-    --------------------------------------------- */
+
+
+
 
     await db.orm.public.SuratAhliWaris
       .where({

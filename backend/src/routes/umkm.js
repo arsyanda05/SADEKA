@@ -3,12 +3,12 @@ import { db } from "../prisma/db.js";
 
 const router = Router();
 
-/*
- * ==========================================
- * GET SEMUA DATA UMKM
- * GET /api/umkm
- * ==========================================
- */
+
+
+
+
+
+
 router.get("/", async (req, res) => {
   try {
     const data = await db.orm.public.UMKM.all();
@@ -24,12 +24,12 @@ router.get("/", async (req, res) => {
 });
 
 
-/*
- * ==========================================
- * GET DETAIL UMKM
- * GET /api/umkm/:id
- * ==========================================
- */
+
+
+
+
+
+
 router.get("/:id", async (req, res) => {
   try {
     const id = Number(req.params.id);
@@ -63,12 +63,12 @@ router.get("/:id", async (req, res) => {
 });
 
 
-/*
- * ==========================================
- * TAMBAH DATA UMKM
- * POST /api/umkm
- * ==========================================
- */
+
+
+
+
+
+
 router.post("/", async (req, res) => {
   try {
     const {
@@ -81,9 +81,9 @@ router.post("/", async (req, res) => {
       rw,
     } = req.body;
 
-    /*
-     * Validasi data wajib
-     */
+
+
+
     if (
       !nama_usaha ||
       !pemilik ||
@@ -119,12 +119,12 @@ router.post("/", async (req, res) => {
 });
 
 
-/*
- * ==========================================
- * UBAH DATA UMKM
- * PUT /api/umkm/:id
- * ==========================================
- */
+
+
+
+
+
+
 router.put("/:id", async (req, res) => {
   try {
     const id = Number(req.params.id);
@@ -145,9 +145,9 @@ router.put("/:id", async (req, res) => {
       rw,
     } = req.body;
 
-    /*
-     * Validasi data wajib
-     */
+
+
+
     if (
       !nama_usaha ||
       !pemilik ||
@@ -187,12 +187,12 @@ router.put("/:id", async (req, res) => {
 });
 
 
-/*
- * ==========================================
- * HAPUS DATA UMKM
- * DELETE /api/umkm/:id
- * ==========================================
- */
+
+
+
+
+
+
 router.delete("/:id", async (req, res) => {
   try {
     const id = Number(req.params.id);

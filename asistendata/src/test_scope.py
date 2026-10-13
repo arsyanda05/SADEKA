@@ -2,7 +2,7 @@ from assistant import process_question
 
 
 TEST_CASES = [
-    # Pertanyaan di luar cakupan
+
     "Siapa presiden Indonesia?",
     "Berapa harga beras hari ini?",
     "Bagaimana cuaca di Surabaya?",
@@ -11,7 +11,7 @@ TEST_CASES = [
     "Berapa jumlah penduduk Indonesia?",
     "Apa ibu kota Indonesia?",
 
-    # Pertanyaan yang seharusnya masih dalam cakupan SADEKA
+
     "Berapa jumlah penduduk di RW 05?",
     "Tampilkan penduduk perempuan di RW 05",
     "Tampilkan UMKM di RW 05",

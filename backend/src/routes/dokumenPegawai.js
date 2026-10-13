@@ -7,9 +7,9 @@ import { db } from "../prisma/db.js";
 
 const router = express.Router();
 
-// ========================================
-// FOLDER PENYIMPANAN DOKUMEN PEGAWAI
-// ========================================
+
+
+
 
 const uploadDir = path.join(
   process.cwd(),
@@ -24,9 +24,9 @@ if (!fs.existsSync(uploadDir)) {
   });
 }
 
-// ========================================
-// KONFIGURASI MULTER
-// ========================================
+
+
+
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -55,9 +55,9 @@ const upload = multer({
   storage,
 });
 
-// ========================================
-// GET SEMUA DOKUMEN PEGAWAI
-// ========================================
+
+
+
 
 router.get("/", async (req, res) => {
   try {
@@ -78,9 +78,9 @@ router.get("/", async (req, res) => {
   }
 });
 
-// ========================================
-// GET DOKUMEN BERDASARKAN PEGAWAI
-// ========================================
+
+
+
 
 router.get(
   "/pegawai/:id_pegawai",
@@ -118,9 +118,9 @@ router.get(
   }
 );
 
-// ========================================
-// POST UPLOAD DOKUMEN PEGAWAI
-// ========================================
+
+
+
 
 router.post(
   "/",
@@ -133,7 +133,7 @@ router.post(
         tanggal_upload,
       } = req.body;
 
-      // Validasi ID pegawai
+
       if (!id_pegawai) {
         return res.status(400).json({
           message:
@@ -150,7 +150,7 @@ router.post(
         });
       }
 
-      // Validasi jenis dokumen
+
       if (!jenis_dokumen?.trim()) {
         return res.status(400).json({
           message:
@@ -158,7 +158,7 @@ router.post(
         });
       }
 
-      // Validasi tanggal upload
+
       if (!tanggal_upload) {
         return res.status(400).json({
           message:
@@ -166,7 +166,7 @@ router.post(
         });
       }
 
-      // Validasi file
+
       if (!req.file) {
         return res.status(400).json({
           message:
@@ -174,7 +174,7 @@ router.post(
         });
       }
 
-      // Pastikan pegawai ada
+
       const pegawai =
         await db.orm.public.Pegawai
           .where({
@@ -189,7 +189,7 @@ router.post(
         });
       }
 
-      // Simpan metadata dokumen
+
       const dokumen =
         await db.orm.public.DokumenPegawai.create({
           id_pegawai: idPegawai,
@@ -224,9 +224,9 @@ router.post(
   }
 );
 
-// ========================================
-// DELETE DOKUMEN PEGAWAI
-// ========================================
+
+
+
 
 router.delete(
   "/:id",

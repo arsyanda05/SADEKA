@@ -1,4 +1,20 @@
-const API_URL = "http://localhost:5000/api";
+export const API_URL = import.meta.env.VITE_API_URL || "/api";
+
+export const getBackendFileUrl = (filePath) => {
+  if (/^https?:\/\//i.test(filePath)) {
+    return filePath;
+  }
+
+  const configuredBackend = import.meta.env.VITE_BACKEND_URL;
+  const configuredApi = import.meta.env.VITE_API_URL;
+  const backendOrigin = configuredBackend
+    ? new URL(configuredBackend, window.location.origin).origin
+    : configuredApi && /^https?:\/\//i.test(configuredApi)
+      ? new URL(configuredApi).origin
+      : `${window.location.protocol}//${window.location.hostname}:5002`;
+
+  return new URL(filePath, `${backendOrigin}/`).href;
+};
 
 export const getPenduduk = async () => {
   const response = await fetch(`${API_URL}/penduduk`);
@@ -47,11 +63,15 @@ export const deletePenduduk = async (id) => {
     method: "DELETE",
   });
 
+  const result = await response.json();
+
   if (!response.ok) {
-    throw new Error("Gagal menghapus data penduduk");
+    throw new Error(
+      result.error || result.message || "Gagal menghapus data penduduk"
+    );
   }
 
-  return response.json();
+  return result;
 };
 
 export const getPegawai = async () => {
@@ -339,6 +359,37 @@ export const getSuratAhliWaris = async () => {
   return result;
 };
 
+export const getDokumenSuratAhliWaris = async (id) => {
+  const response = await fetch(
+    `${API_URL}/dokumen/surat-ahli-waris/${id}`
+  );
+  const result = await response.json();
+
+  if (!response.ok) {
+    throw new Error(
+      result.message || "Gagal mengambil berkas surat ahli waris"
+    );
+  }
+
+  return result;
+};
+
+export const deleteSuratAhliWaris = async (id) => {
+  const response = await fetch(
+    `${API_URL}/surat-ahli-waris/${id}`,
+    { method: "DELETE" }
+  );
+  const result = await response.json();
+
+  if (!response.ok) {
+    throw new Error(
+      result.message || "Gagal menghapus surat ahli waris"
+    );
+  }
+
+  return result;
+};
+
 export const getSuratById = async (id) => {
   const response = await fetch(
     `${API_URL}/surat/${id}`
@@ -366,9 +417,8 @@ export const createSurat = async (data) => {
   );
 
   if (!response.ok) {
-    throw new Error(
-      "Gagal menambahkan surat"
-    );
+    const result = await response.json();
+    throw new Error(result.message || "Gagal menambahkan surat");
   }
 
   return response.json();
@@ -409,14 +459,15 @@ export const updateSurat = async (
       body: JSON.stringify(data),
     }
   );
+  const result = await response.json();
 
   if (!response.ok) {
     throw new Error(
-      "Gagal mengubah surat"
+      result.message || "Gagal mengubah surat"
     );
   }
 
-  return response.json();
+  return result;
 };
 
 export const deleteSurat = async (id) => {
@@ -1022,4 +1073,69 @@ export const askAsistenData = async (question) => {
   }
 
   return result;
+};
+
+const SMART_DOCUMENT_URL = `${API_URL}/smart-document`;
+
+const readSmartDocumentError = async (response) => {
+  const result = await response.json().catch(() => ({}));
+  return new Error(result.message || "Gagal memproses SmartDocument.");
+};
+
+export const processSmartDocument = async (file) => {
+  const formData = new FormData();
+  formData.append("document", file);
+
+  const response = await fetch(`${SMART_DOCUMENT_URL}/process`, {
+    method: "POST",
+    body: formData,
+  });
+
+  if (!response.ok) throw await readSmartDocumentError(response);
+  return response.json();
+};
+
+export const exportSmartDocument = async ({ documentId, format, text }) => {
+  const response = await fetch(`${SMART_DOCUMENT_URL}/export`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ documentId, format, text }),
+  });
+
+  if (!response.ok) throw await readSmartDocumentError(response);
+  return response.blob();
+};
+
+export const archiveSmartDocument = async (documentId, text, options = {}) => {
+  const response = await fetch(`${SMART_DOCUMENT_URL}/${documentId}/archive`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text, ...options }),
+  });
+
+  if (!response.ok) throw await readSmartDocumentError(response);
+  return response.json();
+};
+
+export const getSmartDocumentHistory = async () => {
+  const response = await fetch(`${SMART_DOCUMENT_URL}/history`);
+  if (!response.ok) throw await readSmartDocumentError(response);
+  return response.json();
+};
+
+export const getSmartDocumentOptions = async () => {
+  const response = await fetch(`${SMART_DOCUMENT_URL}/options`);
+  if (!response.ok) throw await readSmartDocumentError(response);
+  return response.json();
+};
+
+export const createSmartDocumentDraft = async (target, metadata) => {
+  const response = await fetch(`${SMART_DOCUMENT_URL}/draft`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ target, metadata }),
+  });
+
+  if (!response.ok) throw await readSmartDocumentError(response);
+  return response.json();
 };

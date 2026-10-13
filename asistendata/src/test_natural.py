@@ -127,8 +127,8 @@ for expected_intent, questions in TEST_QUESTIONS.items():
         predicted_intent = result["intent"]
         confidence = result["confidence"]
 
-        # Jika pertanyaan ditolak, tetapi memang expected out_of_scope,
-        # tetap dianggap benar.
+
+
         if expected_intent == "out_of_scope":
             is_correct = result["is_out_of_scope"]
         else:

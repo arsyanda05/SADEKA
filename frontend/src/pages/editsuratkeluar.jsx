@@ -13,7 +13,7 @@ import {
 const toDateInputValue = (value) => {
   if (!value) return "";
 
-  // Jika format dari tabel adalah DD/MM/YYYY
+
   if (value.includes("/")) {
     const [day, month, year] = value.split("/");
 
@@ -22,7 +22,7 @@ const toDateInputValue = (value) => {
     }
   }
 
-  // Jika format dari database berupa ISO Date
+
   if (value.includes("T")) {
     return value.split("T")[0];
   }
@@ -47,13 +47,13 @@ function EditSuratKeluar() {
     jenis: "",
   });
 
-  // Mengambil data surat
+
   useEffect(() => {
     const loadSurat = async () => {
       try {
         setLoading(true);
 
-        // Jika data dikirim melalui navigate(), langsung gunakan data tersebut
+
         if (state?.surat) {
           const surat = state.surat;
 
@@ -71,8 +71,8 @@ function EditSuratKeluar() {
           return;
         }
 
-        // Jika halaman direfresh / dibuka langsung,
-        // ambil data berdasarkan ID dari database
+
+
         const data = await getSuratById(id);
 
         setFormData({
@@ -104,7 +104,7 @@ function EditSuratKeluar() {
     }));
   };
 
-  // Simpan perubahan
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -132,7 +132,7 @@ function EditSuratKeluar() {
     }
   };
 
-  // Hapus surat
+
   const handleDelete = async () => {
     if (
       window.confirm(
@@ -189,7 +189,7 @@ function EditSuratKeluar() {
 
             <div className="tambah-surat-masuk-grid">
 
-              {/* Nomor Surat */}
+
               <div className="tambah-surat-masuk-field">
                 <label htmlFor="nomorSurat">
                   Nomor Surat
@@ -204,7 +204,7 @@ function EditSuratKeluar() {
                 />
               </div>
 
-              {/* Tanggal */}
+
               <div className="tambah-surat-masuk-field">
                 <label htmlFor="tanggal">
                   Tanggal
@@ -220,7 +220,7 @@ function EditSuratKeluar() {
                 />
               </div>
 
-              {/* Asal Surat */}
+
               <div className="tambah-surat-masuk-field">
                 <label htmlFor="asalSurat">
                   Asal Surat
@@ -235,7 +235,7 @@ function EditSuratKeluar() {
                 />
               </div>
 
-              {/* Tujuan Surat */}
+
               <div className="tambah-surat-masuk-field">
                 <label htmlFor="tujuan">
                   Tujuan Surat
@@ -250,7 +250,7 @@ function EditSuratKeluar() {
                 />
               </div>
 
-              {/* Keterangan */}
+
               <div className="tambah-surat-masuk-field tambah-surat-masuk-keterangan">
                 <label htmlFor="keterangan">
                   Keterangan
@@ -265,7 +265,7 @@ function EditSuratKeluar() {
                 />
               </div>
 
-              {/* Jenis Surat */}
+
               <div className="tambah-surat-masuk-field">
                 <label htmlFor="jenis">
                   Jenis Surat
@@ -319,7 +319,7 @@ function EditSuratKeluar() {
             </div>
           </section>
 
-          {/* Status dan tombol */}
+
           <section className="edit-surat-status-bar">
 
             <div>

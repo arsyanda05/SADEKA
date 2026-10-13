@@ -27,9 +27,9 @@ function TambahInfrastruktur() {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  // ============================================================
-  // HANDLE PERUBAHAN INPUT
-  // ============================================================
+
+
+
   const handleChange = (e) => {
     const { name, value, files } = e.target;
 
@@ -38,27 +38,27 @@ function TambahInfrastruktur() {
       [name]: files ? files[0] : value,
     }));
 
-    // Hilangkan pesan error ketika user mulai memperbaiki form
+
     if (errorMessage) {
       setErrorMessage("");
     }
   };
 
-  // ============================================================
-  // HANDLE SUBMIT
-  // ============================================================
+
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     setErrorMessage("");
 
-    // ----------------------------------------------------------
-    // VALIDASI KOORDINAT
-    // Format:
-    // latitude, longitude
-    // Contoh:
-    // -7.265757, 112.642563
-    // ----------------------------------------------------------
+
+
+
+
+
+
+
     const koordinatParts = formData.koordinat
       .split(",")
       .map((item) => item.trim());
@@ -83,9 +83,9 @@ function TambahInfrastruktur() {
       return;
     }
 
-    // ----------------------------------------------------------
-    // VALIDASI RANGE KOORDINAT
-    // ----------------------------------------------------------
+
+
+
     if (latitude < -90 || latitude > 90) {
       setErrorMessage(
         "Latitude harus berada di antara -90 sampai 90."
@@ -100,17 +100,17 @@ function TambahInfrastruktur() {
       return;
     }
 
-    // ----------------------------------------------------------
-    // VALIDASI FOTO
-    // ----------------------------------------------------------
+
+
+
     if (!formData.foto) {
       setErrorMessage("Foto infrastruktur wajib diupload.");
       return;
     }
 
-    // ----------------------------------------------------------
-    // VALIDASI FORMAT FOTO
-    // ----------------------------------------------------------
+
+
+
     const allowedTypes = [
       "image/jpeg",
       "image/png",
@@ -123,10 +123,10 @@ function TambahInfrastruktur() {
       return;
     }
 
-    // ----------------------------------------------------------
-    // VALIDASI UKURAN FOTO
-    // Maksimal 2 MB
-    // ----------------------------------------------------------
+
+
+
+
     const maxSize = 2 * 1024 * 1024;
 
     if (formData.foto.size > maxSize) {
@@ -139,19 +139,19 @@ function TambahInfrastruktur() {
     try {
       setLoading(true);
 
-      // ========================================================
-      // DATA YANG DIKIRIM KE BACKEND
-      // ========================================================
+
+
+
       const data = {
         jenis: formData.jenis,
 
-        // kondisi -> kondisi_status
+
         kondisi_status: formData.kondisi,
 
-        // pic -> penanggung_jawab
+
         penanggung_jawab: formData.pic,
 
-        // telepon -> no_telp
+
         no_telp: formData.telepon,
 
         tanggal_pengadaan:
@@ -177,9 +177,9 @@ function TambahInfrastruktur() {
 
         longitude,
 
-        // Untuk sementara kita simpan nama file.
-        // Upload file fisik ke server kita kerjakan
-        // setelah CRUD dasar berhasil.
+
+
+
         foto: formData.foto.name,
       };
 
@@ -188,16 +188,16 @@ function TambahInfrastruktur() {
         data
       );
 
-      // ========================================================
-      // KIRIM KE BACKEND
-      // ========================================================
+
+
+
       await createInfrastruktur(data);
 
       alert(
         "Data infrastruktur berhasil disimpan!"
       );
 
-      // Kembali ke halaman Infrastruktur
+
       navigate("/infrastruktur");
     } catch (error) {
       console.error(
@@ -216,22 +216,22 @@ function TambahInfrastruktur() {
 
   return (
     <div className="tambah-infrastruktur-page">
-      {/* ======================================================
-          HEADER
-      ====================================================== */}
+
+
+
       <Header
         title="Infrastruktur"
         showSearch={false}
       />
 
-      {/* ======================================================
-          CONTENT
-      ====================================================== */}
+
+
+
       <main className="tambah-infrastruktur-content">
 
-        {/* ====================================================
-            KEMBALI
-        ==================================================== */}
+
+
+
         <div className="tambah-top-action">
           <button
             type="button"
@@ -244,18 +244,18 @@ function TambahInfrastruktur() {
           </button>
         </div>
 
-        {/* ====================================================
-            FORM CARD
-        ==================================================== */}
+
+
+
         <section className="tambah-infrastruktur-card">
 
           <div className="tambah-card-title">
             <h2>Tambah Infrastruktur</h2>
           </div>
 
-          {/* ==================================================
-              PESAN ERROR
-          ================================================== */}
+
+
+
           {errorMessage && (
             <div
               className="form-error-message"
@@ -268,12 +268,12 @@ function TambahInfrastruktur() {
           <form onSubmit={handleSubmit}>
             <div className="tambah-form-grid">
 
-              {/* =================================================
-                  KOLOM KIRI
-              ================================================= */}
+
+
+
               <div className="tambah-form-column">
 
-                {/* JENIS */}
+
                 <div className="form-group">
                   <label htmlFor="jenis">
                     Jenis <span>*</span>
@@ -308,7 +308,7 @@ function TambahInfrastruktur() {
                   </select>
                 </div>
 
-                {/* KONDISI */}
+
                 <div className="form-group">
                   <label htmlFor="kondisi">
                     Kondisi <span>*</span>
@@ -343,7 +343,7 @@ function TambahInfrastruktur() {
                   </select>
                 </div>
 
-                {/* PENANGGUNG JAWAB */}
+
                 <div className="form-group">
                   <label htmlFor="pic">
                     Penanggung Jawab{" "}
@@ -361,7 +361,7 @@ function TambahInfrastruktur() {
                   />
                 </div>
 
-                {/* NOMOR TELEPON */}
+
                 <div className="form-group">
                   <label htmlFor="telepon">
                     Nomor Telepon{" "}
@@ -379,7 +379,7 @@ function TambahInfrastruktur() {
                   />
                 </div>
 
-                {/* TANGGAL PENGADAAN */}
+
                 <div className="form-group">
                   <label htmlFor="tanggalPengadaan">
                     Tanggal Pengadaan{" "}
@@ -398,7 +398,7 @@ function TambahInfrastruktur() {
                   />
                 </div>
 
-                {/* PANJANG */}
+
                 <div className="form-group">
                   <label htmlFor="panjang">
                     Panjang
@@ -416,7 +416,7 @@ function TambahInfrastruktur() {
                   />
                 </div>
 
-                {/* LEBAR */}
+
                 <div className="form-group">
                   <label htmlFor="lebar">
                     Lebar
@@ -435,12 +435,12 @@ function TambahInfrastruktur() {
                 </div>
               </div>
 
-              {/* =================================================
-                  KOLOM KANAN
-              ================================================= */}
+
+
+
               <div className="tambah-form-column">
 
-                {/* ALAMAT */}
+
                 <div className="form-group">
                   <label htmlFor="alamat">
                     Alamat <span>*</span>
@@ -457,7 +457,7 @@ function TambahInfrastruktur() {
                   />
                 </div>
 
-                {/* RT */}
+
                 <div className="form-group">
                   <label htmlFor="rt">
                     RT <span>*</span>
@@ -474,7 +474,7 @@ function TambahInfrastruktur() {
                   />
                 </div>
 
-                {/* RW */}
+
                 <div className="form-group">
                   <label htmlFor="rw">
                     RW <span>*</span>
@@ -491,7 +491,7 @@ function TambahInfrastruktur() {
                   />
                 </div>
 
-                {/* KOORDINAT */}
+
                 <div className="form-group">
                   <label htmlFor="koordinat">
                     Koordinat Lokasi{" "}
@@ -514,7 +514,7 @@ function TambahInfrastruktur() {
                   </small>
                 </div>
 
-                {/* FOTO */}
+
                 <div className="form-group foto-group">
                   <label htmlFor="foto">
                     Foto <span>*</span>
@@ -554,9 +554,9 @@ function TambahInfrastruktur() {
               </div>
             </div>
 
-            {/* ==================================================
-                SIMPAN
-            ================================================== */}
+
+
+
             <div className="form-submit">
               <button
                 type="submit"

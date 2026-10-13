@@ -29,9 +29,9 @@ function EditUmkm() {
   const [errorMessage, setErrorMessage] = useState("");
 
 
-  /* =========================================================
-     AMBIL DATA UMKM
-  ========================================================= */
+
+
+
 
   useEffect(() => {
     const loadDataUMKM = async () => {
@@ -70,9 +70,9 @@ function EditUmkm() {
   }, [id]);
 
 
-  /* =========================================================
-     HANDLE CHANGE
-  ========================================================= */
+
+
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -84,9 +84,9 @@ function EditUmkm() {
   };
 
 
-  /* =========================================================
-     HANDLE SUBMIT
-  ========================================================= */
+
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -143,9 +143,9 @@ function EditUmkm() {
   };
 
 
-  /* =========================================================
-     LOADING
-  ========================================================= */
+
+
+
 
   if (loading) {
     return (
@@ -199,9 +199,9 @@ function EditUmkm() {
   }
 
 
-  /* =========================================================
-     ERROR
-  ========================================================= */
+
+
+
 
   if (errorMessage) {
     return (
@@ -256,14 +256,14 @@ function EditUmkm() {
   }
 
 
-  /* =========================================================
-     RETURN
-  ========================================================= */
+
+
+
 
   return (
     <div className="tambah-umkm-page">
 
-      {/* HEADER */}
+
 
       <Header
         title="UMKM"
@@ -274,11 +274,11 @@ function EditUmkm() {
       />
 
 
-      {/* CONTENT */}
+
 
       <main className="tambah-umkm-content">
 
-        {/* KEMBALI */}
+
 
         <div className="tambah-umkm-top-action">
 
@@ -295,7 +295,7 @@ function EditUmkm() {
         </div>
 
 
-        {/* FORM */}
+
 
         <section className="tambah-umkm-card">
 
@@ -314,13 +314,13 @@ function EditUmkm() {
 
             <div className="tambah-umkm-form-grid">
 
-              {/* =================================================
-                  KOLOM KIRI
-              ================================================= */}
+
+
+
 
               <div className="tambah-umkm-form-column">
 
-                {/* NAMA USAHA */}
+
 
                 <div className="umkm-form-group">
 
@@ -345,7 +345,7 @@ function EditUmkm() {
                 </div>
 
 
-                {/* PEMILIK */}
+
 
                 <div className="umkm-form-group">
 
@@ -370,7 +370,7 @@ function EditUmkm() {
                 </div>
 
 
-                {/* JENIS USAHA */}
+
 
                 <div className="umkm-form-group">
 
@@ -395,7 +395,7 @@ function EditUmkm() {
                 </div>
 
 
-                {/* NIB */}
+
 
                 <div className="umkm-form-group">
 
@@ -423,13 +423,13 @@ function EditUmkm() {
               </div>
 
 
-              {/* =================================================
-                  KOLOM KANAN
-              ================================================= */}
+
+
+
 
               <div className="tambah-umkm-form-column">
 
-                {/* RT */}
+
 
                 <div className="umkm-form-group">
 
@@ -454,7 +454,7 @@ function EditUmkm() {
                 </div>
 
 
-                {/* RW */}
+
 
                 <div className="umkm-form-group">
 
@@ -479,7 +479,7 @@ function EditUmkm() {
                 </div>
 
 
-                {/* ALAMAT */}
+
 
                 <div className="umkm-form-group">
 
@@ -507,9 +507,9 @@ function EditUmkm() {
             </div>
 
 
-            {/* =================================================
-                SIMPAN
-            ================================================= */}
+
+
+
 
             <div className="umkm-form-submit">
 

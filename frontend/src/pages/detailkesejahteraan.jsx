@@ -16,21 +16,21 @@ function DetailKesejahteraan({
 }) {
   const navigate = useNavigate();
 
-  /*
-   * Jika tidak ada data,
-   * detail tidak ditampilkan.
-   */
+
+
+
+
   const resolvedData = data ?? null;
 
   if (!resolvedData) {
     return null;
   }
 
-  /*
-   * ==============================
-   * ICON KATEGORI
-   * ==============================
-   */
+
+
+
+
+
 
   const categoryIcon =
     resolvedData.kategori === "Stunting"
@@ -43,11 +43,11 @@ function DetailKesejahteraan({
       ? ksj5Icon
       : ksj2Icon;
 
-  /*
-   * ==============================
-   * CLOSE
-   * ==============================
-   */
+
+
+
+
+
 
   const handleClose = () => {
     if (onClose) {
@@ -58,27 +58,27 @@ function DetailKesejahteraan({
     navigate("/kesejahteraan");
   };
 
-  /*
-   * ==============================
-   * EDIT
-   * ==============================
-   */
+
+
+
+
+
 
   const handleEdit = () => {
-    /*
-     * Jika parent menyediakan onEdit,
-     * gunakan fungsi tersebut.
-     */
+
+
+
+
     if (onEdit) {
       onEdit(resolvedData);
       return;
     }
 
-    /*
-     * Jika tidak ada onEdit,
-     * langsung menuju halaman edit
-     * berdasarkan ID dari database.
-     */
+
+
+
+
+
     if (!resolvedData.id_kesejahteraan) {
       console.error(
         "ID kesejahteraan tidak ditemukan:",
@@ -93,41 +93,41 @@ function DetailKesejahteraan({
     );
   };
 
-  /*
-   * ==============================
-   * DELETE
-   * ==============================
-   */
+
+
+
+
+
 
   const handleDelete = () => {
-    /*
-     * Proses hapus dikelola oleh parent
-     * karena parent sudah memiliki:
-     *
-     * 1. Konfirmasi
-     * 2. API delete
-     * 3. Refresh data
-     * 4. Menutup detail
-     */
+
+
+
+
+
+
+
+
+
     if (onDelete) {
       onDelete(resolvedData);
       return;
     }
 
-    /*
-     * Jika komponen digunakan tanpa onDelete,
-     * tidak melakukan proses delete sendiri.
-     */
+
+
+
+
     console.error(
       "Fungsi onDelete belum diberikan ke DetailKesejahteraan."
     );
   };
 
-  /*
-   * ==============================
-   * RETURN
-   * ==============================
-   */
+
+
+
+
+
 
   return (
     <div
@@ -138,7 +138,7 @@ function DetailKesejahteraan({
         className="kesejahteraan-detail-sidebar"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* JUDUL */}
+
 
         <div className="kesejahteraan-detail-header">
           <h2>
@@ -155,7 +155,7 @@ function DetailKesejahteraan({
           </button>
         </div>
 
-        {/* DATA UTAMA */}
+
 
         <div className="kesejahteraan-detail-main-card">
           <div className="kesejahteraan-detail-main-top">
@@ -200,7 +200,7 @@ function DetailKesejahteraan({
           </div>
         </div>
 
-        {/* KETERANGAN */}
+
 
         <div className="kesejahteraan-detail-card">
           <h3>
@@ -212,7 +212,7 @@ function DetailKesejahteraan({
           </p>
         </div>
 
-        {/* DATA PENDUDUK */}
+
 
         <div className="kesejahteraan-detail-card detail-penduduk-card">
           <h3>
@@ -221,7 +221,7 @@ function DetailKesejahteraan({
 
           <div className="kesejahteraan-detail-data-list">
 
-            {/* NAMA */}
+
 
             <div className="kesejahteraan-detail-row">
               <span>
@@ -233,7 +233,7 @@ function DetailKesejahteraan({
               </strong>
             </div>
 
-            {/* NIK */}
+
 
             <div className="kesejahteraan-detail-row">
               <span>
@@ -245,7 +245,7 @@ function DetailKesejahteraan({
               </strong>
             </div>
 
-            {/* TEMPAT TANGGAL LAHIR */}
+
 
             <div className="kesejahteraan-detail-row">
               <span>
@@ -260,7 +260,7 @@ function DetailKesejahteraan({
               </strong>
             </div>
 
-            {/* USIA */}
+
 
             <div className="kesejahteraan-detail-row">
               <span>
@@ -272,7 +272,7 @@ function DetailKesejahteraan({
               </strong>
             </div>
 
-            {/* JENIS KELAMIN */}
+
 
             <div className="kesejahteraan-detail-row">
               <span>
@@ -284,7 +284,7 @@ function DetailKesejahteraan({
               </strong>
             </div>
 
-            {/* RW */}
+
 
             <div className="kesejahteraan-detail-row">
               <span>
@@ -296,7 +296,7 @@ function DetailKesejahteraan({
               </strong>
             </div>
 
-            {/* RT */}
+
 
             <div className="kesejahteraan-detail-row">
               <span>
@@ -308,7 +308,7 @@ function DetailKesejahteraan({
               </strong>
             </div>
 
-            {/* ALAMAT */}
+
 
             <div className="kesejahteraan-detail-row">
               <span>
@@ -323,11 +323,11 @@ function DetailKesejahteraan({
           </div>
         </div>
 
-        {/* AKSI */}
+
 
         <div className="kesejahteraan-detail-actions">
 
-          {/* EDIT */}
+
 
           <button
             type="button"
@@ -343,7 +343,7 @@ function DetailKesejahteraan({
             Edit Data
           </button>
 
-          {/* HAPUS */}
+
 
           <button
             type="button"

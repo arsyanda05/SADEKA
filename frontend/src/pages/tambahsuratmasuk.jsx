@@ -51,7 +51,7 @@ function TambahSuratMasuk() {
 		} catch (error) {
 			console.error("Error menyimpan surat masuk:", error);
 
-			alert("Gagal menyimpan surat masuk.");
+			alert(error.message || "Gagal menyimpan surat masuk.");
 		} finally {
 			setLoading(false);
 		}

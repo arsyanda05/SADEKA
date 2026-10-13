@@ -7,9 +7,9 @@ import { db } from "../prisma/db.js";
 
 const router = express.Router();
 
-/* =====================================================
-   FOLDER UPLOAD
-===================================================== */
+
+
+
 
 const uploadDir = path.join(
   process.cwd(),
@@ -18,9 +18,9 @@ const uploadDir = path.join(
   "surat-ahli-waris"
 );
 
-/* =====================================================
-   PASTIKAN FOLDER ADA
-===================================================== */
+
+
+
 
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, {
@@ -28,9 +28,9 @@ if (!fs.existsSync(uploadDir)) {
   });
 }
 
-/* =====================================================
-   MULTER STORAGE
-===================================================== */
+
+
+
 
 const storage =
   multer.diskStorage({
@@ -59,9 +59,9 @@ const storage =
     },
   });
 
-/* =====================================================
-   VALIDASI FILE
-===================================================== */
+
+
+
 
 const fileFilter = (
   req,
@@ -88,9 +88,9 @@ const fileFilter = (
   cb(null, true);
 };
 
-/* =====================================================
-   MULTER
-===================================================== */
+
+
+
 
 const upload = multer({
   storage,
@@ -101,9 +101,9 @@ const upload = multer({
   },
 });
 
-/* =====================================================
-   HELPER ID
-===================================================== */
+
+
+
 
 const getValidId = (value) => {
   const id = Number(value);
@@ -118,9 +118,9 @@ const getValidId = (value) => {
   return id;
 };
 
-/* =====================================================
-   GET SEMUA DOKUMEN
-===================================================== */
+
+
+
 
 router.get("/", async (req, res) => {
   try {
@@ -141,9 +141,9 @@ router.get("/", async (req, res) => {
   }
 });
 
-/* =====================================================
-   GET DOKUMEN BERDASARKAN SURAT AHLI WARIS
-===================================================== */
+
+
+
 
 router.get(
   "/surat-ahli-waris/:id",
@@ -183,9 +183,9 @@ router.get(
   }
 );
 
-/* =====================================================
-   GET DETAIL DOKUMEN
-===================================================== */
+
+
+
 
 router.get("/:id", async (req, res) => {
   try {
@@ -231,9 +231,9 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-/* =====================================================
-   POST UPLOAD DOKUMEN
-===================================================== */
+
+
+
 
 router.post(
   "/",
@@ -254,9 +254,9 @@ router.post(
         req.file
       );
 
-      /* ================================================
-         CEK FILE
-      ================================================ */
+
+
+
 
       if (!req.file) {
         return res.status(400).json({
@@ -265,9 +265,9 @@ router.post(
         });
       }
 
-      /* ================================================
-         ID SURAT
-      ================================================ */
+
+
+
 
       const idSuratAhliWaris =
         getValidId(
@@ -276,10 +276,10 @@ router.post(
         );
 
       if (!idSuratAhliWaris) {
-        /*
-         * Hapus file jika ID surat tidak valid
-         * agar tidak meninggalkan file yatim.
-         */
+
+
+
+
         try {
           fs.unlinkSync(
             req.file.path
@@ -297,9 +297,9 @@ router.post(
         });
       }
 
-      /* ================================================
-         CEK SURAT AHLI WARIS
-      ================================================ */
+
+
+
 
       const suratResult =
         await db.orm.public.SuratAhliWaris
@@ -330,9 +330,9 @@ router.post(
         });
       }
 
-      /* ================================================
-         JENIS DOKUMEN
-      ================================================ */
+
+
+
 
       const jenisDokumen =
         String(
@@ -341,27 +341,27 @@ router.post(
             "Dokumen Surat Ahli Waris"
         ).trim();
 
-      /* ================================================
-         PATH FILE
-      ================================================ */
+
+
+
 
       const pathFile =
         `/uploads/surat-ahli-waris/${req.file.filename}`;
 
-      /* ================================================
-         TANGGAL UPLOAD
-         
-         PENTING:
-         Prisma 8 menggunakan timestamptz
-         dengan Temporal.Instant.
-      ================================================ */
+
+
+
+
+
+
+
 
       const tanggalUpload =
         Temporal.Now.instant();
 
-      /* ================================================
-         SIMPAN KE DATABASE
-      ================================================ */
+
+
+
 
       const dokumen =
         await db.orm.public.Dokumen.create({
@@ -387,9 +387,9 @@ router.post(
             tanggalUpload,
         });
 
-      /* ================================================
-         RESPONSE
-      ================================================ */
+
+
+
 
       res.status(201).json({
         message:
@@ -403,11 +403,11 @@ router.post(
         error
       );
 
-      /*
-       * Jika database gagal menyimpan,
-       * hapus file yang sudah terlanjur
-       * tersimpan di folder uploads.
-       */
+
+
+
+
+
       if (
         req.file &&
         req.file.path
@@ -440,9 +440,9 @@ router.post(
   }
 );
 
-/* =====================================================
-   DELETE DOKUMEN
-===================================================== */
+
+
+
 
 router.delete(
   "/:id",
@@ -459,9 +459,9 @@ router.delete(
         });
       }
 
-      /* ================================================
-         CARI DOKUMEN
-      ================================================ */
+
+
+
 
       const result =
         await db.orm.public.Dokumen
@@ -483,9 +483,9 @@ router.delete(
       const dokumen =
         result[0];
 
-      /* ================================================
-         HAPUS DATABASE
-      ================================================ */
+
+
+
 
       await db.orm.public.Dokumen
         .where({
@@ -493,9 +493,9 @@ router.delete(
         })
         .delete();
 
-      /* ================================================
-         HAPUS FILE FISIK
-      ================================================ */
+
+
+
 
       if (dokumen.path_file) {
         const filename =

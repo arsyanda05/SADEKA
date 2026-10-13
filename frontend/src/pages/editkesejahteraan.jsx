@@ -28,37 +28,37 @@ function EditKesejahteraan() {
 
   const [errorMessage, setErrorMessage] = useState("");
 
-  /*
-   * ==============================
-   * LOAD DATA KESEJAHTERAAN
-   * ==============================
-   */
+
+
+
+
+
   useEffect(() => {
     const loadData = async () => {
       try {
         setLoading(true);
         setErrorMessage("");
 
-        /*
-         * Ambil data kesejahteraan berdasarkan ID
-         * dan data penduduk secara bersamaan.
-         */
+
+
+
+
         const [dataKesejahteraan, penduduk] =
           await Promise.all([
             getDetailKesejahteraan(id),
             getPenduduk(),
           ]);
 
-        /*
-         * Simpan data penduduk untuk
-         * pencarian nama / NIK saat submit.
-         */
+
+
+
+
         setDataPenduduk(penduduk);
 
-        /*
-         * Isi form berdasarkan data
-         * yang berasal dari database.
-         */
+
+
+
+
         setFormData({
           penduduk:
             dataKesejahteraan.nama || "",
@@ -87,11 +87,11 @@ function EditKesejahteraan() {
     loadData();
   }, [id]);
 
-  /*
-   * ==============================
-   * HANDLE INPUT
-   * ==============================
-   */
+
+
+
+
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -101,17 +101,17 @@ function EditKesejahteraan() {
     }));
   };
 
-  /*
-   * ==============================
-   * HANDLE SUBMIT
-   * ==============================
-   */
+
+
+
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    /*
-     * Validasi data
-     */
+
+
+
     if (
       !formData.penduduk.trim() ||
       !formData.kategori ||
@@ -124,20 +124,20 @@ function EditKesejahteraan() {
       return;
     }
 
-    /*
-     * Normalisasi input penduduk
-     * agar pencarian tidak sensitif
-     * terhadap huruf besar / kecil.
-     */
+
+
+
+
+
     const inputPenduduk =
       formData.penduduk
         .trim()
         .toLowerCase();
 
-    /*
-     * Cari penduduk berdasarkan
-     * nama atau NIK.
-     */
+
+
+
+
     const pendudukDipilih =
       dataPenduduk.find((item) => {
         const nama = String(
@@ -158,9 +158,9 @@ function EditKesejahteraan() {
         );
       });
 
-    /*
-     * Jika penduduk tidak ditemukan
-     */
+
+
+
     if (!pendudukDipilih) {
       window.alert(
         "Data penduduk tidak ditemukan. Masukkan nama atau NIK yang sesuai dengan data penduduk."
@@ -171,10 +171,10 @@ function EditKesejahteraan() {
     try {
       setSaving(true);
 
-      /*
-       * Update data Kesejahteraan
-       * ke PostgreSQL melalui API.
-       */
+
+
+
+
       await updateKesejahteraan(id, {
         id_penduduk:
           pendudukDipilih.id_penduduk,
@@ -190,9 +190,9 @@ function EditKesejahteraan() {
         "Data kesejahteraan berhasil diperbarui."
       );
 
-      /*
-       * Kembali ke halaman Kesejahteraan
-       */
+
+
+
       navigate("/kesejahteraan");
     } catch (error) {
       console.error(
@@ -209,11 +209,11 @@ function EditKesejahteraan() {
     }
   };
 
-  /*
-   * ==============================
-   * LOADING
-   * ==============================
-   */
+
+
+
+
+
   if (loading) {
     return (
       <div className="tambah-kesejahteraan-page">
@@ -239,11 +239,11 @@ function EditKesejahteraan() {
     );
   }
 
-  /*
-   * ==============================
-   * ERROR
-   * ==============================
-   */
+
+
+
+
+
   if (errorMessage) {
     return (
       <div className="tambah-kesejahteraan-page">
@@ -281,24 +281,24 @@ function EditKesejahteraan() {
     );
   }
 
-  /*
-   * ==============================
-   * HALAMAN EDIT
-   * ==============================
-   */
+
+
+
+
+
   return (
     <div className="tambah-kesejahteraan-page">
 
-      {/* HEADER */}
+
       <Header
         title="Kesejahteraan"
         showSearch={false}
       />
 
-      {/* CONTENT */}
+
       <main className="tambah-kesejahteraan-content">
 
-        {/* TOMBOL KEMBALI */}
+
         <div className="tambah-kesejahteraan-top-action">
 
           <button
@@ -313,7 +313,7 @@ function EditKesejahteraan() {
 
         </div>
 
-        {/* FORM CARD */}
+
         <section className="tambah-kesejahteraan-card">
 
           <div className="tambah-kesejahteraan-card-title">
@@ -324,9 +324,9 @@ function EditKesejahteraan() {
 
             <div className="tambah-kesejahteraan-form-grid">
 
-              {/* =========================
-                  KOLOM KIRI
-              ========================== */}
+
+
+
               <div className="tambah-kesejahteraan-form-column">
 
                 <div className="kesejahteraan-form-group">
@@ -361,12 +361,12 @@ function EditKesejahteraan() {
 
               </div>
 
-              {/* =========================
-                  KOLOM KANAN
-              ========================== */}
+
+
+
               <div className="tambah-kesejahteraan-form-column">
 
-                {/* KATEGORI */}
+
                 <div className="kesejahteraan-form-group">
 
                   <label>
@@ -410,7 +410,7 @@ function EditKesejahteraan() {
 
                 </div>
 
-                {/* STATUS */}
+
                 <div className="kesejahteraan-form-group">
 
                   <label>
@@ -450,7 +450,7 @@ function EditKesejahteraan() {
 
                 </div>
 
-                {/* KETERANGAN */}
+
                 <div className="kesejahteraan-form-group">
 
                   <label>
@@ -470,7 +470,7 @@ function EditKesejahteraan() {
               </div>
             </div>
 
-            {/* SIMPAN */}
+
             <div className="tambah-kesejahteraan-submit">
 
               <button

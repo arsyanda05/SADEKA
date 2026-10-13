@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { getSurat, deleteSurat } from "../services/api";
+import { getBackendFileUrl, getSurat, deleteSurat } from "../services/api";
 
 import smartDocIcon from "../assets/smartdoc.png";
 import docIcon from "../assets/doc.png";
@@ -11,16 +11,16 @@ import Header from "./header";
 function SuratMasuk() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // =====================================================
-  // DATA SURAT
-  // =====================================================
+
+
+
 
   const [dataSurat, setDataSurat] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // =====================================================
-  // FILTER
-  // =====================================================
+
+
+
 
   const [search, setSearch] = useState("");
   const [tanggal, setTanggal] = useState("");
@@ -29,15 +29,15 @@ function SuratMasuk() {
   const [tanggalOpen, setTanggalOpen] = useState(false);
   const [jenisOpen, setJenisOpen] = useState(false);
 
-  // =====================================================
-  // ACTION
-  // =====================================================
+
+
+
 
   const [openAction, setOpenAction] = useState(null);
 
-  // =====================================================
-  // PAGINATION
-  // =====================================================
+
+
+
 
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -45,17 +45,17 @@ function SuratMasuk() {
 
   const itemsPerPage = 5;
 
-  // =====================================================
-  // SIDEBAR
-  // =====================================================
+
+
+
 
   const closeSidebar = () => {
     setSidebarOpen(false);
   };
 
-  // =====================================================
-  // AMBIL DATA SURAT DARI BACKEND
-  // =====================================================
+
+
+
 
   useEffect(() => {
     const loadSurat = async () => {
@@ -64,18 +64,18 @@ function SuratMasuk() {
 
         const data = await getSurat();
 
-        // Hanya mengambil surat dengan arah_surat = Masuk
+
         const suratMasuk = data
           .filter((item) => item.arah_surat === "Masuk")
           .map((item, index) => ({
             id: item.id_surat,
 
-            // Nomor urut untuk tampilan
+
             no: String(index + 1).padStart(3, "0"),
 
             nomorSurat: item.nomor_surat,
 
-            // PostgreSQL -> format DD/MM/YYYY
+
             tanggal: new Date(item.tanggal).toLocaleDateString(
               "id-ID",
               {
@@ -87,7 +87,7 @@ function SuratMasuk() {
 
             asalSurat: item.asal,
 
-            // Saat ini database belum memiliki asalDetail
+
             asalDetail: "",
 
             tujuan: item.tujuan,
@@ -112,9 +112,9 @@ function SuratMasuk() {
     loadSurat();
   }, []);
 
-  // =====================================================
-  // FILTER OPTIONS
-  // =====================================================
+
+
+
 
   const tanggalOptions = Array.from(
     { length: 31 },
@@ -132,9 +132,9 @@ function SuratMasuk() {
     "Surat Keterangan Usaha",
   ];
 
-  // =====================================================
-  // FILTER DATA
-  // =====================================================
+
+
+
 
   const filteredData = dataSurat.filter((item) => {
     const keyword = search.toLowerCase();
@@ -164,9 +164,9 @@ function SuratMasuk() {
     );
   });
 
-  // =====================================================
-  // PAGINATION
-  // =====================================================
+
+
+
 
   const totalPages = Math.max(
     1,
@@ -186,9 +186,9 @@ function SuratMasuk() {
     startIndex + itemsPerPage
   );
 
-  // =====================================================
-  // FILTER TANGGAL
-  // =====================================================
+
+
+
 
   const changeTanggal = (value) => {
     setTanggal(value);
@@ -197,9 +197,9 @@ function SuratMasuk() {
     setCurrentPage(1);
   };
 
-  // =====================================================
-  // FILTER JENIS
-  // =====================================================
+
+
+
 
   const changeJenis = (value) => {
     setJenis(value);
@@ -208,9 +208,9 @@ function SuratMasuk() {
     setCurrentPage(1);
   };
 
-  // =====================================================
-  // EDIT
-  // =====================================================
+
+
+
 
   const handleEdit = (item) => {
     setOpenAction(null);
@@ -222,9 +222,9 @@ function SuratMasuk() {
     });
   };
 
-  // =====================================================
-  // HAPUS
-  // =====================================================
+
+
+
 
   const handleDelete = async (item) => {
     setOpenAction(null);
@@ -246,17 +246,17 @@ Keterangan : ${item.keterangan}`
     }
 
     try {
-      // Hapus dari database
+
       await deleteSurat(item.id);
 
-      // Hapus dari tampilan
+
       setDataSurat((dataLama) =>
         dataLama.filter(
           (surat) => surat.id !== item.id
         )
       );
 
-      // Pastikan halaman pagination tetap valid
+
       setCurrentPage((page) => {
         const jumlahDataSetelahHapus =
           filteredData.length - 1;
@@ -287,16 +287,13 @@ Keterangan : ${item.keterangan}`
       return;
     }
 
-    const fileUrl = /^https?:\/\//i.test(item.pathDokumen)
-      ? item.pathDokumen
-      : `http://localhost:5000${item.pathDokumen}`;
-
+    const fileUrl = getBackendFileUrl(item.pathDokumen);
     window.open(fileUrl, "_blank", "noopener,noreferrer");
   };
 
-  // =====================================================
-  // TOGGLE ACTION
-  // =====================================================
+
+
+
 
   const toggleAction = (id) => {
     setOpenAction((prev) =>
@@ -307,31 +304,31 @@ Keterangan : ${item.keterangan}`
     setJenisOpen(false);
   };
 
-  // =====================================================
-  // RENDER
-  // =====================================================
+
+
+
 
   return (
     <div className="surat-masuk-page">
 
-      {/* =====================================================
-          SIDEBAR
-      ===================================================== */}
+
+
+
 
       <SideBar
         isOpen={sidebarOpen}
         onClose={closeSidebar}
       />
 
-      {/* =====================================================
-          MAIN
-      ===================================================== */}
+
+
+
 
       <main className="surat-masuk-main">
 
-        {/* =====================================================
-            HEADER
-        ===================================================== */}
+
+
+
 
         <Header
           title="Surat Masuk"
@@ -346,21 +343,21 @@ Keterangan : ${item.keterangan}`
           }
         />
 
-        {/* =====================================================
-            CONTENT
-        ===================================================== */}
+
+
+
 
         <section className="surat-masuk-content">
 
-          {/* =====================================================
-              TOP ACTION
-          ===================================================== */}
+
+
+
 
           <div className="surat-masuk-top-action">
 
             <div className="surat-masuk-top-buttons">
 
-              {/* SMART DOCUMENT */}
+
 
               <button
                 type="button"
@@ -378,7 +375,7 @@ Keterangan : ${item.keterangan}`
                 Smart Document
               </button>
 
-              {/* TAMBAH SURAT */}
+
 
               <button
                 type="button"
@@ -400,15 +397,15 @@ Keterangan : ${item.keterangan}`
 
           </div>
 
-          {/* =====================================================
-              TABLE CARD
-          ===================================================== */}
+
+
+
 
           <div className="surat-masuk-table-card">
 
-            {/* =====================================================
-                TABLE TOP
-            ===================================================== */}
+
+
+
 
             <div className="table-top">
 
@@ -416,9 +413,9 @@ Keterangan : ${item.keterangan}`
                 Daftar Surat Masuk
               </h2>
 
-              {/* =================================================
-                  FILTER
-              ================================================= */}
+
+
+
 
               <div className="filter-wrapper">
 
@@ -426,9 +423,9 @@ Keterangan : ${item.keterangan}`
                   Filter
                 </span>
 
-                {/* =================================================
-                    TANGGAL
-                ================================================= */}
+
+
+
 
                 <div className="simple-dropdown">
 
@@ -485,9 +482,9 @@ Keterangan : ${item.keterangan}`
 
                 </div>
 
-                {/* =================================================
-                    JENIS
-                ================================================= */}
+
+
+
 
                 <div className="simple-dropdown">
 
@@ -546,9 +543,9 @@ Keterangan : ${item.keterangan}`
 
             </div>
 
-            {/* =====================================================
-                TABLE
-            ===================================================== */}
+
+
+
 
             <div className="table-scroll">
 
@@ -572,9 +569,9 @@ Keterangan : ${item.keterangan}`
 
                 <tbody>
 
-                  {/* =================================================
-                      LOADING
-                  ================================================= */}
+
+
+
 
                   {loading ? (
 
@@ -593,25 +590,25 @@ Keterangan : ${item.keterangan}`
 
                       <tr key={item.id}>
 
-                        {/* =================================================
-                            NO
-                        ================================================= */}
+
+
+
 
                         <td className="surat-masuk-no">
                           {item.no}
                         </td>
 
-                        {/* =================================================
-                            NOMOR SURAT
-                        ================================================= */}
+
+
+
 
                         <td className="surat-masuk-nomor">
                           {item.nomorSurat}
                         </td>
 
-                        {/* =================================================
-                            TANGGAL
-                        ================================================= */}
+
+
+
 
                         <td className="surat-masuk-tanggal">
 
@@ -621,9 +618,9 @@ Keterangan : ${item.keterangan}`
 
                         </td>
 
-                        {/* =================================================
-                            ASAL
-                        ================================================= */}
+
+
+
 
                         <td className="surat-masuk-asal">
 
@@ -639,17 +636,17 @@ Keterangan : ${item.keterangan}`
 
                         </td>
 
-                        {/* =================================================
-                            TUJUAN
-                        ================================================= */}
+
+
+
 
                         <td className="surat-masuk-tujuan">
                           {item.tujuan}
                         </td>
 
-                        {/* =================================================
-                            JENIS
-                        ================================================= */}
+
+
+
 
                         <td className="surat-masuk-jenis">
 
@@ -684,9 +681,9 @@ Keterangan : ${item.keterangan}`
 
                         </td>
 
-                        {/* =================================================
-                            KETERANGAN
-                        ================================================= */}
+
+
+
 
                         <td className="surat-masuk-keterangan">
 
@@ -712,9 +709,9 @@ Keterangan : ${item.keterangan}`
                           )}
                         </td>
 
-                        {/* =================================================
-                            AKSI
-                        ================================================= */}
+
+
+
 
                         <td className="surat-masuk-aksi">
 
@@ -737,6 +734,17 @@ Keterangan : ${item.keterangan}`
                               item.id && (
 
                               <div className="surat-masuk-action-menu">
+
+                                <button
+                                  type="button"
+                                  className="surat-masuk-edit-action"
+                                  onClick={() => {
+                                    setOpenAction(null);
+                                    navigate(`/surat-masuk/${item.id}`);
+                                  }}
+                                >
+                                  Detail
+                                </button>
 
                                 <button
                                   type="button"
@@ -791,9 +799,9 @@ Keterangan : ${item.keterangan}`
 
             </div>
 
-            {/* =====================================================
-                FOOTER
-            ===================================================== */}
+
+
+
 
             <div className="table-footer">
 
@@ -821,9 +829,9 @@ Keterangan : ${item.keterangan}`
 
               </p>
 
-              {/* =================================================
-                  PAGINATION
-              ================================================= */}
+
+
+
 
               <div className="pagination">
 

@@ -20,9 +20,9 @@ function TambahSuratKeluar() {
 
   const [loading, setLoading] = useState(false);
 
-  // =====================================================
-  // HANDLE PERUBAHAN FORM
-  // =====================================================
+
+
+
 
   const handleChange = (event) => {
     const { name, value, files } = event.target;
@@ -33,9 +33,9 @@ function TambahSuratKeluar() {
     }));
   };
 
-  // =====================================================
-  // SIMPAN SURAT KELUAR
-  // =====================================================
+
+
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -48,8 +48,8 @@ function TambahSuratKeluar() {
         tanggal: formData.tanggal,
         jenis: formData.jenis,
 
-        // PENTING:
-        // membedakan Surat Keluar dengan Surat Masuk
+
+
         arah_surat: "Keluar",
 
         asal: formData.asalSurat,
@@ -66,15 +66,15 @@ function TambahSuratKeluar() {
         error
       );
 
-      alert("Gagal menyimpan surat keluar.");
+      alert(error.message || "Gagal menyimpan surat keluar.");
     } finally {
       setLoading(false);
     }
   };
 
-  // =====================================================
-  // TAMPILAN
-  // =====================================================
+
+
+
 
   return (
     <div className="tambah-surat-masuk-page">
@@ -86,9 +86,9 @@ function TambahSuratKeluar() {
 
       <main className="tambah-surat-masuk-content">
 
-        {/* ==============================
-            KEMBALI
-        ============================== */}
+
+
+
 
         <div className="tambah-surat-masuk-back-wrapper">
 
@@ -109,9 +109,9 @@ function TambahSuratKeluar() {
 
         </div>
 
-        {/* ==============================
-            FORM
-        ============================== */}
+
+
+
 
         <form
           className="tambah-surat-masuk-form"
@@ -126,7 +126,7 @@ function TambahSuratKeluar() {
 
             <div className="tambah-surat-masuk-grid">
 
-              {/* NOMOR SURAT */}
+
 
               <div className="tambah-surat-masuk-field">
 
@@ -145,7 +145,7 @@ function TambahSuratKeluar() {
 
               </div>
 
-              {/* TANGGAL */}
+
 
               <div className="tambah-surat-masuk-field">
 
@@ -164,7 +164,7 @@ function TambahSuratKeluar() {
 
               </div>
 
-              {/* ASAL SURAT */}
+
 
               <div className="tambah-surat-masuk-field">
 
@@ -183,7 +183,7 @@ function TambahSuratKeluar() {
 
               </div>
 
-              {/* TUJUAN */}
+
 
               <div className="tambah-surat-masuk-field">
 
@@ -202,7 +202,7 @@ function TambahSuratKeluar() {
 
               </div>
 
-              {/* KETERANGAN */}
+
 
               <div className="tambah-surat-masuk-field tambah-surat-masuk-keterangan">
 
@@ -221,7 +221,7 @@ function TambahSuratKeluar() {
 
               </div>
 
-              {/* JENIS SURAT */}
+
 
               <div className="tambah-surat-masuk-field">
 
@@ -304,9 +304,9 @@ function TambahSuratKeluar() {
 
           </section>
 
-          {/* ==============================
-              STATUS BAR
-          ============================== */}
+
+
+
 
           <section className="tambah-surat-masuk-status-bar">
 
@@ -326,7 +326,7 @@ function TambahSuratKeluar() {
               Terisi 100%
             </span>
 
-            {/* SIMPAN */}
+
 
             <button
               type="submit"

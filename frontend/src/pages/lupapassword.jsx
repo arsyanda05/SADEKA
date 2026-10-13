@@ -66,7 +66,7 @@ function LupaPassword() {
     <div className="lupa-password-page">
       <div className="lupa-password-container">
 
-        {/* BAGIAN KIRI */}
+
         <div className="lupa-password-brand">
           <img
             src={logoSadeka}
@@ -83,7 +83,7 @@ function LupaPassword() {
           </h2>
         </div>
 
-        {/* BAGIAN KANAN */}
+
         <div className="lupa-password-card">
 
           {step === 1 && (

@@ -26,29 +26,20 @@ function Agenda() {
 
   const [error, setError] = useState("");
 
-  // ================================
-  // STATE UNTUK REMINDER
-  // ================================
   const [showReminder, setShowReminder] = useState(false);
 
   const [dismissedReminderIds, setDismissedReminderIds] =
     useState([]);
 
-  // Digunakan untuk mengecek waktu reminder secara berkala
+
   const [currentTime, setCurrentTime] = useState(new Date());
 
   const navigate = useNavigate();
 
-  // ================================
-  // SIDEBAR
-  // ================================
   const closeSidebar = () => {
     setSidebarOpen(false);
   };
 
-  // ================================
-  // FORMAT TANGGAL
-  // ================================
   const formatTanggal = (tanggal) => {
     if (!tanggal) {
       return "";
@@ -67,9 +58,6 @@ function Agenda() {
     return `${day}/${month}/${year}`;
   };
 
-  // ================================
-  // FORMAT JAM
-  // ================================
   const formatJam = (jam) => {
     if (!jam) {
       return "";
@@ -80,9 +68,6 @@ function Agenda() {
       .trim();
   };
 
-  // ================================
-  // STATUS AGENDA
-  // ================================
   const getStatusAgenda = (tanggal) => {
     if (!tanggal) {
       return "";
@@ -101,9 +86,6 @@ function Agenda() {
     return "Akan Datang";
   };
 
-  // ================================
-  // FORMAT DATA AGENDA
-  // ================================
   const formatAgenda = (agenda) => {
     const tanggalFormatted = formatTanggal(
       agenda.tanggal
@@ -182,9 +164,6 @@ function Agenda() {
 
       status,
 
-      // ================================
-      // DATA REMINDER DARI DATABASE
-      // ================================
       status_pengingat:
         agenda.status_pengingat ||
         "MENUNGGU",
@@ -201,9 +180,6 @@ function Agenda() {
     };
   };
 
-  // ================================
-  // LOAD DATA AGENDA
-  // ================================
   const loadAgenda = async () => {
     try {
       setLoading(true);
@@ -231,14 +207,11 @@ function Agenda() {
     }
   };
 
-  // Load agenda pertama kali
+
   useEffect(() => {
     loadAgenda();
   }, []);
 
-  // ================================
-  // CEK WAKTU SETIAP 30 DETIK
-  // ================================
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTime(new Date());
@@ -249,9 +222,6 @@ function Agenda() {
     };
   }, []);
 
-  // ================================
-  // PARSE TANGGAL
-  // ================================
   const parseTanggal = (tanggal) => {
     if (!tanggal) {
       return null;
@@ -267,9 +237,6 @@ function Agenda() {
     );
   };
 
-  // ================================
-  // CEK H-1
-  // ================================
   const isHMinusOne = (tanggalAgenda) => {
     if (!tanggalAgenda) {
       return false;
@@ -307,9 +274,6 @@ function Agenda() {
     return selisihHari === 1;
   };
 
-  // ================================
-  // CEK APAKAH WAKTU TUNDA SUDAH TIBA
-  // ================================
   const isWaktuPengingatBerikutnyaTiba = (
     item
   ) => {
@@ -342,17 +306,12 @@ function Agenda() {
     return currentTime >= waktuBerikutnya;
   };
 
-  // ================================
-  // TENTUKAN AGENDA YANG HARUS MUNCUL
-  // ================================
   const reminderAgenda = dataAgenda.find(
     (item) => {
       if ((item.pengingat_menit ?? 1440) <= 0) {
         return false;
       }
 
-      // Kalau sudah dikonfirmasi,
-      // jangan pernah tampilkan lagi.
       if (
         item.status_pengingat ===
         "DIKONFIRMASI"
@@ -360,9 +319,6 @@ function Agenda() {
         return false;
       }
 
-      // ================================
-      // REMINDER NORMAL H-1
-      // ================================
       const reminderHMinusOne =
         item.status_pengingat ===
           "MENUNGGU" &&
@@ -370,9 +326,6 @@ function Agenda() {
           "Notifikasi Pop up (H-1)" &&
         isHMinusOne(item.tanggal);
 
-      // ================================
-      // REMINDER SETELAH DITUNDA
-      // ================================
       const reminderDitunda =
         item.status_pengingat ===
           "DITUNDA" &&
@@ -380,16 +333,12 @@ function Agenda() {
           item
         );
 
-      // ================================
-      // CEK DISMISS
-      // ================================
       if (
         dismissedReminderIds.includes(
           item.id_agenda
         )
       ) {
-        // Jika waktu tunda sudah tiba,
-        // tetap boleh muncul lagi.
+
         if (reminderDitunda) {
           return true;
         }
@@ -404,9 +353,6 @@ function Agenda() {
     }
   );
 
-  // ================================
-  // TAMPILKAN POPUP REMINDER
-  // ================================
   useEffect(() => {
     if (!reminderAgenda) {
       return;
@@ -420,9 +366,6 @@ function Agenda() {
     currentTime,
   ]);
 
-  // ================================
-  // FILTER DATA
-  // ================================
   const filteredData = dataAgenda.filter(
     (item) => {
       const keyword =
@@ -462,9 +405,6 @@ function Agenda() {
     }
   );
 
-  // ================================
-  // PAGINATION
-  // ================================
   const itemsPerPage = 5;
 
   const totalPages = Math.max(
@@ -490,18 +430,12 @@ function Agenda() {
       startIndex + itemsPerPage
     );
 
-  // ================================
-  // FILTER KATEGORI
-  // ================================
   const changeKategori = (value) => {
     setKategori(value);
     setKategoriOpen(false);
     setCurrentPage(1);
   };
 
-  // ================================
-  // EDIT
-  // ================================
   const handleEdit = (item) => {
     setOpenAction(null);
 
@@ -515,9 +449,9 @@ function Agenda() {
     );
   };
 
-  // ================================
-  // DELETE
-  // ================================
+
+
+
   const handleDelete = async (item) => {
     const confirmed = window.confirm(
       `Hapus agenda "${item.kegiatan}"?`
@@ -559,9 +493,6 @@ function Agenda() {
     }
   };
 
-  // ================================
-  // TUTUP POPUP DENGAN X
-  // ================================
   const closeReminder = () => {
     if (reminderAgenda) {
       setDismissedReminderIds(
@@ -585,9 +516,6 @@ function Agenda() {
     setShowReminder(false);
   };
 
-  // ================================
-  // TUNDA REMINDER
-  // ================================
   const handleReminderLater =
     async () => {
       if (!reminderAgenda) {
@@ -598,23 +526,16 @@ function Agenda() {
         reminderAgenda.id_agenda;
 
       try {
-        // Simpan status DITUNDA
-        // dan waktu berikutnya ke database.
+
+
         await updateAgendaReminderSnooze(
           reminderId
         );
 
-        // Ambil kembali data dari database
-        // agar waktu_pengingat_berikutnya
-        // ikut diperbarui di frontend.
         await loadAgenda();
 
-        // Tutup popup.
         setShowReminder(false);
 
-        // Hapus dari dismissed.
-        // Karena reminder harus bisa muncul
-        // lagi ketika waktu tunda tercapai.
         setDismissedReminderIds(
           (previous) =>
             previous.filter(
@@ -635,9 +556,6 @@ function Agenda() {
       }
     };
 
-  // ================================
-  // KONFIRMASI REMINDER
-  // ================================
   const handleReminderConfirm =
     async () => {
       if (!reminderAgenda) {
@@ -648,20 +566,18 @@ function Agenda() {
         reminderAgenda.id_agenda;
 
       try {
-        // Ubah status reminder
-        // menjadi DIKONFIRMASI di database.
         await confirmAgendaReminder(
           reminderId
         );
 
-        // Ambil kembali data terbaru.
+
         await loadAgenda();
 
-        // Tutup popup.
+
         setShowReminder(false);
 
-        // Masukkan ID ke dismissed
-        // supaya tidak muncul kembali.
+
+
         setDismissedReminderIds(
           (previous) => {
             if (
@@ -694,18 +610,10 @@ function Agenda() {
   return (
     <div className="agenda-page">
 
-      {/* ================================
-          SIDEBAR
-      ================================= */}
-
       <SideBar
         isOpen={sidebarOpen}
         onClose={closeSidebar}
       />
-
-      {/* ================================
-          MAIN
-      ================================= */}
 
       <main className="agenda-main">
 
@@ -729,10 +637,6 @@ function Agenda() {
 
         <section className="agenda-content">
 
-          {/* ================================
-              TOMBOL TAMBAH
-          ================================= */}
-
           <div className="agenda-top-action">
 
             <button
@@ -749,10 +653,6 @@ function Agenda() {
             </button>
 
           </div>
-
-          {/* ================================
-              TABLE CARD
-          ================================= */}
 
           <div className="agenda-table-card">
 
@@ -832,10 +732,6 @@ function Agenda() {
               </div>
 
             </div>
-
-            {/* ================================
-                TABLE
-            ================================= */}
 
             <div className="table-scroll">
 
@@ -1074,10 +970,6 @@ function Agenda() {
 
             </div>
 
-            {/* ================================
-                FOOTER
-            ================================= */}
-
             <div className="table-footer">
 
               <p>
@@ -1197,10 +1089,6 @@ function Agenda() {
         </section>
 
       </main>
-
-      {/* ==================================================
-          POPUP REMINDER
-      ================================================== */}
 
       {showReminder &&
         reminderAgenda && (
@@ -1337,10 +1225,6 @@ function Agenda() {
 
               <div className="agenda-reminder-actions">
 
-                {/* ================================
-                    TUNDA
-                ================================= */}
-
                 <button
                   type="button"
                   className="agenda-reminder-later"
@@ -1360,10 +1244,6 @@ function Agenda() {
                   </span>
 
                 </button>
-
-                {/* ================================
-                    KONFIRMASI
-                ================================= */}
 
                 <button
                   type="button"

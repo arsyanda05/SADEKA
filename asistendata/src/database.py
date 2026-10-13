@@ -39,7 +39,7 @@ def load_database_url():
                 if line.startswith("DATABASE_URL="):
                     value = line.split("=", 1)[1].strip()
 
-                    # Menghapus tanda kutip jika ada
+
                     if (
                         len(value) >= 2
                         and value[0] == value[-1]

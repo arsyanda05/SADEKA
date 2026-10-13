@@ -11,10 +11,10 @@ function DetailUMKM({
 }) {
   const navigate = useNavigate();
 
-  /*
-   * Data UMKM berasal dari parent
-   * yang mengambil data dari database.
-   */
+
+
+
+
   const resolvedData = data ?? null;
 
   if (!resolvedData) {
@@ -22,11 +22,11 @@ function DetailUMKM({
   }
 
 
-  /*
-   * ==============================
-   * STATUS NIB
-   * ==============================
-   */
+
+
+
+
+
 
   const hasNib =
     Boolean(
@@ -36,11 +36,11 @@ function DetailUMKM({
     );
 
 
-  /*
-   * ==============================
-   * CLOSE
-   * ==============================
-   */
+
+
+
+
+
 
   const handleClose = () => {
     if (onClose) {
@@ -52,17 +52,17 @@ function DetailUMKM({
   };
 
 
-  /*
-   * ==============================
-   * EDIT
-   * ==============================
-   */
+
+
+
+
+
 
   const handleEdit = () => {
-    /*
-     * Gunakan ID dari database,
-     * bukan nomor tabel/dummy.
-     */
+
+
+
+
 
     if (!resolvedData.id_umkm) {
       console.error(
@@ -79,17 +79,17 @@ function DetailUMKM({
   };
 
 
-  /*
-   * ==============================
-   * DELETE
-   * ==============================
-   */
+
+
+
+
+
 
   const handleDelete = () => {
-    /*
-     * Proses delete diserahkan
-     * kepada parent UMKM.
-     */
+
+
+
+
 
     if (onDelete) {
       onDelete(resolvedData);
@@ -102,11 +102,11 @@ function DetailUMKM({
   };
 
 
-  /*
-   * ==============================
-   * RETURN
-   * ==============================
-   */
+
+
+
+
+
 
   return (
     <div
@@ -120,9 +120,9 @@ function DetailUMKM({
         }
       >
 
-        {/* =================================================
-            HEADER
-        ================================================= */}
+
+
+
 
         <div className="detail-umkm-header">
 
@@ -142,9 +142,9 @@ function DetailUMKM({
         </div>
 
 
-        {/* =================================================
-            INFORMASI UTAMA
-        ================================================= */}
+
+
+
 
         <div className="detail-umkm-main-card">
 
@@ -165,7 +165,7 @@ function DetailUMKM({
             </div>
 
 
-            {/* STATUS NIB */}
+
 
             <span
               className={
@@ -183,7 +183,7 @@ function DetailUMKM({
           </div>
 
 
-          {/* JENIS USAHA */}
+
 
           <div className="detail-umkm-type">
 
@@ -197,9 +197,9 @@ function DetailUMKM({
         </div>
 
 
-        {/* =================================================
-            DATA USAHA
-        ================================================= */}
+
+
+
 
         <div className="detail-umkm-card">
 
@@ -211,7 +211,7 @@ function DetailUMKM({
           <div className="detail-umkm-data-list">
 
 
-            {/* NAMA USAHA */}
+
 
             <div className="detail-umkm-row">
 
@@ -227,7 +227,7 @@ function DetailUMKM({
             </div>
 
 
-            {/* PEMILIK */}
+
 
             <div className="detail-umkm-row">
 
@@ -243,7 +243,7 @@ function DetailUMKM({
             </div>
 
 
-            {/* JENIS USAHA */}
+
 
             <div className="detail-umkm-row">
 
@@ -259,7 +259,7 @@ function DetailUMKM({
             </div>
 
 
-            {/* NIB */}
+
 
             <div className="detail-umkm-row">
 
@@ -275,7 +275,7 @@ function DetailUMKM({
             </div>
 
 
-            {/* RW */}
+
 
             <div className="detail-umkm-row">
 
@@ -291,7 +291,7 @@ function DetailUMKM({
             </div>
 
 
-            {/* RT */}
+
 
             <div className="detail-umkm-row">
 
@@ -307,7 +307,7 @@ function DetailUMKM({
             </div>
 
 
-            {/* ALAMAT */}
+
 
             <div className="detail-umkm-row detail-umkm-address-row">
 
@@ -327,14 +327,14 @@ function DetailUMKM({
         </div>
 
 
-        {/* =================================================
-            ACTION
-        ================================================= */}
+
+
+
 
         <div className="detail-umkm-actions">
 
 
-          {/* EDIT */}
+
 
           <button
             type="button"
@@ -353,7 +353,7 @@ function DetailUMKM({
           </button>
 
 
-          {/* DELETE */}
+
 
           <button
             type="button"

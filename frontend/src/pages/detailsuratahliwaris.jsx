@@ -2,13 +2,11 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Header from "./header";
 import pdfIcon from "../assets/pdf.png";
+import { API_URL, getBackendFileUrl } from "../services/api";
 
-const API_URL = "http://localhost:5000/api";
-const SERVER_URL = "http://localhost:5000";
 
-/* =========================
-   TAHAP TRACKING
-========================= */
+
+
 const tahapList = [
   {
     key: "Diterima oleh Kelurahan",
@@ -36,9 +34,9 @@ const tahapList = [
   },
 ];
 
-/* =========================
-   FORMAT TANGGAL
-========================= */
+
+
+
 const formatTanggal = (tanggal) => {
   if (!tanggal) {
     return "-";
@@ -57,9 +55,9 @@ const formatTanggal = (tanggal) => {
   });
 };
 
-/* =========================
-   FORMAT TANGGAL + JAM
-========================= */
+
+
+
 const formatTanggalJam = (tanggal) => {
   if (!tanggal) {
     return null;
@@ -81,9 +79,9 @@ const formatTanggalJam = (tanggal) => {
   })}`;
 };
 
-/* =========================
-   NORMALISASI RESPONSE
-========================= */
+
+
+
 const getResponseData = (result) => {
   if (
     result &&
@@ -100,21 +98,21 @@ function DetailSuratAhliWaris({ data, onClose }) {
   const navigate = useNavigate();
   const { id: routeId } = useParams();
 
-  /* =========================
-     ID SURAT
-     
-     Bisa berasal dari:
-     1. URL /surat-ahli-waris/:id
-     2. data dari halaman sebelumnya
-  ========================= */
+
+
+
+
+
+
+
   const suratId =
     routeId ||
     data?.id_surat_ahli_waris ||
     data?.id;
 
-  /* =========================
-     STATE
-  ========================= */
+
+
+
   const [detailData, setDetailData] = useState(
     data || null
   );
@@ -136,9 +134,9 @@ function DetailSuratAhliWaris({ data, onClose }) {
   const [errorMessage, setErrorMessage] =
     useState("");
 
-  /* =========================
-     LOAD DATA DETAIL
-  ========================= */
+
+
+
   useEffect(() => {
     const loadDetail = async () => {
       try {
@@ -147,9 +145,9 @@ function DetailSuratAhliWaris({ data, onClose }) {
 
         let suratData = null;
 
-        /* =========================
-           AMBIL DETAIL DARI DATABASE
-        ========================= */
+
+
+
         if (suratId) {
           const response = await fetch(
             `${API_URL}/surat-ahli-waris/${suratId}`
@@ -167,9 +165,9 @@ function DetailSuratAhliWaris({ data, onClose }) {
           suratData = getResponseData(result);
         }
 
-        /* =========================
-           FALLBACK DATA DARI PROPS
-        ========================= */
+
+
+
         if (!suratData) {
           suratData = data || null;
         }
@@ -185,9 +183,9 @@ function DetailSuratAhliWaris({ data, onClose }) {
           suratData
         );
 
-        /* =========================
-           AMBIL DATA PENDUDUK
-        ========================= */
+
+
+
         const pendudukResponse = await fetch(
           `${API_URL}/penduduk`
         );
@@ -230,9 +228,9 @@ function DetailSuratAhliWaris({ data, onClose }) {
     loadDetail();
   }, [suratId, data]);
 
-  /* =========================
-     LOAD TRACKING
-  ========================= */
+
+
+
   useEffect(() => {
     const loadTracking = async () => {
       if (!suratId) {
@@ -280,9 +278,9 @@ function DetailSuratAhliWaris({ data, onClose }) {
     loadTracking();
   }, [suratId]);
 
-  /* =========================
-     LOAD DOKUMEN
-  ========================= */
+
+
+
   useEffect(() => {
     const loadDokumen = async () => {
       if (!suratId) {
@@ -330,9 +328,9 @@ function DetailSuratAhliWaris({ data, onClose }) {
     loadDokumen();
   }, [suratId]);
 
-  /* =========================
-     DOKUMEN AKTIF
-  ========================= */
+
+
+
   const dokumenAktif = useMemo(() => {
     if (!dokumenData.length) {
       return null;
@@ -341,26 +339,26 @@ function DetailSuratAhliWaris({ data, onClose }) {
     return dokumenData[0];
   }, [dokumenData]);
 
-  /* =========================
-     DATA PEWARIS
-     
-     PENTING:
-     id_penduduk pada SuratAhliWaris
-     = ID PEWARIS
-  ========================= */
+
+
+
+
+
+
+
   const pewarisData = useMemo(() => {
     if (!detailData) {
       return null;
     }
 
-    /* Prioritas pertama:
-       data penduduk yang langsung dikirim backend */
+
+
     if (detailData.penduduk) {
       return detailData.penduduk;
     }
 
-    /* Fallback:
-       cari berdasarkan id_penduduk */
+
+
     const idPenduduk = Number(
       detailData.id_penduduk
     );
@@ -378,13 +376,13 @@ function DetailSuratAhliWaris({ data, onClose }) {
     );
   }, [detailData, pendudukData]);
 
-  /* =========================
-     DATA AHLI WARIS
-     
-     PENTING:
-     detailData.ahliWaris.id_penduduk
-     = ID AHLI WARIS
-  ========================= */
+
+
+
+
+
+
+
   const ahliWarisData = useMemo(() => {
     if (!detailData) {
       return null;
@@ -397,10 +395,10 @@ function DetailSuratAhliWaris({ data, onClose }) {
       return null;
     }
 
-    /* =========================
-       JIKA BACKEND SUDAH
-       MENGEMBALIKAN DATA LENGKAP
-    ========================= */
+
+
+
+
     if (
       typeof ahliWaris === "object"
     ) {
@@ -409,7 +407,7 @@ function DetailSuratAhliWaris({ data, onClose }) {
           ahliWaris.id_penduduk
         );
 
-      /* Cari data terbaru dari tabel Penduduk */
+
       if (idPendudukAhliWaris) {
         const pendudukAhliWaris =
           pendudukData.find(
@@ -422,8 +420,8 @@ function DetailSuratAhliWaris({ data, onClose }) {
           return {
             ...pendudukAhliWaris,
 
-            /* Jangan sampai hubungan
-               dari database hilang */
+
+
             hubungan:
               ahliWaris.hubungan ||
               "-",
@@ -437,39 +435,39 @@ function DetailSuratAhliWaris({ data, onClose }) {
         }
       }
 
-      /* Kalau data Penduduk tidak ditemukan,
-         tetap gunakan data dari backend */
+
+
       return ahliWaris;
     }
 
     return null;
   }, [detailData, pendudukData]);
 
-  /* =========================
-     DATA DETAIL YANG DITAMPILKAN
-  ========================= */
+
+
+
   const resolvedData = useMemo(() => {
     if (!detailData) {
       return null;
     }
 
-    /* =========================
-       PEWARIS
-    ========================= */
+
+
+
     const pewaris =
       pewarisData ||
       null;
 
-    /* =========================
-       AHLI WARIS
-    ========================= */
+
+
+
     const ahliWaris =
       ahliWarisData ||
       null;
 
-    /* =========================
-       DOKUMEN
-    ========================= */
+
+
+
     const namaFileDokumen =
       dokumenAktif?.nama_dokumen_file ||
       detailData.nama_dokumen_file ||
@@ -482,10 +480,10 @@ function DetailSuratAhliWaris({ data, onClose }) {
       detailData.path_file ||
       "";
 
-    /* =========================
-       TEMPAT TANGGAL LAHIR
-       AHLI WARIS
-    ========================= */
+
+
+
+
     let tempatTanggalLahirAhliWaris =
       "-";
 
@@ -527,9 +525,9 @@ function DetailSuratAhliWaris({ data, onClose }) {
         detailData.tahap ||
         "-",
 
-      /* =========================
-         DATA PEWARIS
-      ========================= */
+
+
+
       namaPewaris:
         pewaris?.nama ||
         "-",
@@ -538,9 +536,9 @@ function DetailSuratAhliWaris({ data, onClose }) {
         pewaris?.nik ||
         "-",
 
-      /* =========================
-         DATA AHLI WARIS
-      ========================= */
+
+
+
       ahliWaris:
         ahliWaris?.nama ||
         "-",
@@ -573,9 +571,9 @@ function DetailSuratAhliWaris({ data, onClose }) {
         ahliWaris?.alamat ||
         "-",
 
-      /* =========================
-         DOKUMEN
-      ========================= */
+
+
+
       file:
         namaFileDokumen ||
         "-",
@@ -591,9 +589,9 @@ function DetailSuratAhliWaris({ data, onClose }) {
     suratId,
   ]);
 
-  /* =========================
-     TRACKING DIKELOMPOKKAN
-  ========================= */
+
+
+
   const trackingByStage = useMemo(() => {
     const result = {};
 
@@ -621,9 +619,9 @@ function DetailSuratAhliWaris({ data, onClose }) {
     return result;
   }, [trackingData]);
 
-  /* =========================
-     INDEX TAHAP AKTIF
-  ========================= */
+
+
+
   const activeStageIndex = useMemo(() => {
     if (!detailData?.tahap) {
       return -1;
@@ -639,9 +637,9 @@ function DetailSuratAhliWaris({ data, onClose }) {
     );
   }, [detailData]);
 
-  /* =========================
-     STATUS TRACKING
-  ========================= */
+
+
+
   const getTrackingStatus = (index) => {
     const tahap = tahapList[index];
 
@@ -668,9 +666,9 @@ function DetailSuratAhliWaris({ data, onClose }) {
     return "pending";
   };
 
-  /* =========================
-     AMBIL WAKTU TRACKING
-  ========================= */
+
+
+
   const getTrackingDate = (index) => {
     const tahap = tahapList[index];
 
@@ -686,9 +684,9 @@ function DetailSuratAhliWaris({ data, onClose }) {
     );
   };
 
-  /* =========================
-     HANDLE KEMBALI
-  ========================= */
+
+
+
   const handleBack = () => {
     if (onClose) {
       onClose();
@@ -698,9 +696,9 @@ function DetailSuratAhliWaris({ data, onClose }) {
     navigate("/surat-ahli-waris");
   };
 
-  /* =========================
-     BUKA BERKAS
-  ========================= */
+
+
+
   const handleOpenFile = () => {
     if (dokumenLoading) {
       alert(
@@ -716,7 +714,7 @@ function DetailSuratAhliWaris({ data, onClose }) {
       return;
     }
 
-    let fileUrl = "";
+    let fileUrl;
 
     if (
       resolvedData.pathFile.startsWith(
@@ -733,8 +731,7 @@ function DetailSuratAhliWaris({ data, onClose }) {
         "/uploads/"
       )
     ) {
-      fileUrl =
-        `${SERVER_URL}${resolvedData.pathFile}`;
+      fileUrl = getBackendFileUrl(resolvedData.pathFile);
     } else {
       const filename =
         resolvedData.pathFile
@@ -750,10 +747,9 @@ function DetailSuratAhliWaris({ data, onClose }) {
         return;
       }
 
-      fileUrl =
-        `${SERVER_URL}/uploads/surat-ahli-waris/${encodeURIComponent(
-          filename
-        )}`;
+      fileUrl = getBackendFileUrl(
+        `/uploads/surat-ahli-waris/${encodeURIComponent(filename)}`
+      );
     }
 
     window.open(
@@ -763,9 +759,9 @@ function DetailSuratAhliWaris({ data, onClose }) {
     );
   };
 
-  /* =========================
-     LOADING
-  ========================= */
+
+
+
   if (loading) {
     return (
       <div className="detail-saw-page">
@@ -788,9 +784,9 @@ function DetailSuratAhliWaris({ data, onClose }) {
     );
   }
 
-  /* =========================
-     ERROR
-  ========================= */
+
+
+
   if (
     errorMessage ||
     !resolvedData
@@ -830,18 +826,18 @@ function DetailSuratAhliWaris({ data, onClose }) {
   return (
     <div className="detail-saw-page">
 
-      {/* ================= HEADER ================= */}
+
 
       <Header
         title="Surat Ahli Waris"
         showSearch={false}
       />
 
-      {/* ================= CONTENT ================= */}
+
 
       <main className="detail-saw-content">
 
-        {/* TOMBOL KEMBALI */}
+
 
         <div className="detail-saw-back-wrapper">
 
@@ -857,13 +853,13 @@ function DetailSuratAhliWaris({ data, onClose }) {
 
         <div className="detail-saw-layout">
 
-          {/* ================= KOLOM KIRI ================= */}
+
 
           <div className="detail-saw-left">
 
-            {/* =================
-                INFORMASI PENGAJUAN
-            ================= */}
+
+
+
 
             <section className="detail-saw-card">
 
@@ -982,9 +978,9 @@ function DetailSuratAhliWaris({ data, onClose }) {
 
             </section>
 
-            {/* =================
-                DATA AHLI WARIS
-            ================= */}
+
+
+
 
             <section className="detail-saw-card detail-saw-person-card">
 
@@ -1074,9 +1070,9 @@ function DetailSuratAhliWaris({ data, onClose }) {
 
           </div>
 
-          {/* =================
-              KOLOM KANAN
-          ================= */}
+
+
+
 
           <section className="detail-saw-tracking">
 
@@ -1126,7 +1122,7 @@ function DetailSuratAhliWaris({ data, onClose }) {
                         key={tahap.key}
                       >
 
-                        {/* GARIS TRACKING */}
+
 
                         {index <
                           tahapList.length -
@@ -1134,7 +1130,7 @@ function DetailSuratAhliWaris({ data, onClose }) {
                           <div className="tracking-line"></div>
                         )}
 
-                        {/* CIRCLE */}
+
 
                         <div
                           className={`tracking-circle ${
@@ -1150,7 +1146,7 @@ function DetailSuratAhliWaris({ data, onClose }) {
                             : index + 1}
                         </div>
 
-                        {/* CONTENT */}
+
 
                         <div className="tracking-content">
 

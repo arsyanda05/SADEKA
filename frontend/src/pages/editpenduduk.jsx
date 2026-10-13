@@ -43,18 +43,18 @@ const toDateInputValue = (dateValue) => {
     return "";
   }
 
-  // Jika sudah dalam format YYYY-MM-DD
+
   if (/^\d{4}-\d{2}-\d{2}$/.test(dateValue)) {
     return dateValue;
   }
 
-  // Jika berupa tanggal ISO dari PostgreSQL
+
   if (typeof dateValue === "string" && dateValue.includes("T")) {
     return dateValue.split("T")[0];
   }
 
-  // Jika berupa format seperti:
-  // 01 Januari 2001
+
+
   const [day, month, year] = dateValue.split(" ");
   const monthNumber = monthNames[month];
 
@@ -69,7 +69,7 @@ const mapPendudukToForm = (penduduk) => {
     penduduk?.jenisKelamin ||
     "";
 
-  // Menyesuaikan data dengan value dropdown
+
   if (jenisKelamin === "Laki-laki") {
     jenisKelamin = "L";
   }
@@ -112,9 +112,9 @@ function EditPenduduk() {
     }));
   };
 
-  // ==============================
-  // SIMPAN PERUBAHAN DATA
-  // ==============================
+
+
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -160,9 +160,9 @@ function EditPenduduk() {
     }
   };
 
-  // ==============================
-  // HAPUS DATA
-  // ==============================
+
+
+
   const handleDelete = () => {
     const confirmed = window.confirm(
       `Hapus data penduduk ${formData.nama || "ini"}?`
@@ -182,7 +182,7 @@ function EditPenduduk() {
 
       <main className="tambah-penduduk-content">
 
-        {/* TOMBOL KEMBALI */}
+
         <div className="tambah-penduduk-back-wrapper">
           <button
             type="button"
@@ -201,7 +201,7 @@ function EditPenduduk() {
           </button>
         </div>
 
-        {/* FORM EDIT */}
+
         <form
           className="tambah-penduduk-form"
           onSubmit={handleSubmit}
@@ -214,7 +214,7 @@ function EditPenduduk() {
 
             <div className="tambah-penduduk-form-grid">
 
-              {/* NIK */}
+
               <div className="tambah-penduduk-form-group">
                 <label htmlFor="nik">
                   NIK (Nomor Induk Kependudukan)
@@ -229,7 +229,7 @@ function EditPenduduk() {
                 />
               </div>
 
-              {/* NAMA */}
+
               <div className="tambah-penduduk-form-group">
                 <label htmlFor="nama">
                   Nama Lengkap
@@ -244,7 +244,7 @@ function EditPenduduk() {
                 />
               </div>
 
-              {/* TEMPAT LAHIR */}
+
               <div className="tambah-penduduk-form-group">
                 <label htmlFor="tempatLahir">
                   Tempat Lahir
@@ -259,7 +259,7 @@ function EditPenduduk() {
                 />
               </div>
 
-              {/* TANGGAL LAHIR */}
+
               <div className="tambah-penduduk-form-group">
                 <label htmlFor="tanggalLahir">
                   Tanggal Lahir
@@ -275,7 +275,7 @@ function EditPenduduk() {
                 />
               </div>
 
-              {/* JENIS KELAMIN */}
+
               <div className="tambah-penduduk-form-group">
                 <label htmlFor="jenisKelamin">
                   Jenis Kelamin
@@ -306,7 +306,7 @@ function EditPenduduk() {
                 </select>
               </div>
 
-              {/* ALAMAT */}
+
               <div className="tambah-penduduk-form-group tambah-penduduk-full-width">
                 <label htmlFor="alamat">
                   Alamat Domisili
@@ -321,7 +321,7 @@ function EditPenduduk() {
                 />
               </div>
 
-              {/* RT */}
+
               <div className="tambah-penduduk-form-group tambah-penduduk-small-field">
                 <label htmlFor="rt">
                   RT
@@ -336,7 +336,7 @@ function EditPenduduk() {
                 />
               </div>
 
-              {/* RW */}
+
               <div className="tambah-penduduk-form-group tambah-penduduk-small-field">
                 <label htmlFor="rw">
                   RW
@@ -351,7 +351,7 @@ function EditPenduduk() {
                 />
               </div>
 
-              {/* STATUS */}
+
               <div className="tambah-penduduk-form-group tambah-penduduk-status-field">
                 <label htmlFor="status">
                   Status
@@ -393,7 +393,7 @@ function EditPenduduk() {
             </div>
           </section>
 
-          {/* STATUS PENGISIAN DAN TOMBOL */}
+
           <section className="edit-penduduk-form-status">
 
             <div>
@@ -410,7 +410,7 @@ function EditPenduduk() {
               Terisi 100%
             </b>
 
-            {/* HAPUS */}
+
             <button
               type="button"
               className="edit-penduduk-delete-button"
@@ -424,7 +424,7 @@ function EditPenduduk() {
               Hapus Data Penduduk
             </button>
 
-            {/* SIMPAN */}
+
             <button
               type="submit"
               className="edit-penduduk-save-button"

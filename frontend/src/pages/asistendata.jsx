@@ -52,9 +52,9 @@ function AsistenData() {
       if (countMatch) {
         const jumlah = Number(countMatch[1]);
 
-        /*
-         * Pertanyaan jumlah penduduk berdasarkan RW
-         */
+
+
+
         const rwMatch =
           lowerQuestion.match(
             /rw\s*0*(\d+)/i
@@ -73,9 +73,9 @@ function AsistenData() {
           )} jiwa.`;
         }
 
-        /*
-         * Jumlah seluruh penduduk
-         */
+
+
+
         if (
           lowerQuestion.includes("penduduk")
         ) {
@@ -104,9 +104,9 @@ function AsistenData() {
       return;
     }
 
-    /*
-     * Tambahkan pertanyaan user ke chat
-     */
+
+
+
     const userMessage = {
       id: Date.now(),
       type: "user",
@@ -151,9 +151,9 @@ function AsistenData() {
         cleanQuestion
       );
 
-      /*
-       * Simpan hasil dari backend
-       */
+
+
+
       const assistantMessage = {
         id: Date.now() + 1,
         type: "assistant",
@@ -373,9 +373,6 @@ function AsistenData() {
           width: "100%",
         }}
       >
-        {/* ================================================
-            JUDUL
-        ================================================= */}
 
         <div
           style={{
@@ -387,10 +384,6 @@ function AsistenData() {
         >
           {judul}
         </div>
-
-        {/* ================================================
-            TABLE
-        ================================================= */}
 
         <div
           style={{
@@ -455,7 +448,7 @@ function AsistenData() {
                   <tr
                     key={rowIndex}
                   >
-                    {/* NO */}
+
                     <td
                       style={{
                         border:
@@ -512,9 +505,9 @@ function AsistenData() {
           </table>
         </div>
 
-        {/* ================================================
-            FOOTER
-        ================================================= */}
+
+
+
 
         <div
           style={{
@@ -772,10 +765,10 @@ function AsistenData() {
       return null;
     }
 
-    /*
-     * Khusus UMKM gunakan
-     * desain seperti gambar kedua.
-     */
+
+
+
+
     if (
       isUMKMResult(message)
     ) {
@@ -784,10 +777,10 @@ function AsistenData() {
       );
     }
 
-    /*
-     * Data selain UMKM
-     * menggunakan tabel umum.
-     */
+
+
+
+
     return renderGeneralTable(
       message
     );
@@ -795,9 +788,9 @@ function AsistenData() {
 
   return (
     <div className="asisten-page">
-      {/* =====================================================
-          SIDEBAR
-      ===================================================== */}
+
+
+
 
       <SideBar
         isOpen={sidebarOpen}
@@ -806,9 +799,9 @@ function AsistenData() {
         }
       />
 
-      {/* =====================================================
-          HEADER
-      ===================================================== */}
+
+
+
 
       <Header
         title="Asisten Data"
@@ -820,12 +813,12 @@ function AsistenData() {
         }
       />
 
-      {/* =====================================================
-          CONTENT
-      ===================================================== */}
+
+
+
 
       <main className="asisten-content">
-        {/* INFO */}
+
         <button
           className="asisten-info-button"
           type="button"
@@ -837,9 +830,9 @@ function AsistenData() {
           i
         </button>
 
-        {/* ===================================================
-            CONTOH PERTANYAAN
-        =================================================== */}
+
+
+
 
         {messages.length === 0 && (
           <section className="contoh-pertanyaan-card">
@@ -888,9 +881,9 @@ function AsistenData() {
           </section>
         )}
 
-        {/* ===================================================
-            WELCOME
-        =================================================== */}
+
+
+
 
         {messages.length === 0 && (
           <section className="asisten-center">
@@ -920,9 +913,9 @@ function AsistenData() {
           </section>
         )}
 
-        {/* ===================================================
-            CHAT
-        =================================================== */}
+
+
+
 
         {messages.length > 0 && (
           <section
@@ -942,7 +935,7 @@ function AsistenData() {
           >
             {messages.map(
               (message) => {
-                /* USER */
+
                 if (
                   message.type ===
                   "user"
@@ -989,7 +982,7 @@ function AsistenData() {
                   );
                 }
 
-                /* ASISTEN */
+
                 return (
                   <div
                     key={
@@ -1012,7 +1005,7 @@ function AsistenData() {
                           "1050px",
                       }}
                     >
-                      {/* JAWABAN */}
+
                       {message.text && (
                         <div
                           style={{
@@ -1042,7 +1035,7 @@ function AsistenData() {
                         </div>
                       )}
 
-                      {/* TABEL */}
+
                       {renderDataResult(
                         message
                       )}
@@ -1052,7 +1045,7 @@ function AsistenData() {
               }
             )}
 
-            {/* LOADING */}
+
             {loading && (
               <div
                 style={{
@@ -1088,9 +1081,9 @@ function AsistenData() {
           </section>
         )}
 
-        {/* ===================================================
-            INPUT
-        =================================================== */}
+
+
+
 
         <form
           className="asisten-question-form"
@@ -1129,9 +1122,9 @@ function AsistenData() {
           </button>
         </form>
 
-        {/* ===================================================
-            TENTANG
-        =================================================== */}
+
+
+
 
         {tentangOpen && (
           <div

@@ -44,9 +44,9 @@ function ChevronDown() {
 }
 
 
-/* =========================================================
-   DONUT CHART
-========================================================= */
+
+
+
 
 function DonutChart({ data }) {
   const colors = [
@@ -88,10 +88,10 @@ function DonutChart({ data }) {
     const y =
       cy + radius * Math.sin(angle);
 
-    /*
-     * Jangan tampilkan persentase
-     * jika bagian grafik terlalu kecil.
-     */
+
+
+
+
     if (percent < 0.05) {
       return null;
     }
@@ -178,9 +178,9 @@ function DonutChart({ data }) {
 }
 
 
-/* =========================================================
-   BAR CHART
-========================================================= */
+
+
+
 
 function WilayahChart({ data }) {
   return (
@@ -246,9 +246,9 @@ function WilayahChart({ data }) {
 }
 
 
-/* =========================================================
-   MAIN
-========================================================= */
+
+
+
 
 function UMKM() {
   const navigate = useNavigate();
@@ -256,9 +256,9 @@ function UMKM() {
   const [sidebarOpen, setSidebarOpen] =
     useState(false);
 
-  /*
-   * DATA DARI DATABASE
-   */
+
+
+
   const [dataUMKM, setDataUMKM] =
     useState([]);
 
@@ -268,9 +268,9 @@ function UMKM() {
   const [errorMessage, setErrorMessage] =
     useState("");
 
-  /*
-   * FILTER
-   */
+
+
+
   const [search, setSearch] =
     useState("");
 
@@ -283,15 +283,15 @@ function UMKM() {
   const [selectedRT, setSelectedRT] =
     useState("");
 
-  /*
-   * DETAIL
-   */
+
+
+
   const [selectedUMKM, setSelectedUMKM] =
     useState(null);
 
-  /*
-   * DROPDOWN
-   */
+
+
+
   const [jenisOpen, setJenisOpen] =
     useState(false);
 
@@ -302,9 +302,9 @@ function UMKM() {
     useState(null);
 
 
-  /* =======================================================
-     DATA WILAYAH
-  ======================================================= */
+
+
+
 
   const wilayahData = {
     "01": ["01", "02", "03", "04", "05"],
@@ -325,9 +325,9 @@ function UMKM() {
   };
 
 
-  /* =======================================================
-     LOAD DATA UMKM
-  ======================================================= */
+
+
+
 
   const loadUMKM = async () => {
     try {
@@ -362,9 +362,9 @@ function UMKM() {
   }, []);
 
 
-  /* =======================================================
-     DATA JENIS USAHA
-  ======================================================= */
+
+
+
 
   const jenisUsahaOptions =
     useMemo(() => {
@@ -381,9 +381,9 @@ function UMKM() {
     }, [dataUMKM]);
 
 
-  /* =======================================================
-     FILTER DATA
-  ======================================================= */
+
+
+
 
   const filteredData = useMemo(() => {
     const keyword =
@@ -448,9 +448,9 @@ function UMKM() {
   ]);
 
 
-  /* =======================================================
-     STATISTIK
-  ======================================================= */
+
+
+
 
   const totalUMKM =
     dataUMKM.length;
@@ -473,9 +473,9 @@ function UMKM() {
     ).size;
 
 
-  /* =======================================================
-     DATA DONUT
-  ======================================================= */
+
+
+
 
   const jenisUsahaChart =
     useMemo(() => {
@@ -501,9 +501,9 @@ function UMKM() {
     }, [dataUMKM]);
 
 
-  /* =======================================================
-     DATA BAR CHART WILAYAH
-  ======================================================= */
+
+
+
 
   const wilayahChart =
     useMemo(() => {
@@ -534,9 +534,9 @@ function UMKM() {
     }, [dataUMKM]);
 
 
-  /* =======================================================
-     DELETE
-  ======================================================= */
+
+
+
 
   const handleDeleteUMKM = async (data) => {
     const id = data?.id_umkm;
@@ -582,9 +582,9 @@ function UMKM() {
   };
 
 
-  /* =======================================================
-     RETURN
-  ======================================================= */
+
+
+
 
   return (
     <div className="umkm-page">
@@ -611,16 +611,16 @@ function UMKM() {
       />
 
 
-      {/* =================================================
-          MAIN CONTENT
-      ================================================= */}
+
+
+
 
       <main className="umkm-main">
 
 
-        {/* =================================================
-            TAMBAH UMKM
-        ================================================= */}
+
+
+
 
         <div className="umkm-add-wrapper">
 
@@ -640,14 +640,14 @@ function UMKM() {
         </div>
 
 
-        {/* =================================================
-            STATISTICS
-        ================================================= */}
+
+
+
 
         <section className="umkm-statistics">
 
 
-          {/* TOTAL UMKM */}
+
 
           <div className="umkm-stat-card">
 
@@ -677,7 +677,7 @@ function UMKM() {
           </div>
 
 
-          {/* TOTAL NIB */}
+
 
           <div className="umkm-stat-card">
 
@@ -709,7 +709,7 @@ function UMKM() {
           </div>
 
 
-          {/* TOTAL JENIS */}
+
 
           <div className="umkm-stat-card">
 
@@ -741,9 +741,9 @@ function UMKM() {
         </section>
 
 
-        {/* =================================================
-            REKAP UMKM
-        ================================================= */}
+
+
+
 
         <section className="umkm-rekap">
 
@@ -757,7 +757,7 @@ function UMKM() {
           <div className="umkm-rekap-content">
 
 
-            {/* JENIS USAHA */}
+
 
             <div className="umkm-chart-column">
 
@@ -774,7 +774,7 @@ function UMKM() {
             </div>
 
 
-            {/* WILAYAH */}
+
 
             <div className="umkm-chart-column">
 
@@ -795,9 +795,9 @@ function UMKM() {
         </section>
 
 
-        {/* =================================================
-            DAFTAR UMKM
-        ================================================= */}
+
+
+
 
         <section className="umkm-list-card">
 
@@ -816,9 +816,9 @@ function UMKM() {
               </span>
 
 
-              {/* =================================================
-                  JENIS USAHA
-              ================================================= */}
+
+
+
 
               <div className="umkm-filter-dropdown">
 
@@ -887,9 +887,9 @@ function UMKM() {
               </div>
 
 
-              {/* =================================================
-                  WILAYAH
-              ================================================= */}
+
+
+
 
               <div className="umkm-filter-dropdown">
 
@@ -917,7 +917,7 @@ function UMKM() {
                 {wilayahOpen && (
                   <div className="umkm-dropdown-menu">
 
-                    {/* SEMUA WILAYAH */}
+
 
                     <div
                       className="wilayah-item"
@@ -940,7 +940,7 @@ function UMKM() {
                     </div>
 
 
-                    {/* RW */}
+
 
                     {Object.keys(
                       wilayahData
@@ -970,7 +970,7 @@ function UMKM() {
                           </span>
 
 
-                          {/* RT */}
+
 
                           {hoveredRW ===
                             rw && (
@@ -1023,9 +1023,9 @@ function UMKM() {
           </div>
 
 
-          {/* =================================================
-              ERROR
-          ================================================= */}
+
+
+
 
           {errorMessage && (
             <div className="umkm-error-message">
@@ -1034,9 +1034,9 @@ function UMKM() {
           )}
 
 
-          {/* =================================================
-              TABLE
-          ================================================= */}
+
+
+
 
           <div className="umkm-table-wrapper">
 
@@ -1160,9 +1160,9 @@ function UMKM() {
           </div>
 
 
-          {/* =================================================
-              FOOTER TABLE
-          ================================================= */}
+
+
+
 
           <div className="umkm-table-footer">
 
@@ -1235,9 +1235,9 @@ function UMKM() {
       </main>
 
 
-      {/* =================================================
-          DETAIL UMKM
-      ================================================= */}
+
+
+
 
       {selectedUMKM && (
         <DetailUMKM

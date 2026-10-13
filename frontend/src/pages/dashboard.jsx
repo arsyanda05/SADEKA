@@ -309,7 +309,6 @@ function Dashboard() {
           {administrasiOpen && (
             <div className="menu-group">
 
-              {/* Surat Masuk */}
               <NavLink
                 to="/surat-masuk"
                 className={({ isActive }) =>
@@ -320,7 +319,6 @@ function Dashboard() {
                 Surat Masuk
               </NavLink>
 
-              {/* Surat Keluar */}
               <NavLink
                 to="/surat-keluar"
                 className={({ isActive }) =>
@@ -352,7 +350,6 @@ function Dashboard() {
           {dataKelurahanOpen && (
             <div className="menu-group">
 
-              {/* Data Penduduk */}
               <NavLink
                 to="/data-penduduk"
                 className={({ isActive }) =>
@@ -363,7 +360,6 @@ function Dashboard() {
                 Data Penduduk
               </NavLink>
 
-              {/* Data Pegawai */}
               <NavLink
                 to="/data-pegawai"
                 className={({ isActive }) =>
@@ -396,12 +392,6 @@ function Dashboard() {
           >
             UMKM
           </NavLink>
-
-
-          {/* =================================================
-              MENU BIASA
-              INFRASTRUKTUR
-          ================================================= */}
           <NavLink
             to="/infrastruktur"
             className={({ isActive }) =>

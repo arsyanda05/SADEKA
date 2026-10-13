@@ -5,9 +5,9 @@ import { db } from "../prisma/db.js";
 
 const router = express.Router();
 
-/* =========================
-   HELPER ID
-========================= */
+
+
+
 const getValidId = (value) => {
   const id = Number(value);
 
@@ -18,32 +18,32 @@ const getValidId = (value) => {
   return id;
 };
 
-/* =========================
-   HELPER TANGGAL
-========================= */
+
+
+
 const getTanggal = (tanggal) => {
   if (!tanggal) {
     return null;
   }
 
   try {
-    // Jika format YYYY-MM-DD
+
     if (/^\d{4}-\d{2}-\d{2}$/.test(tanggal)) {
       return Temporal.Instant.from(
         `${tanggal}T00:00:00Z`
       );
     }
 
-    // Jika sudah ISO datetime
+
     return Temporal.Instant.from(tanggal);
   } catch (error) {
     return null;
   }
 };
 
-/* =========================
-   VALIDASI
-========================= */
+
+
+
 const validateTracking = (body) => {
   const {
     id_surat_ahli_waris,
@@ -80,9 +80,9 @@ const validateTracking = (body) => {
   return null;
 };
 
-/* =========================
-   TENTUKAN TAHAP DARI KETERANGAN
-========================= */
+
+
+
 const getTahapDariKeterangan = (
   keterangan
 ) => {
@@ -115,9 +115,9 @@ const getTahapDariKeterangan = (
   return null;
 };
 
-/* =========================
-   GET SEMUA TRACKING
-========================= */
+
+
+
 router.get("/", async (req, res) => {
   try {
     const data =
@@ -137,10 +137,10 @@ router.get("/", async (req, res) => {
   }
 });
 
-/* =========================
-   GET TRACKING BERDASARKAN SURAT
-   HARUS DITARUH SEBELUM /:id
-========================= */
+
+
+
+
 router.get(
   "/surat/:id",
   async (req, res) => {
@@ -178,9 +178,9 @@ router.get(
   }
 );
 
-/* =========================
-   GET DETAIL TRACKING
-========================= */
+
+
+
 router.get(
   "/:id",
   async (req, res) => {
@@ -225,9 +225,9 @@ router.get(
   }
 );
 
-/* =========================
-   POST TRACKING
-========================= */
+
+
+
 router.post("/", async (req, res) => {
   try {
     const validationError =
@@ -252,9 +252,9 @@ router.post("/", async (req, res) => {
     const waktuTracking =
       getTanggal(waktu);
 
-    /* =========================
-       CEK SURAT
-    ========================= */
+
+
+
     const surat =
       await db.orm.public.SuratAhliWaris
         .where({
@@ -269,9 +269,9 @@ router.post("/", async (req, res) => {
       });
     }
 
-    /* =========================
-       BUAT TRACKING
-    ========================= */
+
+
+
     const tracking =
       await db.orm.public.TrackingSurat.create(
         {
@@ -282,9 +282,9 @@ router.post("/", async (req, res) => {
         }
       );
 
-    /* =========================
-       UPDATE TAHAP SURAT
-    ========================= */
+
+
+
     const tahap =
       getTahapDariKeterangan(
         keterangan
@@ -295,10 +295,10 @@ router.post("/", async (req, res) => {
         tahap,
       };
 
-      /* =========================
-         JIKA SELESAI
-         ISI TANGGAL SELESAI
-      ========================= */
+
+
+
+
       if (tahap === "Selesai") {
         updateData.tanggal_selesai =
           waktuTracking;
@@ -330,9 +330,9 @@ router.post("/", async (req, res) => {
   }
 });
 
-/* =========================
-   PUT TRACKING
-========================= */
+
+
+
 router.put(
   "/:id",
   async (req, res) => {
@@ -370,9 +370,9 @@ router.put(
       const waktuTracking =
         getTanggal(waktu);
 
-      /* =========================
-         CEK TRACKING
-      ========================= */
+
+
+
       const existing =
         await db.orm.public.TrackingSurat
           .where({
@@ -387,9 +387,9 @@ router.put(
         });
       }
 
-      /* =========================
-         CEK SURAT
-      ========================= */
+
+
+
       const surat =
         await db.orm.public.SuratAhliWaris
           .where({
@@ -404,9 +404,9 @@ router.put(
         });
       }
 
-      /* =========================
-         UPDATE TRACKING
-      ========================= */
+
+
+
       const tracking =
         await db.orm.public.TrackingSurat
           .where({
@@ -419,9 +419,9 @@ router.put(
               keterangan.trim(),
           });
 
-      /* =========================
-         UPDATE TAHAP SURAT
-      ========================= */
+
+
+
       const tahap =
         getTahapDariKeterangan(
           keterangan
@@ -464,9 +464,9 @@ router.put(
   }
 );
 
-/* =========================
-   DELETE TRACKING
-========================= */
+
+
+
 router.delete(
   "/:id",
   async (req, res) => {

@@ -5,9 +5,9 @@ import json
 import joblib
 
 
-# ============================================================
-# PATH PROJECT
-# ============================================================
+
+
+
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 SRC_ROOT = Path(__file__).resolve().parent
@@ -17,9 +17,9 @@ for path in [str(PROJECT_ROOT), str(SRC_ROOT)]:
         sys.path.insert(0, path)
 
 
-# ============================================================
-# IMPORT MODULE
-# ============================================================
+
+
+
 
 try:
     from preprocess import preprocess_text
@@ -35,9 +35,9 @@ except ModuleNotFoundError:
     from src.validation import validate_question_scope
 
 
-# ============================================================
-# MODEL
-# ============================================================
+
+
+
 
 MODEL_PATH = (
     PROJECT_ROOT
@@ -50,9 +50,9 @@ model = joblib.load(MODEL_PATH)
 CONFIDENCE_THRESHOLD = 0.22
 
 
-# ============================================================
-# FALLBACK
-# ============================================================
+
+
+
 
 FALLBACK_MESSAGE = (
     "Maaf, saya belum bisa memahami pertanyaan ini. Coba ajukan "
@@ -61,9 +61,9 @@ FALLBACK_MESSAGE = (
 )
 
 
-# ============================================================
-# CEK PERTANYAAN JUMLAH
-# ============================================================
+
+
+
 
 def is_count_question(text):
     text = text.lower()
@@ -81,9 +81,9 @@ def is_count_question(text):
     )
 
 
-# ============================================================
-# PROSES PERTANYAAN
-# ============================================================
+
+
+
 
 def process_question(question):
     """
@@ -137,18 +137,18 @@ def process_question(question):
         "answer": None,
     }
 
-    # ========================================================
-    # OUT OF SCOPE BERDASARKAN MODEL
-    # ========================================================
+
+
+
 
     if is_out_of_scope:
         result["answer"] = FALLBACK_MESSAGE
 
         return result
 
-    # ========================================================
-    # VALIDASI SCOPE
-    # ========================================================
+
+
+
 
     if not validate_question_scope(
         question,
@@ -163,9 +163,9 @@ def process_question(question):
 
         return result
 
-    # ========================================================
-    # EKSTRAKSI PARAMETER
-    # ========================================================
+
+
+
 
     parameters = extract_parameters(
         question
@@ -175,9 +175,9 @@ def process_question(question):
         question
     )
 
-    # ========================================================
-    # BUILD QUERY
-    # ========================================================
+
+
+
 
     query, query_params = build_query(
         intent,
@@ -185,18 +185,18 @@ def process_question(question):
         count_only=count_only
     )
 
-    # ========================================================
-    # EXECUTE QUERY POSTGRESQL
-    # ========================================================
+
+
+
 
     columns, rows, error = execute_query(
         query,
         query_params
     )
 
-    # ========================================================
-    # SIMPAN HASIL
-    # ========================================================
+
+
+
 
     result["parameters"] = parameters
 
@@ -221,9 +221,9 @@ def process_question(question):
     return result
 
 
-# ============================================================
-# FORMAT JAWABAN
-# ============================================================
+
+
+
 
 def format_answer(
     intent,
@@ -276,9 +276,9 @@ def format_answer(
     )
 
 
-# ============================================================
-# MODE API
-# ============================================================
+
+
+
 
 def run_api_mode():
     """
@@ -346,9 +346,9 @@ def run_api_mode():
             question
         )
 
-        # ====================================================
-        # RESPONSE UNTUK EXPRESS
-        # ====================================================
+
+
+
 
         response = {
             "success": True,
@@ -425,9 +425,9 @@ def run_api_mode():
         )
 
 
-# ============================================================
-# MODE TERMINAL
-# ============================================================
+
+
+
 
 def run_terminal_mode():
     """
@@ -494,17 +494,17 @@ def run_terminal_mode():
         print()
 
 
-# ============================================================
-# MAIN
-# ============================================================
+
+
+
 
 if __name__ == "__main__":
 
-    # Jika dipanggil dengan:
-    #
-    # python assistant.py --api
-    #
-    # maka Python menggunakan mode API.
+
+
+
+
+
 
     if "--api" in sys.argv:
 

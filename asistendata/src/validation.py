@@ -1,8 +1,8 @@
 import re
 
 
-# Wilayah di luar cakupan database SADEKA.
-# Tambahkan nama wilayah lain jika memang diperlukan.
+
+
 OUT_OF_SCOPE_LOCATIONS = [
     "indonesia",
     "jawa timur",
@@ -27,20 +27,20 @@ def validate_question_scope(text, intent):
 
     text_lower = text.lower()
 
-    # ---------------------------------------------------------
-    # 1. Tolak pertanyaan yang secara eksplisit meminta
-    #    data wilayah di luar cakupan SADEKA.
-    # ---------------------------------------------------------
+
+
+
+
     for location in OUT_OF_SCOPE_LOCATIONS:
         pola = r"\b" + re.escape(location) + r"\b"
 
         if re.search(pola, text_lower):
             return False
 
-    # ---------------------------------------------------------
-    # 2. Pertanyaan tentang sejarah/berdirinya kelurahan
-    #    belum memiliki intent di Asisten Data.
-    # ---------------------------------------------------------
+
+
+
+
     unsupported_topics = [
         "berdiri",
         "didirikan",

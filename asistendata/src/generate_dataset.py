@@ -56,7 +56,7 @@ def sample(pool, n):
 def build_intent_sentences():
     data = {}
 
-    # ---------------- jumlah_penduduk ----------------
+
     tanya = ["Berapa", "Ada berapa", "Berapa banyak", "Tolong hitung", "Mohon info jumlah", "Bisa tampilkan jumlah", "Berapa total"]
     obj = ["jumlah penduduk", "jumlah warga", "penduduk yang terdaftar", "total penduduk", "warga yang tercatat"]
     gender = ["laki-laki", "perempuan"]
@@ -71,7 +71,7 @@ def build_intent_sentences():
         sentences.add(f"{t} penduduk berstatus {s}{l}?")
     data["jumlah_penduduk"] = sentences
 
-    # ---------------- data_penduduk ----------------
+
     tampil = ["Tampilkan", "Cari", "Lihat", "Mohon tampilkan", "Bisa tampilkan", "Tolong perlihatkan", "Cek data"]
     sentences = set()
     for t, l in product(tampil, sample(LOC, 15)):
@@ -88,7 +88,7 @@ def build_intent_sentences():
         sentences.add(f"Tampilkan data atas nama {nm}.")
     data["data_penduduk"] = sentences
 
-    # ---------------- data_kesejahteraan ----------------
+
     kategori = ["stunting", "ibu hamil", "putus sekolah", "beasiswa", "rutilahu"]
     sentences = set()
     for t, k, l in product(tampil, kategori, sample(LOC, 8)):
@@ -97,7 +97,7 @@ def build_intent_sentences():
         sentences.add(f"Siapa saja penerima {k}{l}?")
     data["data_kesejahteraan"] = sentences
 
-    # ---------------- data_umkm ----------------
+
     sentences = set()
     for t, l in product(tampil, sample(LOC, 15)):
         sentences.add(f"{t} data umkm{l}.")
@@ -107,7 +107,7 @@ def build_intent_sentences():
         sentences.add(f"Siapa saja pemilik umkm{l}?")
     data["data_umkm"] = sentences
 
-    # ---------------- data_infrastruktur ----------------
+
     jenis_infra = ["cctv", "pju", "penerangan jalan", "saluran"]
     kondisi = ["baik", "rusak", "sedang"]
     sentences = set()
@@ -118,7 +118,7 @@ def build_intent_sentences():
         sentences.add(f"{tampil[0]} {j} yang {k}{l}.")
     data["data_infrastruktur"] = sentences
 
-    # ---------------- data_pegawai ----------------
+
     jabatan = ["lurah", "sekretaris", "kasi pemerintahan", "kasi kesejahteraan", "kasi pelayanan", "staff"]
     sentences = set()
     for t in tampil:
@@ -130,7 +130,7 @@ def build_intent_sentences():
         sentences.add(f"Cari pegawai jabatan {j}.")
     data["data_pegawai"] = sentences
 
-    # ---------------- data_agenda ----------------
+
     kategori_agenda = ["rapat", "sosialisasi", "posyandu", "kerja bakti", "musyawarah"]
     sentences = set()
     for t in tampil:
@@ -144,7 +144,7 @@ def build_intent_sentences():
         sentences.add(f"Kapan jadwal {k} berikutnya?")
     data["data_agenda"] = sentences
 
-    # ---------------- data_surat ----------------
+
     jenis_surat = ["surat masuk", "surat keluar", "surat pengantar", "surat keterangan"]
     sentences = set()
     for t in tampil:
@@ -156,7 +156,7 @@ def build_intent_sentences():
         sentences.add(f"Cek daftar {j}.")
     data["data_surat"] = sentences
 
-    # ---------------- data_dokumen ----------------
+
     sentences = set()
     for t in tampil:
         sentences.add(f"{t} data dokumen.")
@@ -170,7 +170,7 @@ def build_intent_sentences():
     ])
     data["data_dokumen"] = sentences
 
-    # ---------------- data_ahli_waris ----------------
+
     hubungan = ["anak", "istri", "suami", "orang tua", "saudara"]
     sentences = set()
     for t in tampil:
@@ -184,7 +184,7 @@ def build_intent_sentences():
         sentences.add(f"Siapa ahli waris berstatus {h}?")
     data["data_ahli_waris"] = sentences
 
-    # ---------------- data_tracking_surat ----------------
+
     sentences = set()
     for t in tampil:
         sentences.add(f"{t} status pelacakan surat.")
@@ -198,7 +198,7 @@ def build_intent_sentences():
     ])
     data["data_tracking_surat"] = sentences
 
-    # ---------------- data_histori_penduduk ----------------
+
     sentences = set()
     for t in tampil:
         sentences.add(f"{t} riwayat perubahan status penduduk.")

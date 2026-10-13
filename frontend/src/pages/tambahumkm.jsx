@@ -88,16 +88,16 @@ function TambahUMKM() {
   return (
     <div className="tambah-umkm-page">
 
-      {/* HEADER */}
+
       <Header
         title="UMKM"
         showSearch={false}
       />
 
-      {/* CONTENT */}
+
       <main className="tambah-umkm-content">
 
-        {/* TOMBOL KEMBALI */}
+
         <div className="tambah-umkm-back-wrapper">
 
           <button
@@ -116,7 +116,7 @@ function TambahUMKM() {
 
         </div>
 
-        {/* FORM */}
+
         <section className="tambah-umkm-card">
 
           <div className="tambah-umkm-card-title">
@@ -138,13 +138,13 @@ function TambahUMKM() {
 
             <div className="tambah-umkm-form-grid">
 
-              {/* =========================================
-                  KOLOM KIRI
-              ========================================= */}
+
+
+
 
               <div className="tambah-umkm-column">
 
-                {/* NAMA USAHA */}
+
                 <div className="tambah-umkm-form-group">
 
                   <label htmlFor="namaUsaha">
@@ -169,7 +169,7 @@ function TambahUMKM() {
 
                 </div>
 
-                {/* PEMILIK */}
+
                 <div className="tambah-umkm-form-group">
 
                   <label htmlFor="pemilik">
@@ -194,7 +194,7 @@ function TambahUMKM() {
 
                 </div>
 
-                {/* JENIS USAHA */}
+
                 <div className="tambah-umkm-form-group">
 
                   <label htmlFor="jenisUsaha">
@@ -219,7 +219,7 @@ function TambahUMKM() {
 
                 </div>
 
-                {/* NIB */}
+
                 <div className="tambah-umkm-form-group">
 
                   <label htmlFor="nib">
@@ -246,13 +246,13 @@ function TambahUMKM() {
 
               </div>
 
-              {/* =========================================
-                  KOLOM KANAN
-              ========================================= */}
+
+
+
 
               <div className="tambah-umkm-column">
 
-                {/* RT */}
+
                 <div className="tambah-umkm-form-group">
 
                   <label htmlFor="rt">
@@ -277,7 +277,7 @@ function TambahUMKM() {
 
                 </div>
 
-                {/* RW */}
+
                 <div className="tambah-umkm-form-group">
 
                   <label htmlFor="rw">
@@ -302,7 +302,7 @@ function TambahUMKM() {
 
                 </div>
 
-                {/* ALAMAT */}
+
                 <div className="tambah-umkm-form-group tambah-umkm-alamat-group">
 
                   <label htmlFor="alamat">
@@ -330,7 +330,7 @@ function TambahUMKM() {
 
             </div>
 
-            {/* SIMPAN */}
+
             <div className="tambah-umkm-submit">
 
               <button

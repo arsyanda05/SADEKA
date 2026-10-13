@@ -12,14 +12,14 @@ import Header from "./header";
 import backIcon from "../assets/back.png";
 import simpanDataIcon from "../assets/simpandata.png";
 
-// =====================================================
-// INITIAL FORM DATA
-// =====================================================
+
+
+
 
 const initialFormData = {
-  // =========================
-  // BIODATA PEGAWAI
-  // =========================
+
+
+
 
   nip: "",
   nama: "",
@@ -30,17 +30,17 @@ const initialFormData = {
   telepon: "",
   alamat: "",
 
-  // =========================
-  // DOKUMEN PEGAWAI
-  // =========================
+
+
+
 
   jenisDokumen: "",
   dokumen: null,
   tanggalUpload: "",
 
-  // =========================
-  // RIWAYAT DIKLAT
-  // =========================
+
+
+
 
   namaDiklat: "",
   tanggalDiklat: "",
@@ -48,9 +48,9 @@ const initialFormData = {
   keteranganDiklat: "",
 };
 
-// =====================================================
-// COMPONENT
-// =====================================================
+
+
+
 
 function TambahPegawai() {
   const navigate = useNavigate();
@@ -61,9 +61,9 @@ function TambahPegawai() {
 
   const [isSaving, setIsSaving] = useState(false);
 
-  // =====================================================
-  // HANDLE INPUT
-  // =====================================================
+
+
+
 
   const handleChange = (event) => {
     const {
@@ -80,9 +80,9 @@ function TambahPegawai() {
     }));
   };
 
-  // =====================================================
-  // SIMPAN DATA
-  // =====================================================
+
+
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -94,9 +94,9 @@ function TambahPegawai() {
     try {
       setIsSaving(true);
 
-      // =================================================
-      // 1. SIMPAN BIODATA PEGAWAI
-      // =================================================
+
+
+
 
       const pegawai =
         await createPegawai({
@@ -123,9 +123,9 @@ function TambahPegawai() {
         pegawai
       );
 
-      // =================================================
-      // AMBIL ID PEGAWAI DARI RESPONSE BACKEND
-      // =================================================
+
+
+
 
       const idPegawai =
         pegawai?.data?.id_pegawai;
@@ -141,9 +141,9 @@ function TambahPegawai() {
         idPegawai
       );
 
-      // =================================================
-      // 2. SIMPAN DOKUMEN PEGAWAI
-      // =================================================
+
+
+
 
       if (
         formData.jenisDokumen &&
@@ -190,9 +190,9 @@ function TambahPegawai() {
         );
       }
 
-      // =================================================
-      // 3. SIMPAN RIWAYAT DIKLAT
-      // =================================================
+
+
+
 
       if (
         formData.namaDiklat &&
@@ -221,7 +221,7 @@ function TambahPegawai() {
           formData.keteranganDiklat || ""
         );
 
-        // Sertifikat bersifat opsional
+
         if (formData.sertifikat) {
           diklatFormData.append(
             "sertifikat",
@@ -244,9 +244,9 @@ function TambahPegawai() {
         );
       }
 
-      // =================================================
-      // 4. SELESAI
-      // =================================================
+
+
+
 
       alert(
         "Data pegawai berhasil disimpan!"
@@ -272,9 +272,9 @@ function TambahPegawai() {
     }
   };
 
-  // =====================================================
-  // RENDER
-  // =====================================================
+
+
+
 
   return (
     <div className="tambah-pegawai-page">
@@ -286,9 +286,9 @@ function TambahPegawai() {
 
       <main className="tambah-pegawai-content">
 
-        {/* ================================================= */}
-        {/* TOMBOL KEMBALI */}
-        {/* ================================================= */}
+
+
+
 
         <div className="tambah-pegawai-back-wrapper">
 
@@ -311,9 +311,9 @@ function TambahPegawai() {
 
         </div>
 
-        {/* ================================================= */}
-        {/* FORM */}
-        {/* ================================================= */}
+
+
+
 
         <form
           className="tambah-pegawai-form"
@@ -322,15 +322,15 @@ function TambahPegawai() {
 
           <div className="tambah-pegawai-layout">
 
-            {/* ================================================= */}
-            {/* KOLOM KIRI */}
-            {/* ================================================= */}
+
+
+
 
             <div className="tambah-pegawai-left-column">
 
-              {/* ================================================= */}
-              {/* BIODATA PEGAWAI */}
-              {/* ================================================= */}
+
+
+
 
               <section className="tambah-pegawai-card">
 
@@ -340,7 +340,7 @@ function TambahPegawai() {
 
                 <div className="tambah-pegawai-fields">
 
-                  {/* NIP */}
+
 
                   <div className="pegawai-field full-field">
 
@@ -360,7 +360,7 @@ function TambahPegawai() {
 
                   </div>
 
-                  {/* NAMA */}
+
 
                   <div className="pegawai-field full-field">
 
@@ -380,7 +380,7 @@ function TambahPegawai() {
 
                   </div>
 
-                  {/* STATUS */}
+
 
                   <div className="pegawai-field">
 
@@ -416,7 +416,7 @@ function TambahPegawai() {
 
                   </div>
 
-                  {/* JABATAN */}
+
 
                   <div className="pegawai-field">
 
@@ -436,7 +436,7 @@ function TambahPegawai() {
 
                   </div>
 
-                  {/* EMAIL DINAS */}
+
 
                   <div className="pegawai-field">
 
@@ -457,7 +457,7 @@ function TambahPegawai() {
 
                   </div>
 
-                  {/* EMAIL PRIBADI */}
+
 
                   <div className="pegawai-field">
 
@@ -476,7 +476,7 @@ function TambahPegawai() {
 
                   </div>
 
-                  {/* TELEPON */}
+
 
                   <div className="pegawai-field full-field">
 
@@ -497,7 +497,7 @@ function TambahPegawai() {
 
                   </div>
 
-                  {/* ALAMAT */}
+
 
                   <div className="pegawai-field full-field">
 
@@ -521,9 +521,9 @@ function TambahPegawai() {
 
               </section>
 
-              {/* ================================================= */}
-              {/* RIWAYAT DIKLAT */}
-              {/* ================================================= */}
+
+
+
 
               <section className="tambah-pegawai-card diklat-card">
 
@@ -533,7 +533,7 @@ function TambahPegawai() {
 
                 <div className="tambah-pegawai-fields">
 
-                  {/* NAMA DIKLAT */}
+
 
                   <div className="pegawai-field full-field">
 
@@ -551,7 +551,7 @@ function TambahPegawai() {
 
                   </div>
 
-                  {/* TANGGAL */}
+
 
                   <div className="pegawai-field full-field">
 
@@ -571,7 +571,7 @@ function TambahPegawai() {
 
                   </div>
 
-                  {/* KETERANGAN */}
+
 
                   <div className="pegawai-field full-field">
 
@@ -591,7 +591,7 @@ function TambahPegawai() {
 
                   </div>
 
-                  {/* SERTIFIKAT */}
+
 
                   <div className="pegawai-field full-field">
 
@@ -616,9 +616,9 @@ function TambahPegawai() {
 
             </div>
 
-            {/* ================================================= */}
-            {/* KOLOM KANAN - DOKUMEN */}
-            {/* ================================================= */}
+
+
+
 
             <section className="tambah-pegawai-card dokumen-card">
 
@@ -628,7 +628,7 @@ function TambahPegawai() {
 
               <div className="tambah-pegawai-fields">
 
-                {/* JENIS DOKUMEN */}
+
 
                 <div className="pegawai-field full-field">
 
@@ -648,7 +648,7 @@ function TambahPegawai() {
 
                 </div>
 
-                {/* FILE */}
+
 
                 <div className="pegawai-field full-field">
 
@@ -667,7 +667,7 @@ function TambahPegawai() {
 
                 </div>
 
-                {/* TANGGAL */}
+
 
                 <div className="pegawai-field full-field">
 
@@ -690,9 +690,9 @@ function TambahPegawai() {
               </div>
             </section>
             </div>
-          {/* ================================================= */}
-          {/* STATUS BAR */}
-          {/* ================================================= */}
+
+
+
 
           <section className="tambah-pegawai-status-bar">
 
@@ -721,7 +721,7 @@ function TambahPegawai() {
               Terisi 100%
             </span>
 
-            {/* SIMPAN */}
+
 
             <button
               type="submit"

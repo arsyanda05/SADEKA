@@ -119,7 +119,7 @@ function Header({
       )}
 
       <div className="global-header-right">
-        
+
         <div className="global-user-info">
           <div className="global-user-avatar">
             {profilePhoto ? (

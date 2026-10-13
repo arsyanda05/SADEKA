@@ -31,15 +31,15 @@ function TambahPenduduk() {
     }));
   };
 
-  // ==============================
-  // SIMPAN DATA PENDUDUK
-  // ==============================
+
+
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      // Mengubah nama field dari frontend
-      // ke nama field yang digunakan backend
+
+
       const data = {
         nik: formData.nik,
         nama: formData.nama,
@@ -54,12 +54,12 @@ function TambahPenduduk() {
 
       console.log("Data yang dikirim:", data);
 
-      // Mengirim data ke API POST
+
       await createPenduduk(data);
 
       alert("Data penduduk berhasil disimpan!");
 
-      // Kembali ke halaman Data Penduduk
+
       navigate("/data-penduduk");
     } catch (error) {
       console.error(
@@ -80,9 +80,9 @@ function TambahPenduduk() {
 
       <main className="tambah-penduduk-content">
 
-        {/* ==============================
-            TOMBOL KEMBALI
-        ============================== */}
+
+
+
         <div className="tambah-penduduk-back-wrapper">
           <button
             type="button"
@@ -101,9 +101,9 @@ function TambahPenduduk() {
           </button>
         </div>
 
-        {/* ==============================
-            FORM TAMBAH
-        ============================== */}
+
+
+
         <form
           className="tambah-penduduk-form"
           onSubmit={handleSubmit}
@@ -116,7 +116,7 @@ function TambahPenduduk() {
 
             <div className="tambah-penduduk-form-grid">
 
-              {/* NIK */}
+
               <div className="tambah-penduduk-form-group">
                 <label htmlFor="nik">
                   NIK (Nomor Induk Kependudukan)
@@ -134,7 +134,7 @@ function TambahPenduduk() {
                 />
               </div>
 
-              {/* NAMA */}
+
               <div className="tambah-penduduk-form-group">
                 <label htmlFor="nama">
                   Nama Lengkap
@@ -151,7 +151,7 @@ function TambahPenduduk() {
                 />
               </div>
 
-              {/* TEMPAT LAHIR */}
+
               <div className="tambah-penduduk-form-group">
                 <label htmlFor="tempatLahir">
                   Tempat Lahir
@@ -168,7 +168,7 @@ function TambahPenduduk() {
                 />
               </div>
 
-              {/* TANGGAL LAHIR */}
+
               <div className="tambah-penduduk-form-group">
                 <label htmlFor="tanggalLahir">
                   Tanggal Lahir
@@ -184,7 +184,7 @@ function TambahPenduduk() {
                 />
               </div>
 
-              {/* JENIS KELAMIN */}
+
               <div className="tambah-penduduk-form-group">
                 <label htmlFor="jenisKelamin">
                   Jenis Kelamin
@@ -215,7 +215,7 @@ function TambahPenduduk() {
                 </select>
               </div>
 
-              {/* ALAMAT */}
+
               <div className="tambah-penduduk-form-group tambah-penduduk-full-width">
                 <label htmlFor="alamat">
                   Alamat Domisili
@@ -231,7 +231,7 @@ function TambahPenduduk() {
                 />
               </div>
 
-              {/* RT */}
+
               <div className="tambah-penduduk-form-group tambah-penduduk-small-field">
                 <label htmlFor="rt">
                   RT
@@ -248,7 +248,7 @@ function TambahPenduduk() {
                 />
               </div>
 
-              {/* RW */}
+
               <div className="tambah-penduduk-form-group tambah-penduduk-small-field">
                 <label htmlFor="rw">
                   RW
@@ -265,7 +265,7 @@ function TambahPenduduk() {
                 />
               </div>
 
-              {/* STATUS */}
+
               <div className="tambah-penduduk-form-group tambah-penduduk-status-field">
                 <label htmlFor="status">
                   Status
@@ -307,9 +307,9 @@ function TambahPenduduk() {
             </div>
           </section>
 
-          {/* ==============================
-              STATUS & TOMBOL
-          ============================== */}
+
+
+
           <section className="tambah-penduduk-form-status">
 
             <div>
@@ -326,7 +326,7 @@ function TambahPenduduk() {
               Terisi 100%
             </b>
 
-            {/* SIMPAN DATA */}
+
             <button
               type="submit"
               className="tambah-penduduk-save-button"

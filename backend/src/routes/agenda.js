@@ -103,10 +103,10 @@ router.post("/", async (req, res) => {
             waktuPengingat.toISOString()
           ),
 
-        // STATUS AWAL
+
         status_pengingat: "MENUNGGU",
 
-        // Belum pernah ditunda
+
         waktu_pengingat_berikutnya: null,
       });
 
@@ -267,8 +267,8 @@ router.put("/:id", async (req, res) => {
               waktuPengingat.toISOString()
             ),
 
-          // Jika agenda diubah,
-          // pengingat kembali menunggu
+
+
           status_pengingat:
             "MENUNGGU",
 

@@ -3,13 +3,13 @@ import { db } from "../prisma/db.js";
 
 const router = express.Router();
 
-/**
- * Menghitung usia berdasarkan tanggal lahir
- *
- * tanggal_lahir dari Prisma 8 berupa Temporal.Instant,
- * sehingga harus diubah ke string terlebih dahulu
- * sebelum digunakan oleh JavaScript Date.
- */
+
+
+
+
+
+
+
 function hitungUsia(tanggalLahir) {
   if (!tanggalLahir) {
     return "";
@@ -48,9 +48,9 @@ function hitungUsia(tanggalLahir) {
   }
 }
 
-/**
- * Format tempat dan tanggal lahir
- */
+
+
+
 function formatTempatTanggalLahir(dataPenduduk) {
   if (
     !dataPenduduk?.tempat_lahir ||
@@ -85,9 +85,9 @@ function formatTempatTanggalLahir(dataPenduduk) {
   }
 }
 
-/**
- * GET semua data kesejahteraan
- */
+
+
+
 router.get("/", async (req, res) => {
   try {
     const dataKesejahteraan =
@@ -111,9 +111,9 @@ router.get("/", async (req, res) => {
           id_penduduk:
             item.id_penduduk,
 
-          // =========================
-          // DATA PENDUDUK
-          // =========================
+
+
+
 
           nama: dataPenduduk?.nama || "",
 
@@ -140,9 +140,9 @@ router.get("/", async (req, res) => {
           rw:
             dataPenduduk?.rw || "",
 
-          // =========================
-          // DATA KESEJAHTERAAN
-          // =========================
+
+
+
 
           kategori:
             item.kategori,
@@ -170,9 +170,9 @@ router.get("/", async (req, res) => {
   }
 });
 
-/**
- * GET satu data kesejahteraan berdasarkan ID
- */
+
+
+
 router.get("/:id", async (req, res) => {
   try {
     const id = Number(req.params.id);
@@ -209,9 +209,9 @@ router.get("/:id", async (req, res) => {
       id_penduduk:
         item.id_penduduk,
 
-      // =========================
-      // DATA PENDUDUK
-      // =========================
+
+
+
 
       nama:
         dataPenduduk?.nama || "",
@@ -241,9 +241,9 @@ router.get("/:id", async (req, res) => {
       rw:
         dataPenduduk?.rw || "",
 
-      // =========================
-      // DATA KESEJAHTERAAN
-      // =========================
+
+
+
 
       kategori:
         item.kategori,
@@ -267,9 +267,9 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-/**
- * POST tambah data kesejahteraan
- */
+
+
+
 router.post("/", async (req, res) => {
   try {
     const {
@@ -291,7 +291,7 @@ router.post("/", async (req, res) => {
       });
     }
 
-    // Cek apakah penduduk tersedia
+
     const penduduk =
       await db.orm.public.Penduduk
         .where({
@@ -338,9 +338,9 @@ router.post("/", async (req, res) => {
   }
 });
 
-/**
- * PUT ubah data kesejahteraan
- */
+
+
+
 router.put("/:id", async (req, res) => {
   try {
     const id = Number(req.params.id);
@@ -364,7 +364,7 @@ router.put("/:id", async (req, res) => {
       });
     }
 
-    // Cek data kesejahteraan
+
     const dataLama =
       await db.orm.public.Kesejahteraan
         .where({
@@ -379,7 +379,7 @@ router.put("/:id", async (req, res) => {
       });
     }
 
-    // Cek penduduk
+
     const penduduk =
       await db.orm.public.Penduduk
         .where({
@@ -430,9 +430,9 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-/**
- * DELETE data kesejahteraan
- */
+
+
+
 router.delete("/:id", async (req, res) => {
   try {
     const id = Number(req.params.id);

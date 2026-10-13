@@ -9,12 +9,12 @@ import { getSuratById, updateSurat, deleteSurat } from "../services/api";
 const toDateInputValue = (value) => {
   if (!value) return "";
 
-  // Jika sudah format YYYY-MM-DD
+
   if (value.includes("-")) {
     return value.slice(0, 10);
   }
 
-  // Jika format DD/MM/YYYY
+
   if (value.includes("/")) {
     const [day, month, year] = value.split("/");
 
@@ -44,19 +44,19 @@ function EditSuratMasuk() {
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
-  // =====================================================
-  // MENGAMBIL DATA SURAT
-  // =====================================================
+
+
+
 
   useEffect(() => {
     const loadSurat = async () => {
       try {
         setLoading(true);
 
-        /*
-          Jika data surat dikirim melalui navigate state,
-          gunakan terlebih dahulu.
-        */
+
+
+
+
         if (state?.surat) {
           const surat = state.surat;
 
@@ -73,10 +73,10 @@ function EditSuratMasuk() {
           return;
         }
 
-        /*
-          Jika halaman direfresh atau dibuka langsung melalui URL,
-          ambil data berdasarkan ID dari backend.
-        */
+
+
+
+
         const surat = await getSuratById(id);
 
         setFormData({
@@ -101,9 +101,9 @@ function EditSuratMasuk() {
     loadSurat();
   }, [id, state, navigate]);
 
-  // =====================================================
-  // HANDLE PERUBAHAN FORM
-  // =====================================================
+
+
+
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -114,9 +114,9 @@ function EditSuratMasuk() {
     }));
   };
 
-  // =====================================================
-  // UPDATE SURAT
-  // =====================================================
+
+
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -146,9 +146,9 @@ function EditSuratMasuk() {
     }
   };
 
-  // =====================================================
-  // DELETE SURAT
-  // =====================================================
+
+
+
 
   const handleDelete = async () => {
     const konfirmasi = window.confirm(
@@ -176,9 +176,9 @@ function EditSuratMasuk() {
     }
   };
 
-  // =====================================================
-  // LOADING
-  // =====================================================
+
+
+
 
   if (loading) {
     return (
@@ -192,9 +192,9 @@ function EditSuratMasuk() {
     );
   }
 
-  // =====================================================
-  // TAMPILAN
-  // =====================================================
+
+
+
 
   return (
     <div className="tambah-surat-masuk-page">
@@ -202,9 +202,9 @@ function EditSuratMasuk() {
 
       <main className="tambah-surat-masuk-content">
 
-        {/* ==============================
-            TOMBOL KEMBALI
-        ============================== */}
+
+
+
 
         <div className="tambah-surat-masuk-back-wrapper">
           <button
@@ -217,9 +217,9 @@ function EditSuratMasuk() {
           </button>
         </div>
 
-        {/* ==============================
-            FORM EDIT
-        ============================== */}
+
+
+
 
         <form
           className="tambah-surat-masuk-form"
@@ -231,7 +231,7 @@ function EditSuratMasuk() {
 
             <div className="tambah-surat-masuk-grid">
 
-              {/* NOMOR SURAT */}
+
 
               <div className="tambah-surat-masuk-field">
                 <label htmlFor="nomorSurat">
@@ -247,7 +247,7 @@ function EditSuratMasuk() {
                 />
               </div>
 
-              {/* TANGGAL */}
+
 
               <div className="tambah-surat-masuk-field">
                 <label htmlFor="tanggal">
@@ -264,7 +264,7 @@ function EditSuratMasuk() {
                 />
               </div>
 
-              {/* ASAL SURAT */}
+
 
               <div className="tambah-surat-masuk-field">
                 <label htmlFor="asalSurat">
@@ -280,7 +280,7 @@ function EditSuratMasuk() {
                 />
               </div>
 
-              {/* TUJUAN */}
+
 
               <div className="tambah-surat-masuk-field">
                 <label htmlFor="tujuan">
@@ -296,7 +296,7 @@ function EditSuratMasuk() {
                 />
               </div>
 
-              {/* KETERANGAN */}
+
 
               <div className="tambah-surat-masuk-field tambah-surat-masuk-keterangan">
                 <label htmlFor="keterangan">
@@ -312,7 +312,7 @@ function EditSuratMasuk() {
                 />
               </div>
 
-              {/* JENIS SURAT */}
+
 
               <div className="tambah-surat-masuk-field">
                 <label htmlFor="jenis">
@@ -367,9 +367,9 @@ function EditSuratMasuk() {
             </div>
           </section>
 
-          {/* ==============================
-              STATUS BAR
-          ============================== */}
+
+
+
 
           <section className="edit-surat-status-bar">
 
@@ -387,7 +387,7 @@ function EditSuratMasuk() {
               Terisi 100%
             </span>
 
-            {/* HAPUS */}
+
 
             <button
               type="button"
@@ -402,7 +402,7 @@ function EditSuratMasuk() {
                 : "Hapus Data"}
             </button>
 
-            {/* SIMPAN */}
+
 
             <button
               type="submit"

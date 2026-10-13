@@ -3,11 +3,11 @@ import { db } from "../prisma/db.js";
 
 const router = express.Router();
 
-// ============================================================
-// HELPER
-// ============================================================
 
-// Validasi ID
+
+
+
+
 function getValidId(value) {
   const id = Number(value);
 
@@ -18,7 +18,7 @@ function getValidId(value) {
   return id;
 }
 
-// Konversi ke angka
+
 function getNumber(value) {
   const number = Number(value);
 
@@ -29,27 +29,27 @@ function getNumber(value) {
   return number;
 }
 
-// Konversi tanggal menjadi Temporal.Instant
-//
-// Prisma 8 pada project ini menggunakan codec:
-// pg/timestamptz-temporal
-//
-// Jadi jangan menggunakan:
-// new Date()
-//
-// Gunakan:
-// Temporal.Instant
+
+
+
+
+
+
+
+
+
+
 function getTanggalPengadaan(value) {
   if (!value) {
     return null;
   }
 
   try {
-    // Jika frontend mengirim:
-    // 2026-09-25
-    //
-    // kita ubah menjadi:
-    // 2026-09-25T00:00:00Z
+
+
+
+
+
 
     const tanggal = String(value).trim();
 
@@ -61,7 +61,7 @@ function getTanggalPengadaan(value) {
   }
 }
 
-// Validasi data infrastruktur
+
 function validateInfrastruktur(data) {
   const {
     jenis,
@@ -78,7 +78,7 @@ function validateInfrastruktur(data) {
     tanggal_pengadaan,
   } = data;
 
-  // Field wajib
+
   if (
     !jenis ||
     !alamat ||
@@ -100,7 +100,7 @@ function validateInfrastruktur(data) {
     return "Data infrastruktur wajib diisi lengkap";
   }
 
-  // Validasi latitude
+
   const latitudeNumber = getNumber(latitude);
 
   if (latitudeNumber === null) {
@@ -111,7 +111,7 @@ function validateInfrastruktur(data) {
     return "Latitude harus berada di antara -90 sampai 90";
   }
 
-  // Validasi longitude
+
   const longitudeNumber = getNumber(longitude);
 
   if (longitudeNumber === null) {
@@ -122,7 +122,7 @@ function validateInfrastruktur(data) {
     return "Longitude harus berada di antara -180 sampai 180";
   }
 
-  // Validasi panjang
+
   const panjangNumber = getNumber(panjang);
 
   if (panjangNumber === null) {
@@ -133,7 +133,7 @@ function validateInfrastruktur(data) {
     return "Panjang tidak boleh bernilai negatif";
   }
 
-  // Validasi lebar
+
   const lebarNumber = getNumber(lebar);
 
   if (lebarNumber === null) {
@@ -144,7 +144,7 @@ function validateInfrastruktur(data) {
     return "Lebar tidak boleh bernilai negatif";
   }
 
-  // Validasi tanggal
+
   const tanggal = getTanggalPengadaan(
     tanggal_pengadaan
   );
@@ -156,9 +156,9 @@ function validateInfrastruktur(data) {
   return null;
 }
 
-// ============================================================
-// GET SEMUA DATA INFRASTRUKTUR
-// ============================================================
+
+
+
 
 router.get("/", async (req, res) => {
   try {
@@ -179,9 +179,9 @@ router.get("/", async (req, res) => {
   }
 });
 
-// ============================================================
-// GET DETAIL INFRASTRUKTUR
-// ============================================================
+
+
+
 
 router.get("/:id", async (req, res) => {
   try {
@@ -222,9 +222,9 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// ============================================================
-// TAMBAH DATA INFRASTRUKTUR
-// ============================================================
+
+
+
 
 router.post("/", async (req, res) => {
   try {
@@ -244,9 +244,9 @@ router.post("/", async (req, res) => {
       tanggal_pengadaan,
     } = req.body;
 
-    // --------------------------------------------------------
-    // VALIDASI
-    // --------------------------------------------------------
+
+
+
 
     const validationError =
       validateInfrastruktur({
@@ -270,9 +270,9 @@ router.post("/", async (req, res) => {
       });
     }
 
-    // --------------------------------------------------------
-    // KONVERSI DATA
-    // --------------------------------------------------------
+
+
+
 
     const latitudeNumber =
       getNumber(latitude);
@@ -291,9 +291,9 @@ router.post("/", async (req, res) => {
         tanggal_pengadaan
       );
 
-    // --------------------------------------------------------
-    // CREATE
-    // --------------------------------------------------------
+
+
+
 
     const data =
       await db.orm.public.Infrastruktur.create({
@@ -337,9 +337,9 @@ router.post("/", async (req, res) => {
         lebar:
           lebarNumber,
 
-        // PENTING:
-        // menggunakan Temporal.Instant
-        // bukan new Date()
+
+
+
         tanggal_pengadaan:
           tanggalPengadaan,
       });
@@ -365,9 +365,9 @@ router.post("/", async (req, res) => {
   }
 });
 
-// ============================================================
-// UPDATE DATA INFRASTRUKTUR
-// ============================================================
+
+
+
 
 router.put("/:id", async (req, res) => {
   try {
@@ -398,9 +398,9 @@ router.put("/:id", async (req, res) => {
       tanggal_pengadaan,
     } = req.body;
 
-    // --------------------------------------------------------
-    // VALIDASI
-    // --------------------------------------------------------
+
+
+
 
     const validationError =
       validateInfrastruktur({
@@ -424,9 +424,9 @@ router.put("/:id", async (req, res) => {
       });
     }
 
-    // --------------------------------------------------------
-    // KONVERSI DATA
-    // --------------------------------------------------------
+
+
+
 
     const latitudeNumber =
       getNumber(latitude);
@@ -445,9 +445,9 @@ router.put("/:id", async (req, res) => {
         tanggal_pengadaan
       );
 
-    // --------------------------------------------------------
-    // CEK DATA
-    // --------------------------------------------------------
+
+
+
 
     const existingData =
       await db.orm.public.Infrastruktur
@@ -466,9 +466,9 @@ router.put("/:id", async (req, res) => {
       });
     }
 
-    // --------------------------------------------------------
-    // UPDATE
-    // --------------------------------------------------------
+
+
+
 
     const data =
       await db.orm.public.Infrastruktur
@@ -517,9 +517,9 @@ router.put("/:id", async (req, res) => {
           lebar:
             lebarNumber,
 
-          // PENTING:
-          // menggunakan Temporal.Instant
-          // bukan new Date()
+
+
+
           tanggal_pengadaan:
             tanggalPengadaan,
         });
@@ -545,9 +545,9 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// ============================================================
-// DELETE DATA INFRASTRUKTUR
-// ============================================================
+
+
+
 
 router.delete("/:id", async (req, res) => {
   try {
@@ -562,9 +562,9 @@ router.delete("/:id", async (req, res) => {
       });
     }
 
-    // --------------------------------------------------------
-    // CEK DATA
-    // --------------------------------------------------------
+
+
+
 
     const existingData =
       await db.orm.public.Infrastruktur
@@ -583,9 +583,9 @@ router.delete("/:id", async (req, res) => {
       });
     }
 
-    // --------------------------------------------------------
-    // DELETE
-    // --------------------------------------------------------
+
+
+
 
     const data =
       await db.orm.public.Infrastruktur

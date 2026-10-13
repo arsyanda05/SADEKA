@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Header from "./header";
 import simpanDataIcon from "../assets/simpandata.png";
-
-const API_URL = "http://localhost:5000/api";
+import { API_URL } from "../services/api";
 
 function EditSuratAhliWaris() {
   const navigate = useNavigate();
@@ -31,9 +30,9 @@ function EditSuratAhliWaris() {
   const [errorMessage, setErrorMessage] =
     useState("");
 
-  // ==========================================
-  // LOAD DATA PENDUDUK
-  // ==========================================
+
+
+
   useEffect(() => {
     const loadPenduduk = async () => {
       try {
@@ -80,9 +79,9 @@ function EditSuratAhliWaris() {
     loadPenduduk();
   }, []);
 
-  // ==========================================
-  // LOAD DETAIL SURAT AHLI WARIS
-  // ==========================================
+
+
+
   useEffect(() => {
     const loadDetailSurat = async () => {
       try {
@@ -104,31 +103,31 @@ function EditSuratAhliWaris() {
 
         const surat = result?.data || result;
 
-        // ======================================
-        // PEWARIS
-        // ======================================
+
+
+
         const namaPewaris =
           surat?.penduduk?.nama ||
           "";
 
-        // ======================================
-        // AHLI WARIS
-        // ======================================
+
+
+
         const namaAhliWaris =
           surat?.ahliWaris?.nama ||
           "";
 
-        // ======================================
-        // TANGGAL PENGAJUAN
-        // ======================================
+
+
+
         const tanggalPengajuan =
           surat?.tanggal_pengajuan ||
           surat?.tanggalPengajuan ||
           "";
 
-        // ======================================
-        // TANGGAL SELESAI
-        // ======================================
+
+
+
         const tanggalSelesai =
           surat?.tanggal_selesai ||
           surat?.tanggalSelesai ||
@@ -179,9 +178,9 @@ function EditSuratAhliWaris() {
     }
   }, [id]);
 
-  // ==========================================
-  // HANDLE INPUT
-  // ==========================================
+
+
+
   const handleChange = (e) => {
     const {
       name,
@@ -198,9 +197,9 @@ function EditSuratAhliWaris() {
     }
   };
 
-  // ==========================================
-  // CARI DATA PENDUDUK BERDASARKAN NAMA
-  // ==========================================
+
+
+
   const cariPenduduk = (nama) => {
     const namaDicari =
       nama.trim().toLowerCase();
@@ -215,9 +214,9 @@ function EditSuratAhliWaris() {
     );
   };
 
-  // ==========================================
-  // SUBMIT FORM
-  // ==========================================
+
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -225,9 +224,9 @@ function EditSuratAhliWaris() {
       return;
     }
 
-    // ========================================
-    // PASTIKAN DATA PENDUDUK SUDAH TERSEDIA
-    // ========================================
+
+
+
     if (loadingPenduduk) {
       alert(
         "Data penduduk masih dimuat. Silakan tunggu sebentar."
@@ -235,9 +234,9 @@ function EditSuratAhliWaris() {
       return;
     }
 
-    // ========================================
-    // PASTIKAN DATA SURAT SUDAH TERSEDIA
-    // ========================================
+
+
+
     if (loadingData) {
       alert(
         "Data surat masih dimuat. Silakan tunggu sebentar."
@@ -245,9 +244,9 @@ function EditSuratAhliWaris() {
       return;
     }
 
-    // ========================================
-    // VALIDASI PEWARIS
-    // ========================================
+
+
+
     const pendudukPewaris =
       cariPenduduk(
         formData.pewaris
@@ -260,9 +259,9 @@ function EditSuratAhliWaris() {
       return;
     }
 
-    // ========================================
-    // VALIDASI AHLI WARIS
-    // ========================================
+
+
+
     const pendudukAhliWaris =
       cariPenduduk(
         formData.ahliWaris
@@ -275,9 +274,9 @@ function EditSuratAhliWaris() {
       return;
     }
 
-    // ========================================
-    // VALIDASI PEWARIS DAN AHLI WARIS
-    // ========================================
+
+
+
     if (
       Number(
         pendudukPewaris.id_penduduk
@@ -292,9 +291,9 @@ function EditSuratAhliWaris() {
       return;
     }
 
-    // ========================================
-    // VALIDASI TANGGAL
-    // ========================================
+
+
+
     if (
       formData.tanggalPengajuan &&
       formData.tanggalSelesai &&
@@ -307,9 +306,9 @@ function EditSuratAhliWaris() {
       return;
     }
 
-    // ========================================
-    // VALIDASI ID
-    // ========================================
+
+
+
     if (!id) {
       alert(
         "ID surat ahli waris tidak ditemukan."
@@ -320,9 +319,9 @@ function EditSuratAhliWaris() {
     try {
       setSaving(true);
 
-      // ======================================
-      // DATA SURAT AHLI WARIS
-      // ======================================
+
+
+
       const dataSurat = {
         id_penduduk:
           Number(
@@ -357,9 +356,9 @@ function EditSuratAhliWaris() {
         dataSurat
       );
 
-      // ======================================
-      // UPDATE SURAT AHLI WARIS
-      // ======================================
+
+
+
       const response =
         await fetch(
           `${API_URL}/surat-ahli-waris/${id}`,
@@ -392,9 +391,9 @@ function EditSuratAhliWaris() {
         result
       );
 
-      // ======================================
-      // BERHASIL
-      // ======================================
+
+
+
       alert(
         "Data surat ahli waris berhasil diperbarui!"
       );
@@ -420,18 +419,18 @@ function EditSuratAhliWaris() {
   return (
     <div className="tambah-saw-page">
 
-      {/* ================= HEADER ================= */}
+
 
       <Header
         title="Surat Ahli Waris"
         showSearch={false}
       />
 
-      {/* ================= CONTENT ================= */}
+
 
       <main className="tambah-saw-content">
 
-        {/* ================= KEMBALI ================= */}
+
 
         <div className="tambah-saw-top-action">
 
@@ -449,7 +448,7 @@ function EditSuratAhliWaris() {
 
         </div>
 
-        {/* ================= FORM ================= */}
+
 
         <section className="tambah-saw-card">
 
@@ -492,11 +491,11 @@ function EditSuratAhliWaris() {
 
               <div className="tambah-saw-form-grid">
 
-                {/* ================= KOLOM KIRI ================= */}
+
 
                 <div className="tambah-saw-column">
 
-                  {/* PEWARIS */}
+
 
                   <div className="saw-form-group">
 
@@ -555,7 +554,7 @@ function EditSuratAhliWaris() {
 
                   </div>
 
-                  {/* AHLI WARIS */}
+
 
                   <div className="saw-form-group">
 
@@ -614,7 +613,7 @@ function EditSuratAhliWaris() {
 
                   </div>
 
-                  {/* HUBUNGAN */}
+
 
                   <div className="saw-form-group">
 
@@ -640,7 +639,7 @@ function EditSuratAhliWaris() {
 
                   </div>
 
-                  {/* ================= DOKUMEN ================= */}
+
 
                   <div className="saw-form-group saw-upload-group">
 
@@ -675,11 +674,11 @@ function EditSuratAhliWaris() {
 
                 </div>
 
-                {/* ================= KOLOM KANAN ================= */}
+
 
                 <div className="tambah-saw-column">
 
-                  {/* NOMOR SURAT */}
+
 
                   <div className="saw-form-group">
 
@@ -705,7 +704,7 @@ function EditSuratAhliWaris() {
 
                   </div>
 
-                  {/* TANGGAL PENGAJUAN */}
+
 
                   <div className="saw-form-group">
 
@@ -734,7 +733,7 @@ function EditSuratAhliWaris() {
 
                   </div>
 
-                  {/* TANGGAL SELESAI */}
+
 
                   <div className="saw-form-group">
 
@@ -761,7 +760,7 @@ function EditSuratAhliWaris() {
 
                   </div>
 
-                  {/* TAHAP */}
+
 
                   <div className="saw-form-group">
 
@@ -815,7 +814,7 @@ function EditSuratAhliWaris() {
 
               </div>
 
-              {/* ================= SIMPAN ================= */}
+
 
               <div className="tambah-saw-submit">
 

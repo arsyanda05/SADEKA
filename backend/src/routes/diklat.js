@@ -7,9 +7,9 @@ import { db } from "../prisma/db.js";
 
 const router = express.Router();
 
-// ========================================
-// FOLDER PENYIMPANAN SERTIFIKAT
-// ========================================
+
+
+
 
 const uploadDir = path.join(
   process.cwd(),
@@ -24,9 +24,9 @@ if (!fs.existsSync(uploadDir)) {
   });
 }
 
-// ========================================
-// KONFIGURASI MULTER
-// ========================================
+
+
+
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -55,9 +55,9 @@ const upload = multer({
   storage,
 });
 
-// ========================================
-// GET SEMUA DATA DIKLAT
-// ========================================
+
+
+
 
 router.get("/", async (req, res) => {
   try {
@@ -78,9 +78,9 @@ router.get("/", async (req, res) => {
   }
 });
 
-// ========================================
-// GET DIKLAT BERDASARKAN PEGAWAI
-// ========================================
+
+
+
 
 router.get(
   "/pegawai/:id_pegawai",
@@ -119,9 +119,9 @@ router.get(
   }
 );
 
-// ========================================
-// POST DATA DIKLAT
-// ========================================
+
+
+
 
 router.post(
   "/",
@@ -135,7 +135,7 @@ router.post(
         keterangan,
       } = req.body;
 
-      // Validasi ID pegawai
+
       if (!id_pegawai) {
         return res.status(400).json({
           message:
@@ -152,7 +152,7 @@ router.post(
         });
       }
 
-      // Validasi nama diklat
+
       if (!nama_diklat?.trim()) {
         return res.status(400).json({
           message:
@@ -160,7 +160,7 @@ router.post(
         });
       }
 
-      // Validasi tanggal
+
       if (!tanggal_diklat) {
         return res.status(400).json({
           message:
@@ -168,7 +168,7 @@ router.post(
         });
       }
 
-      // Pastikan pegawai ada
+
       const pegawai =
         await db.orm.public.Pegawai
           .where({
@@ -183,7 +183,7 @@ router.post(
         });
       }
 
-      // Simpan data diklat
+
       const diklat =
         await db.orm.public.Diklat.create({
           id_pegawai: idPegawai,
@@ -220,9 +220,9 @@ router.post(
   }
 );
 
-// ========================================
-// DELETE DATA DIKLAT
-// ========================================
+
+
+
 
 router.delete(
   "/:id",

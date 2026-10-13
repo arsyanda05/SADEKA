@@ -75,7 +75,7 @@ function SideBar({ isOpen, onClose }) {
 
         <nav className="sidebar-menu">
 
-          {/* DASHBOARD */}
+
 
           <NavLink
             to="/dashboard"
@@ -86,7 +86,7 @@ function SideBar({ isOpen, onClose }) {
           </NavLink>
 
 
-          {/* AGENDA */}
+
 
           <NavLink
             to="/agenda"
@@ -120,7 +120,7 @@ function SideBar({ isOpen, onClose }) {
           {administrasiOpen && (
             <div className="menu-group">
 
-              {/* SURAT MASUK */}
+
 
               <NavLink
                 to="/surat-masuk"
@@ -131,7 +131,7 @@ function SideBar({ isOpen, onClose }) {
               </NavLink>
 
 
-              {/* SURAT KELUAR */}
+
 
               <NavLink
                 to="/surat-keluar"
@@ -168,7 +168,7 @@ function SideBar({ isOpen, onClose }) {
           {dataKelurahanOpen && (
             <div className="menu-group">
 
-              {/* DATA PENDUDUK */}
+
 
               <NavLink
                 to="/data-penduduk"
@@ -179,7 +179,7 @@ function SideBar({ isOpen, onClose }) {
               </NavLink>
 
 
-              {/* DATA PEGAWAI */}
+
 
               <NavLink
                 to="/data-pegawai"
@@ -247,7 +247,7 @@ function SideBar({ isOpen, onClose }) {
 
         <div className="sidebar-bottom">
 
-          {/* PENGATURAN */}
+
 
           <NavLink
             to="/pengaturan"
@@ -258,7 +258,7 @@ function SideBar({ isOpen, onClose }) {
           </NavLink>
 
 
-          {/* LOGOUT */}
+
 
           <button
             type="button"

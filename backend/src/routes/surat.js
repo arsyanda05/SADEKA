@@ -38,9 +38,21 @@ const removeUploadedFile = (filePath) => {
   }
 };
 
-// ========================================
-// GET SEMUA SURAT
-// ========================================
+const findDuplicateNomorSurat = async (nomorSurat, excludeId) => {
+  const normalizedNomor = String(nomorSurat ?? "").trim().toLocaleLowerCase("id-ID");
+  const suratList = await db.orm.public.Surat.all();
+
+  return suratList.find(
+    (surat) =>
+      surat.id_surat !== excludeId &&
+      String(surat.nomor_surat ?? "").trim().toLocaleLowerCase("id-ID") ===
+        normalizedNomor
+  );
+};
+
+
+
+
 router.get("/", async (req, res) => {
   try {
     const suratList = await db.orm.public.Surat.all();
@@ -64,9 +76,9 @@ router.get("/", async (req, res) => {
 });
 
 
-// ========================================
-// GET SURAT BERDASARKAN ID
-// ========================================
+
+
+
 router.get("/:id", async (req, res) => {
   try {
     const id = Number(req.params.id);
@@ -101,9 +113,9 @@ router.get("/:id", async (req, res) => {
 });
 
 
-// ========================================
-// POST TAMBAH SURAT
-// ========================================
+
+
+
 router.post("/", uploadSurat.single("dokumen"), async (req, res) => {
   let surat;
 
@@ -137,6 +149,14 @@ router.post("/", uploadSurat.single("dokumen"), async (req, res) => {
       removeUploadedFile(req.file.path);
       return res.status(400).json({
         message: "Semua informasi surat wajib diisi.",
+      });
+    }
+
+    const existingSurat = await findDuplicateNomorSurat(nomor_surat);
+    if (existingSurat) {
+      removeUploadedFile(req.file.path);
+      return res.status(409).json({
+        message: `Nomor surat "${nomor_surat.trim()}" sudah digunakan.`
       });
     }
 
@@ -191,9 +211,9 @@ router.post("/", uploadSurat.single("dokumen"), async (req, res) => {
 });
 
 
-// ========================================
-// PUT UBAH SURAT
-// ========================================
+
+
+
 router.put("/:id", async (req, res) => {
   try {
     const id = Number(req.params.id);
@@ -207,6 +227,13 @@ router.put("/:id", async (req, res) => {
       keterangan,
       nomor_surat
     } = req.body;
+
+    const existingSurat = await findDuplicateNomorSurat(nomor_surat, id);
+    if (existingSurat) {
+      return res.status(409).json({
+        message: `Nomor surat "${String(nomor_surat ?? "").trim()}" sudah digunakan.`
+      });
+    }
 
     const surat = await db.orm.public.Surat
       .where({
@@ -227,15 +254,15 @@ router.put("/:id", async (req, res) => {
     console.error("Error mengubah surat:", error);
 
     res.status(500).json({
-      message: "Gagal mengubah surat"
+      message: error.message || "Gagal mengubah surat"
     });
   }
 });
 
 
-// ========================================
-// DELETE SURAT
-// ========================================
+
+
+
 router.delete("/:id", async (req, res) => {
   try {
     const id = Number(req.params.id);
