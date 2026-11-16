@@ -34,12 +34,18 @@ const pythonExecutable = () => {
     process.platform === "win32" ? "Scripts" : "bin",
     process.platform === "win32" ? "python.exe" : "python"
   );
-  const candidates = process.env.ASISTENDATA_PYTHON
-    ? [process.env.ASISTENDATA_PYTHON]
-    : [projectPython, "python"];
+  const candidates = [
+    process.env.ASISTENDATA_PYTHON,
+    projectPython,
+    "python",
+  ].filter((candidate, index, all) =>
+    candidate && all.indexOf(candidate) === index
+  );
+  const failures = [];
 
   for (const candidate of candidates) {
     if (candidate !== "python" && !fs.existsSync(candidate)) {
+      failures.push(`${candidate}: file tidak ditemukan`);
       continue;
     }
 
@@ -47,7 +53,7 @@ const pythonExecutable = () => {
       candidate,
       [
         "-c",
-        "import joblib, psycopg2, sklearn; from Sastrawi.Stemmer.StemmerFactory import StemmerFactory",
+        "import importlib.util, sys; modules = ('joblib', 'psycopg2', 'sklearn', 'Sastrawi.Stemmer.StemmerFactory'); missing = [module for module in modules if importlib.util.find_spec(module) is None]; print('Modul Python tidak ditemukan: ' + ', '.join(missing), file=sys.stderr) if missing else None; sys.exit(bool(missing))",
       ],
       {
         encoding: "utf8",
@@ -58,14 +64,24 @@ const pythonExecutable = () => {
 
     if (!check.error && check.status === 0) {
       selectedPythonExecutable = candidate;
+      console.info(`Asisten Data menggunakan Python: ${candidate}`);
       return selectedPythonExecutable;
     }
+
+    failures.push(
+      `${candidate}: ${
+        check.error
+          ? check.error.message
+          : (check.stderr || `pemeriksaan dependensi keluar dengan kode ${check.status}`).trim()
+      }`
+    );
   }
 
   throw new Error(
     "Dependensi Asisten Data tidak ditemukan. " +
     "Jalankan `python -m pip install -r asistendata/requirements.txt` " +
-    "menggunakan Python yang akan menjalankan backend, atau atur ASISTENDATA_PYTHON."
+    "menggunakan Python yang akan menjalankan backend, atau atur ASISTENDATA_PYTHON. " +
+    `Kandidat yang diperiksa: ${failures.join("; ")}`
   );
 };
 
